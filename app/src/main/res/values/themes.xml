@@ -1,0 +1,57 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Theme.GymGram" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">@color/blue_800</item>
+        <item name="colorPrimaryVariant">@color/blue_700</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/teal_300</item>
+        <item name="colorSecondaryVariant">@color/teal_600</item>
+        <item name="colorOnSecondary">@color/black</item>
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorOnPrimary</item>
+        <!-- Customize your theme here. -->
+        <item name="colorTertiary">@color/light_gray</item>
+    </style>
+
+    <style name="ToolbarTheme" parent="@style/Theme.GymGram">
+        <item name="actionOverflowButtonStyle">@style/OverflowButton</item>
+        <item name="android:divider">?attr/colorPrimary</item>
+    </style>
+
+    <style name="OverflowButton" parent="Widget.AppCompat.Light.ActionButton.Overflow">
+        <item name="android:tint">?attr/colorPrimary</item>
+    </style>
+
+    <style name="TitleText" parent="Theme.GymGram">
+        <item name="android:fontFamily">@font/montserrat_extrabold</item>
+        <item name="android:textColor">?attr/colorPrimary</item>
+        <item name="android:textSize">@dimen/large</item>
+    </style>
+
+    <style name="BottomNavigationTextActive" parent="">
+        <item name="android:fontFamily">@font/montserrat_bold</item>
+        <item name="android:textSize">@dimen/small</item>
+    </style>
+
+    <style name="BottomNavigationTextInactive" parent="">
+        <item name="android:fontFamily">@font/montserrat_bold</item>
+        <item name="android:textSize">@dimen/small</item>
+    </style>
+
+    <style name="TextoPrimario" parent="Theme.GymGram">
+        <item name="android:fontFamily">@font/montserrat_extrabold</item>
+        <item name="android:textSize">@dimen/mid</item>
+    </style>
+
+    <style name="TextoSecundario" parent="Theme.GymGram">
+        <item name="android:fontFamily">@font/verdana</item>
+        <item name="android:textSize">@dimen/small</item>
+    </style>
+    
+    <style name="TextoSecundario.FondoClaro" parent="TextoSecundario">
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+</resources>

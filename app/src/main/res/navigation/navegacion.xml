@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navegacion"
+    app:startDestination="@id/inicioFragment">
+
+    <fragment
+        android:id="@+id/inicioFragment"
+        android:name="com.isaiajereb.gymandgram.ui.InicioFragment"
+        android:label="@string/app_name"
+        tools:layout="@layout/fragment_inicio">
+
+        <action
+            android:id="@+id/action_inicioFragment_to_listaRutinasFragment"
+            app:destination="@id/listaRutinasFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/listaRutinasFragment"
+        android:name="com.isaiajereb.gymandgram.ui.ListaRutinasFragment"
+        android:label="@string/app_name"
+        tools:layout="@layout/fragment_lista_rutinas">
+
+        <action
+            android:id="@+id/action_listaRutinasFragment_to_editarRutinaFragment"
+            app:destination="@id/editarRutinaFragment" />
+        <action
+            android:id="@+id/action_listaRutinasFragment_to_inicioFragment"
+            app:destination="@id/inicioFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/editarRutinaFragment"
+        android:name="com.isaiajereb.gymandgram.ui.EditarRutinaFragment"
+        android:label="@string/app_name"
+        tools:layout="@layout/fragment_editar_rutina">
+
+        <action
+            android:id="@+id/action_editarRutinaFragment_to_configurarEjercicioFragment"
+            app:destination="@id/configurarEjercicioFragment" />
+        <action
+            android:id="@+id/action_editarRutinaFragment_to_inicioFragment"
+            app:destination="@id/inicioFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/configurarEjercicioFragment"
+        android:name="com.isaiajereb.gymandgram.ui.ConfigurarEjercicioFragment"
+        android:label="@string/app_name"
+        tools:layout="@layout/fragment_configurar_ejercicio">
+
+        <action
+            android:id="@+id/action_configurarEjercicioFragment_to_inicioFragment"
+            app:destination="@id/inicioFragment" />
+    </fragment>
+
+</navigation>
