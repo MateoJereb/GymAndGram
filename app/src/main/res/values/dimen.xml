@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="xs">10sp</dimen>
+    <dimen name="xs">12sp</dimen>
     <dimen name="small">13sp</dimen>
-    <dimen name="mid">17sp</dimen>
-    <dimen name="large">25sp</dimen>
-    <dimen name="xl">30sp</dimen>
+    <dimen name="mid">15sp</dimen>
+    <dimen name="large">17sp</dimen>
+    <dimen name="xl">25sp</dimen>
+    <dimen name="xxl">30sp</dimen>
 </resources>

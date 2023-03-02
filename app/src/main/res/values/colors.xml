@@ -11,12 +11,16 @@
     <color name="blue_500">#00a3f5</color>
     <color name="blue_300">#4abff8</color>
 
-    <color name="dark_gray">#383838</color>
+    <color name="dark_gray">#4B4B4B</color>
     <color name="gray">#878A89</color>
     <color name="light_gray">#C7C7C7</color>
 
     <color name="blue_pastel">#B2EAFF</color>
     <color name="yellow_pastel">#FFDBB2</color>
     <color name="green_pastel">#B2FFBC</color>
+
+    <color name="blue_pastel_dark">#2CC1FB</color>
+    <color name="yellow_pastel_dark">#EABE3A</color>
+    <color name="green_pastel_dark">#5FEC71</color>
 
 </resources>
