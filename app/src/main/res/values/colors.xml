@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="black">#FF000000</color>
+    <color name="night_background">#2D2D2D</color>
     <color name="white">#FFFFFFFF</color>
 
     <color name="teal_600">#009178</color>
@@ -18,9 +19,5 @@
     <color name="blue_pastel">#B2EAFF</color>
     <color name="yellow_pastel">#FFDBB2</color>
     <color name="green_pastel">#B2FFBC</color>
-
-    <color name="blue_pastel_dark">#2CC1FB</color>
-    <color name="yellow_pastel_dark">#EABE3A</color>
-    <color name="green_pastel_dark">#5FEC71</color>
 
 </resources>

@@ -16,13 +16,27 @@
         <item name="colorTertiary">@color/light_gray</item>
     </style>
 
+    <style name="BackgroundColor" parent="Theme.GymGram">
+        <item name="android:background">@color/white</item>
+    </style>
+
+    <style name="BackgroundTint" parent="Theme.GymGram">
+        <item name="backgroundTint">@color/white</item>
+    </style>
+
     <style name="ToolbarTheme" parent="@style/Theme.GymGram">
         <item name="actionOverflowButtonStyle">@style/OverflowButton</item>
-        <item name="android:divider">?attr/colorPrimary</item>
+        <item name="android:background">@color/white</item>
     </style>
 
     <style name="OverflowButton" parent="Widget.AppCompat.Light.ActionButton.Overflow">
         <item name="android:tint">?attr/colorPrimary</item>
+    </style>
+
+    <style name="ToolbarTitle" parent="Theme.GymGram">
+        <item name="android:fontFamily">@font/montserrat_extrabold</item>
+        <item name="android:textColor">?attr/colorPrimary</item>
+        <item name="android:textSize">@dimen/xxl</item>
     </style>
 
     <style name="TitleText" parent="Theme.GymGram">
@@ -48,7 +62,7 @@
 
     <style name="TextoSecundario" parent="Theme.GymGram">
         <item name="android:fontFamily">@font/verdana</item>
-        <item name="android:textSize">@dimen/small</item>
+        <item name="android:textSize">@dimen/mid</item>
     </style>
     
     <style name="TextoSecundario.FondoClaro" parent="TextoSecundario">
@@ -70,7 +84,7 @@
 
     <style name="ContadorObjetivos" parent="TextoSecundario">
         <item name="android:fontFamily">@font/verdana</item>
-        <item name="android:textSize">@dimen/xxl</item>
+        <item name="android:textSize">@dimen/xxxl</item>
         <item name="android:textColor">@color/black</item>
     </style>
 

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="?attr/colorOnPrimary"
+    android:theme="@style/BackgroundColor"
     tools:context=".ui.MainActivity">
 
     <com.google.android.material.appbar.MaterialToolbar
@@ -16,12 +16,11 @@
         android:minHeight="?attr/actionBarSize"
         android:theme="@style/ToolbarTheme"
         android:popupTheme="?attr/popupTheme"
-        android:background="?attr/colorOnPrimary"
         tools:layout_editor_absoluteX="1dp"
         tools:layout_editor_absoluteY="2dp"
         app:title="@string/app_name"
         app:titleTextColor="?attr/colorPrimary"
-        app:titleTextAppearance="@style/TitleText"/>
+        app:titleTextAppearance="@style/ToolbarTitle"/>
 
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
@@ -32,6 +31,7 @@
         <androidx.fragment.app.FragmentContainerView
             android:id="@+id/fragmentConainterView"
             android:name="androidx.navigation.fragment.NavHostFragment"
+            android:layout_weight="1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:defaultNavHost="true"
@@ -51,7 +51,7 @@
         app:menu="@menu/bottom_navigation_menu"
         android:layout_gravity="bottom"
         app:itemIconTint="@color/bottom_nav_item_color"
-        app:itemBackground="?attr/colorOnPrimary"
+        android:theme="@style/BackgroundColor"
         app:itemTextColor="@color/bottom_nav_item_color"
         app:itemTextAppearanceActive="@style/BottomNavigationTextActive"
         app:itemTextAppearanceInactive="@style/BottomNavigationTextInactive"
