@@ -13,7 +13,14 @@
 
         <action
             android:id="@+id/action_inicioFragment_to_listaRutinasFragment"
-            app:destination="@id/listaRutinasFragment" />
+            app:destination="@id/listaRutinasFragment"
+            app:enterAnim="@anim/left_in"
+            app:popExitAnim="@anim/left_out"/>
+        <action
+            android:id="@+id/action_inicioFragment_to_editarRutinaFragment"
+            app:destination="@id/editarRutinaFragment"
+            app:enterAnim="@anim/left_in"
+            app:popExitAnim="@anim/left_out"/>
     </fragment>
 
     <fragment

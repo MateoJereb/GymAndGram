@@ -8,4 +8,11 @@
     <string name="lorem_ipsum_20">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas hendrerit ipsum pellentesque, molestie sapien id, viverra odio. Donec at viverra.</string>
     <string name="proximo_entrenamiento">Próximo entrenamiento</string>
     <string name="objetivos">Objetivos</string>
+    <string name="prox_entrenamiento_default_descripcion">Configure su rutina actual</string>
+    <string name="contado_objetivos">0/0</string>
+    <string name="kg_bajados">Kg. bajados</string>
+    <string name="entrenamientos_semanales">Entrenamientos\nsemanales</string>
+    <string name="horas_de_caminata">Horas de\ncaminata</string>
+    <string name="ver_objetivos">Ver objetivos</string>
+    <string name="ver_rutina">Ver rutina</string>
 </resources>

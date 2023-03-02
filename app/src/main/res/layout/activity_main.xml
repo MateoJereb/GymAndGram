@@ -31,6 +31,7 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:fillViewport="true"
         android:layout_weight="1">
 
         <androidx.fragment.app.FragmentContainerView
@@ -60,7 +61,6 @@
         app:itemTextColor="@color/bottom_nav_item_color"
         app:itemTextAppearanceActive="@style/BottomNavigationTextActive"
         app:itemTextAppearanceInactive="@style/BottomNavigationTextInactive"
-        app:itemIconSize="35dp"
-        />
+        app:itemIconSize="35dp" />
 
 </androidx.appcompat.widget.LinearLayoutCompat>
