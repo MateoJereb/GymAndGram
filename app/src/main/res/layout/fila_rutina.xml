@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:animateLayoutChanges="true"
+    android:orientation="vertical"
+    android:theme="@style/BackgroundColor">
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginVertical="5dp">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/nombreRutinaTextView"
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="Nombre rutina"
+            android:theme="@style/TextoSecundario"
+            android:textSize="@dimen/mid"
+            android:gravity="center_vertical"
+            android:padding="5dp"
+            android:layout_gravity="start"
+            android:lines="1"
+            android:maxLines="1"
+            android:ellipsize="end" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/actualTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Actual"
+            android:theme="@style/TextoSecundario"
+            android:textSize="@dimen/mid"
+            android:gravity="center_vertical"
+            android:padding="5dp"
+            android:textColor="?attr/colorPrimary"
+            android:layout_gravity="end"/>
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/gray"/>
+
+</androidx.appcompat.widget.LinearLayoutCompat>

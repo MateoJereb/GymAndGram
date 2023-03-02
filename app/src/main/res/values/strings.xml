@@ -15,4 +15,6 @@
     <string name="horas_de_caminata">Horas de\ncaminata</string>
     <string name="ver_objetivos">Ver objetivos</string>
     <string name="ver_rutina">Ver rutina</string>
+    <string name="rutinas">Rutinas</string>
+    <string name="nueva_rutina">Nueva rutina...</string>
 </resources>
