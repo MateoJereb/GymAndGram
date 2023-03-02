@@ -28,11 +28,6 @@
         android:layout_height="2dp"
         android:background="?attr/colorPrimaryVariant" />
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:fillViewport="true"
-        android:layout_weight="1">
 
         <androidx.fragment.app.FragmentContainerView
             android:id="@+id/fragmentConainterView"
@@ -43,7 +38,6 @@
             app:navGraph="@navigation/navegacion"
             />
 
-    </ScrollView>
 
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
