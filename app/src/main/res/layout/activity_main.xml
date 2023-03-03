@@ -5,7 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:theme="@style/BackgroundColor"
     tools:context=".ui.MainActivity">
 
     <com.google.android.material.appbar.MaterialToolbar
@@ -51,7 +50,6 @@
         app:menu="@menu/bottom_navigation_menu"
         android:layout_gravity="bottom"
         app:itemIconTint="@color/bottom_nav_item_color"
-        android:theme="@style/BackgroundColor"
         app:itemTextColor="@color/bottom_nav_item_color"
         app:itemTextAppearanceActive="@style/BottomNavigationTextActive"
         app:itemTextAppearanceInactive="@style/BottomNavigationTextInactive"

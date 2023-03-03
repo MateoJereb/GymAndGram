@@ -49,9 +49,10 @@ public class ConfigurarPerfilFragment extends Fragment {
     }
 
     private void llenarSpinner() {
+        String[] generos = getResources().getStringArray(R.array.generos);
         ArrayAdapter<String> adapterGenero = new ArrayAdapter<>(binding.getRoot().getContext(),
                 android.R.layout.simple_spinner_dropdown_item,
-                R.array.generos);
+                generos);
         binding.generoSpinner.setAdapter(adapterGenero);
     }
 }

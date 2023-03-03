@@ -17,4 +17,6 @@
     <string name="ver_rutina">Ver rutina</string>
     <string name="rutinas">Rutinas</string>
     <string name="nueva_rutina">Nueva rutina...</string>
+    <string name="nombre_rutina">Nombre rutina</string>
+    <string name="nuevo_ejercicio">Nuevo ejercicio...</string>
 </resources>
