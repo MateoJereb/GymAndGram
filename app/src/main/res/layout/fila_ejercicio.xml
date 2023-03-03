@@ -13,37 +13,27 @@
         android:layout_marginVertical="5dp">
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/nombreRutinaTextView"
+            android:id="@+id/nombreEjercicioTextView"
             android:layout_width="match_parent"
-            android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:text="@string/nombre_rutina"
+            android:layout_weight="1"
+            android:text="Nombre ejercicio"
             android:theme="@style/TextoSecundario.OpuestoFondo"
-            android:textSize="@dimen/mid"
             android:gravity="center_vertical"
             android:padding="5dp"
             android:layout_gravity="start"
             android:lines="1"
             android:maxLines="1"
-            android:ellipsize="end" />
+            android:ellipsize="end"/>
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/actualTextView"
+            android:id="@+id/detallesEjercicioTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Actual"
-            android:theme="@style/TextoSecundario"
-            android:textSize="@dimen/mid"
+            android:theme="@style/TextoSecundario.OpuestoFondo"
             android:gravity="center_vertical"
-            android:padding="5dp"
-            android:textColor="?attr/colorPrimary"
-            android:layout_gravity="end"/>
+            android:padding="5dp"/>
 
     </androidx.appcompat.widget.LinearLayoutCompat>
-
-    <androidx.appcompat.widget.LinearLayoutCompat
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/gray"/>
 
 </androidx.appcompat.widget.LinearLayoutCompat>

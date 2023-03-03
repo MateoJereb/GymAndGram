@@ -37,7 +37,7 @@
             android:layout_marginTop="8dp"
             android:text="Cambiar foto de perfil"
 
-            android:drawableStart="@drawable/baseline_edit_profile_pic_18"
+            android:drawableStart="@drawable/ic_edit"
             android:drawableTint="@color/dark_gray"
             android:drawablePadding="5dp"
 
