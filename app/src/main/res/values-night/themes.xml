@@ -71,6 +71,11 @@
         <item name="android:textSize">@dimen/mid</item>
     </style>
 
+    <style name="TextoSecundario.ExtraBold" parent="Theme.GymGram">
+        <item name="android:fontFamily">@font/montserrat_extrabold</item>
+        <item name="android:textSize">@dimen/mid</item>
+    </style>
+
     <style name="CardViewProximoEntrenamiento" parent="Theme.GymGram">
         <item name="android:backgroundTint">@color/yellow_pastel</item>
     </style>
@@ -87,6 +92,10 @@
         <item name="android:fontFamily">@font/verdana</item>
         <item name="android:textSize">@dimen/xxxl</item>
         <item name="android:textColor">@color/black</item>
+    </style>
+
+    <style name="SaveButtonStyle" parent="Theme.GymGram">
+        <item name ="android:backgroundTint">?attr/colorPrimaryVariant</item>
     </style>
 
 </resources>
