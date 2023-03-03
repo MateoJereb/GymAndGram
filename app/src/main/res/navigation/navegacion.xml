@@ -61,5 +61,10 @@
             android:id="@+id/action_configurarEjercicioFragment_to_inicioFragment"
             app:destination="@id/inicioFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/configurarPerfilFragment"
+        android:name="com.isaiajereb.gymandgram.ui.ConfigurarPerfilFragment"
+        android:label="fragment_configurar_perfil"
+        tools:layout="@layout/fragment_configurar_perfil" />
 
 </navigation>
