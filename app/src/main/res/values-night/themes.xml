@@ -94,8 +94,5 @@
         <item name="android:textColor">@color/black</item>
     </style>
 
-    <style name="SaveButtonStyle" parent="Theme.GymGram">
-        <item name ="android:backgroundTint">?attr/colorPrimaryVariant</item>
-    </style>
 
 </resources>
