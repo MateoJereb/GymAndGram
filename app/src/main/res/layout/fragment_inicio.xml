@@ -5,260 +5,242 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.InicioFragment"
-    android:orientation="vertical"
-    android:theme="@style/BackgroundColor">
+    android:orientation="vertical">
 
-    <ScrollView
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:fillViewport="true">
+        android:layout_height="wrap_content"
+        android:animateLayoutChanges="true"
+        app:cardUseCompatPadding="true"
+        app:cardCornerRadius="20dp"
+        android:layout_marginHorizontal="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="5dp"
+        android:theme="@style/CardViewProximoEntrenamiento"
+        android:elevation="4dp">
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:theme="@style/BackgroundColor">
+            android:orientation="vertical">
 
-            <androidx.cardview.widget.CardView
+            <androidx.appcompat.widget.AppCompatTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:animateLayoutChanges="true"
-                app:cardUseCompatPadding="true"
-                app:cardCornerRadius="20dp"
-                android:layout_marginHorizontal="10dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="5dp"
-                android:theme="@style/CardViewProximoEntrenamiento"
-                android:elevation="4dp">
+                android:text="@string/proximo_entrenamiento"
+                android:layout_margin="10dp"
+                android:theme="@style/TextoPrimario"
+                android:textColor="@color/black"/>
 
-                <androidx.appcompat.widget.LinearLayoutCompat
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/proximo_entrenamiento"
-                        android:layout_margin="10dp"
-                        android:theme="@style/TextoPrimario"
-                        android:textColor="@color/black"/>
-
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/proxExtranamientoTextView"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/prox_entrenamiento_default_descripcion"
-                        android:layout_marginStart="30dp"
-                        android:layout_marginEnd="10dp"
-                        android:layout_marginBottom="10dp"
-                        android:gravity="center_vertical"
-                        android:theme="@style/TextoSecundario.FondoClaro"
-
-                        android:drawableStart="@drawable/ic_calendar"
-                        app:drawableTint="@color/black"
-                        android:drawablePadding="5dp" />
-
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/verRutinaButton"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/ver_rutina"
-                        android:layout_marginEnd="20dp"
-                        android:layout_marginBottom="10dp"
-                        android:layout_gravity="end"
-                        android:theme="@style/TextoPrimario"
-                        android:textColor="@color/dark_gray"
-                        android:clickable="true"
-                        android:focusable="true"
-                        android:background="?attr/selectableItemBackground"/>
-
-                </androidx.appcompat.widget.LinearLayoutCompat>
-            </androidx.cardview.widget.CardView>
-
-            <androidx.cardview.widget.CardView
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/proxExtranamientoTextView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:animateLayoutChanges="true"
-                app:cardUseCompatPadding="true"
-                app:cardCornerRadius="20dp"
-                android:layout_marginHorizontal="10dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="5dp"
-                android:theme="@style/CardViewObjetivos"
-                android:elevation="4dp">
-
-                <androidx.appcompat.widget.LinearLayoutCompat
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/objetivos"
-                        android:layout_margin="10dp"
-                        android:theme="@style/TextoPrimario"
-                        android:textColor="@color/black"/>
-
-                    <androidx.appcompat.widget.LinearLayoutCompat
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:layout_marginHorizontal="15dp"
-                        android:layout_marginBottom="15dp">
-
-                        <androidx.appcompat.widget.LinearLayoutCompat
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:orientation="vertical">
-
-                            <androidx.appcompat.widget.AppCompatTextView
-                                android:id="@+id/contadorKg"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="@string/contado_objetivos"
-                                android:theme="@style/ContadorObjetivos"
-                                android:layout_gravity="center"
-                                android:gravity="center"/>
-
-                            <androidx.appcompat.widget.AppCompatTextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="@string/kg_bajados"
-                                android:theme="@style/TextoSecundario.FondoClaro"
-                                android:textSize="@dimen/xs"
-                                android:textStyle="bold"
-                                android:layout_marginTop="5dp"
-                                android:layout_gravity="center"/>
-                        </androidx.appcompat.widget.LinearLayoutCompat>
-
-                        <androidx.appcompat.widget.LinearLayoutCompat
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:orientation="vertical">
-
-                            <androidx.appcompat.widget.AppCompatTextView
-                                android:id="@+id/contadorEntrenamientos"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="@string/contado_objetivos"
-                                android:theme="@style/ContadorObjetivos"
-                                android:layout_gravity="center"/>
-
-                            <androidx.appcompat.widget.AppCompatTextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="@string/entrenamientos_semanales"
-                                android:theme="@style/TextoSecundario.FondoClaro"
-                                android:textSize="@dimen/xs"
-                                android:textStyle="bold"
-                                android:layout_marginTop="5dp"
-                                android:layout_gravity="center"
-                                android:gravity="center"/>
-                        </androidx.appcompat.widget.LinearLayoutCompat>
-
-                        <androidx.appcompat.widget.LinearLayoutCompat
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:orientation="vertical">
-
-                            <androidx.appcompat.widget.AppCompatTextView
-                                android:id="@+id/contadorCaminata"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="@string/contado_objetivos"
-                                android:theme="@style/ContadorObjetivos"
-                                android:layout_gravity="center"/>
-
-                            <androidx.appcompat.widget.AppCompatTextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="@string/horas_de_caminata"
-                                android:theme="@style/TextoSecundario.FondoClaro"
-                                android:textSize="@dimen/xs"
-                                android:textStyle="bold"
-                                android:layout_marginTop="5dp"
-                                android:layout_gravity="center"
-                                android:gravity="center"/>
-                        </androidx.appcompat.widget.LinearLayoutCompat>
-
-                    </androidx.appcompat.widget.LinearLayoutCompat>
-
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/verObjetivosButton"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/ver_objetivos"
-                        android:layout_marginEnd="20dp"
-                        android:layout_marginBottom="10dp"
-                        android:layout_gravity="end"
-                        android:theme="@style/TextoPrimario"
-                        android:textColor="@color/dark_gray"
-                        android:clickable="true"
-                        android:focusable="true"
-                        android:background="?attr/selectableItemBackground"/>
-
-                </androidx.appcompat.widget.LinearLayoutCompat>
-            </androidx.cardview.widget.CardView>
-
-            <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:animateLayoutChanges="true"
-                app:cardUseCompatPadding="true"
-                app:cardCornerRadius="20dp"
-                android:layout_marginHorizontal="10dp"
-                android:layout_marginTop="5dp"
+                android:text="@string/prox_entrenamiento_default_descripcion"
+                android:layout_marginStart="30dp"
+                android:layout_marginEnd="10dp"
                 android:layout_marginBottom="10dp"
-                android:theme="@style/CardViewFrase"
-                android:elevation="4dp">
+                android:gravity="center_vertical"
+                android:theme="@style/TextoSecundario.FondoClaro"
+
+                android:drawableStart="@drawable/ic_calendar"
+                app:drawableTint="@color/black"
+                android:drawablePadding="5dp" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/verRutinaButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/ver_rutina"
+                android:layout_marginEnd="20dp"
+                android:layout_marginBottom="10dp"
+                android:layout_gravity="end"
+                android:theme="@style/TextoPrimario"
+                android:textColor="@color/dark_gray"
+                android:clickable="true"/>
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:animateLayoutChanges="true"
+        app:cardUseCompatPadding="true"
+        app:cardCornerRadius="20dp"
+        android:layout_marginHorizontal="10dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:theme="@style/CardViewObjetivos"
+        android:elevation="4dp">
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/objetivos"
+                android:layout_margin="10dp"
+                android:theme="@style/TextoPrimario"
+                android:textColor="@color/black"/>
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginHorizontal="15dp"
+                android:layout_marginBottom="15dp">
 
                 <androidx.appcompat.widget.LinearLayoutCompat
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:orientation="vertical">
 
-                    <androidx.constraintlayout.widget.ConstraintLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-                        <androidx.appcompat.widget.AppCompatImageView
-                            android:id="@+id/fraseImageView"
-                            android:layout_width="0dp"
-                            android:layout_height="0dp"
-                            android:layout_marginEnd="0dp"
-                            android:layout_marginStart="0dp"
-                            android:layout_marginTop="0dp"
-                            app:srcCompat="@drawable/no_image"
-                            android:scaleType="centerCrop"
-                            app:layout_constraintDimensionRatio="H,11:5"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintTop_toTopOf="parent"
-                            />
-                    </androidx.constraintlayout.widget.ConstraintLayout>
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/contadorKg"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/contado_objetivos"
+                        android:theme="@style/ContadorObjetivos"
+                        android:layout_gravity="center"
+                        android:gravity="center"/>
 
                     <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/fraseTextView"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/lorem_ipsum_20"
-                        android:layout_margin="10dp"
+                        android:text="@string/kg_bajados"
                         android:theme="@style/TextoSecundario.FondoClaro"
-                        android:justificationMode="inter_word"
-                        android:textSize="@dimen/small"/>
-
+                        android:textSize="@dimen/xs"
+                        android:textStyle="bold"
+                        android:layout_marginTop="5dp"
+                        android:layout_gravity="center"/>
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
 
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/contadorEntrenamientos"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/contado_objetivos"
+                        android:theme="@style/ContadorObjetivos"
+                        android:layout_gravity="center"/>
 
-            </androidx.cardview.widget.CardView>
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/entrenamientos_semanales"
+                        android:theme="@style/TextoSecundario.FondoClaro"
+                        android:textSize="@dimen/xs"
+                        android:textStyle="bold"
+                        android:layout_marginTop="5dp"
+                        android:layout_gravity="center"
+                        android:gravity="center"/>
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/contadorCaminata"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/contado_objetivos"
+                        android:theme="@style/ContadorObjetivos"
+                        android:layout_gravity="center"/>
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/horas_de_caminata"
+                        android:theme="@style/TextoSecundario.FondoClaro"
+                        android:textSize="@dimen/xs"
+                        android:textStyle="bold"
+                        android:layout_marginTop="5dp"
+                        android:layout_gravity="center"
+                        android:gravity="center"/>
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/verObjetivosButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/ver_objetivos"
+                android:layout_marginEnd="20dp"
+                android:layout_marginBottom="10dp"
+                android:layout_gravity="end"
+                android:theme="@style/TextoPrimario"
+                android:textColor="@color/dark_gray"
+                android:clickable="true"/>
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:animateLayoutChanges="true"
+        app:cardUseCompatPadding="true"
+        app:cardCornerRadius="20dp"
+        android:layout_marginHorizontal="10dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="10dp"
+        android:theme="@style/CardViewFrase"
+        android:elevation="4dp">
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/fraseImageView"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_marginEnd="0dp"
+                    android:layout_marginStart="0dp"
+                    android:layout_marginTop="0dp"
+                    app:srcCompat="@drawable/no_image"
+                    android:scaleType="centerCrop"
+                    app:layout_constraintDimensionRatio="H,11:5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/fraseTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/lorem_ipsum_20"
+                android:layout_margin="10dp"
+                android:theme="@style/TextoSecundario.FondoClaro"
+                android:justificationMode="inter_word"
+                android:textSize="@dimen/small"/>
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 
-    </ScrollView>
+
+
+    </androidx.cardview.widget.CardView>
+
+
 
 </androidx.appcompat.widget.LinearLayoutCompat>
