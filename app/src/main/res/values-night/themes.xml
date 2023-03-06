@@ -16,6 +16,8 @@
         <item name="colorTertiary">@color/light_gray</item>
         <item name="android:navigationBarColor">@color/night_background</item>
         <item name="android:windowLightNavigationBar">false</item>
+        <item name="drawerArrowStyle">@style/DrawerArrowStyle</item>
+
     </style>
 
     <style name="BackgroundColor" parent="Theme.GymGram">
@@ -59,6 +61,11 @@
 
     <style name="TextoPrimario" parent="Theme.GymGram">
         <item name="android:fontFamily">@font/montserrat_extrabold</item>
+        <item name="android:textSize">@dimen/large</item>
+    </style>
+    <style name="TextoPrimario.drawer" parent="Theme.GymGram">
+        <item name="android:fontFamily">@font/montserrat_extrabold</item>
+        <item name="android:textColor">@color/light_gray</item>
         <item name="android:textSize">@dimen/large</item>
     </style>
 
@@ -116,6 +123,11 @@
         <item name="android:paddingHorizontal">25dp</item>
         <item name="android:paddingVertical">16dp</item>
         <item name="android:buttonCornerRadius">50sp</item>
+    </style>
+
+    <style name="DrawerArrowStyle" parent="@style/Widget.AppCompat.DrawerArrowToggle">
+    <item name="spinBars">true</item>
+    <item name="color">@color/blue_500</item>
     </style>
 
 </resources>
