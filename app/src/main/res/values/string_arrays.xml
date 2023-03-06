@@ -11,4 +11,14 @@
         <item>femenino</item>
         <item>otro</item>
     </string-array>
+    
+    <string-array name="unidad_tiempo">
+        <item>Min</item>
+        <item>Seg</item>
+    </string-array>
+
+    <string-array name="unidad_tiempo_values">
+        <item>min</item>
+        <item>seg</item>
+    </string-array>
 </resources>
