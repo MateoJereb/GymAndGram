@@ -1,26 +1,26 @@
 package com.isaiajereb.gymandgram.ui;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.fragment.app.Fragment;
-import androidx.navigation.NavController;
-import androidx.navigation.fragment.NavHostFragment;
-
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.fragment.NavHostFragment;
+
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
+import com.google.android.material.navigation.NavigationView;
 import com.isaiajereb.gymandgram.R;
 import com.isaiajereb.gymandgram.databinding.ActivityMainBinding;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -41,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
         //Setear la Toolbar
         Toolbar toolbar = binding.materialToolbar;
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         //Configurar barra de navegacion
         binding.bottomNavigationView.setSelectedItemId(R.id.home_navigation);
@@ -70,7 +71,44 @@ public class MainActivity extends AppCompatActivity {
                 return false;
             }
         });
-    }
+
+        //ssetea el drawer.
+        DrawerLayout drawer = binding.drawerLayout;
+        NavigationView navigationView = binding.drawerNavView;
+
+        ActionBarDrawerToggle toogle = new ActionBarDrawerToggle(this, drawer, toolbar,R.string.app_name, R.string.app_name );
+        drawer.addDrawerListener(toogle);
+        toogle.syncState();
+
+
+
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                Fragment fragmentoActual = binding.fragmentConainterView.getFragment();
+                NavController navController = NavHostFragment.findNavController(fragmentoActual);
+
+                switch (item.getItemId()) {
+                    case R.id.drawer_perfil:
+                        Intent intent = new Intent(getApplicationContext(), ConfigurarPerfilActivity.class);
+                        startActivity(intent);
+                        return true;
+                    case R.id.drawer_recordatorios:
+                        Toast.makeText(MainActivity.this, "Proximamente...", Toast.LENGTH_SHORT).show();
+                        return true;
+                    case R.id.drawer_ayuda:
+                        Toast.makeText(MainActivity.this, "Proximamente...", Toast.LENGTH_SHORT).show();                        Toast.makeText(MainActivity.this, "Proximamente...", Toast.LENGTH_SHORT).show();
+                        return true;
+                    case R.id.drawer_ajustes:
+                        return true;
+                    case R.id.drawer_cerrar_sesion:
+                        return true;
+                }
+                return false;
+            }
+        });
+
+        }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
@@ -92,5 +130,6 @@ public class MainActivity extends AppCompatActivity {
 
         if(currentId == R.id.inicioFragment)
             binding.bottomNavigationView.setSelectedItemId(R.id.home_navigation);
+
     }
 }

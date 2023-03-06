@@ -48,4 +48,8 @@ dependencies {
     //Cardview
     implementation "androidx.cardview:cardview:1.0.0"
 
+    //Rounded profile pic
+    implementation 'de.hdodenhof:circleimageview:3.1.0'
+
+
 }

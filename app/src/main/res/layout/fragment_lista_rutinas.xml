@@ -1,14 +1,79 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.ListaRutinasFragment">
+    tools:context=".ui.ListaRutinasFragment"
+    android:theme="@style/BackgroundColor"
+    android:orientation="vertical">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Lista rutinas fragment" />
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="20dp"
+        android:layout_marginHorizontal="20dp">
 
-</FrameLayout>
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/rutinas"
+            android:theme="@style/TitleText"
+            android:layout_gravity="center_vertical"/>
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="27dp"
+            android:layout_height="30dp"
+            android:src="@drawable/ic_filtro"
+            android:tint="?attr/colorPrimary"
+            android:layout_gravity="center_vertical"
+
+            android:clickable="true"
+            android:focusable="true"
+            android:background="?attr/selectableItemBackground"
+            />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="20dp">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rutinasRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+    </ScrollView>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="5dp"
+        android:layout_marginHorizontal="20dp">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/nuevaRuttinaButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/nueva_rutina"
+            android:theme="@style/TextoSecundario"
+            android:textSize="@dimen/mid"
+            android:gravity="center_vertical"
+            android:padding="5dp"
+
+            android:drawableStart="@drawable/ic_add"
+            android:drawableTint="?attr/colorPrimary"
+            android:drawablePadding="5dp"
+
+            android:clickable="true"
+            android:focusable="true"
+            android:background="?attr/selectableItemBackground"
+            />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+</androidx.appcompat.widget.LinearLayoutCompat>
