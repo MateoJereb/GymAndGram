@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:theme="@style/BackgroundColor"
+    tools:context=".ui.MainActivity">
+
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/materialToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:minHeight="?attr/actionBarSize"
+        android:popupTheme="?attr/popupTheme"
+        android:theme="@style/ToolbarTheme"
+        app:title="@string/app_name"
+        app:titleTextAppearance="@style/ToolbarTitle"
+        app:titleTextColor="?attr/colorPrimary"
+        tools:layout_editor_absoluteX="1dp"
+        tools:layout_editor_absoluteY="2dp" />
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="?attr/colorPrimaryVariant" />
+    <androidx.appcompat.widget.AppCompatTextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="20dp"
+        android:text="Configurar Perfil"
+        android:theme="@style/TitleText" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+    <androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context=".ui.ConfigurarPerfilFragment">
+
+
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/profile_image"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:layout_gravity="center"
+                android:src="@drawable/profile_pic"
+                app:civ_border_color="#FF000000"
+                app:civ_border_width="2dp" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/cambiar_foto_perfil"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="8dp"
+                android:background="?attr/selectableItemBackground"
+
+                android:clickable="true"
+                android:drawableStart="@drawable/baseline_edit_profile_pic_18"
+                android:drawablePadding="5dp"
+
+                android:drawableTint="@color/dark_gray"
+                android:focusable="true"
+                android:text="Cambiar foto de perfil" />
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingLeft="20dp">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Nombre"
+                android:textAppearance="@style/TextoSecundario.ExtraBold"
+                android:textColor="?attr/colorPrimaryVariant" />
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/nombre_ET"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Juan Perez"
+                android:textAppearance="@style/TextoSecundario"
+                app:backgroundTint="?attr/colorPrimaryVariant" />
+
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Correo electrónico"
+                android:textAppearance="@style/TextoSecundario.ExtraBold"
+                android:textColor="?attr/colorPrimaryVariant" />
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/email_ET"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="juanperez@gmail.com"
+                android:textAppearance="@style/TextoSecundario"
+                app:backgroundTint="?attr/colorPrimaryVariant" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Género"
+                android:textAppearance="@style/TextoSecundario.ExtraBold"
+                android:textColor="?attr/colorPrimaryVariant" />
+
+            <androidx.appcompat.widget.AppCompatSpinner
+                android:id="@+id/genero_spinner"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Edad"
+                android:textAppearance="@style/TextoSecundario.ExtraBold"
+                android:textColor="?attr/colorPrimaryVariant" />
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/edad_ET"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:inputType="numberDecimal"
+                android:text="21"
+                android:textAppearance="@style/TextoSecundario"
+                app:backgroundTint="?attr/colorPrimaryVariant" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="bottom"
+            android:orientation="vertical">
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_margin="10dp"
+                android:backgroundTint="?attr/colorPrimaryVariant"
+                android:text="Guardar" />
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+    </ScrollView>
+
+
+</androidx.appcompat.widget.LinearLayoutCompat>

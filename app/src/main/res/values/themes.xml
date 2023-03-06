@@ -65,7 +65,7 @@
         <item name="android:fontFamily">@font/verdana</item>
         <item name="android:textSize">@dimen/mid</item>
     </style>
-    
+
     <style name="TextoSecundario.FondoClaro" parent="TextoSecundario">
         <item name="android:textColor">@color/black</item>
         <item name="android:textSize">@dimen/mid</item>
@@ -89,14 +89,20 @@
     </style>
 
 
-
     <style name="ContadorObjetivos" parent="TextoSecundario">
         <item name="android:fontFamily">@font/verdana</item>
         <item name="android:textSize">@dimen/xxxl</item>
         <item name="android:textColor">@color/black</item>
     </style>
 
+    <style name="Theme.GymGram.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
 
+    <style name="Theme.GymGram.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="Theme.GymGram.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
 
 </resources>

@@ -1,5 +1,6 @@
 package com.isaiajereb.gymandgram.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -89,10 +90,8 @@ public class MainActivity extends AppCompatActivity {
 
                 switch (item.getItemId()) {
                     case R.id.drawer_perfil:
-                        if (navController.getCurrentDestination().getId() != R.id.configurarPerfilFragment) {
-                            drawer.close();
-                            navController.navigate(R.id.action_global_configurarPerfilFragment);
-                        }
+                        Intent intent = new Intent(getApplicationContext(), ConfigurarPerfilActivity.class);
+                        startActivity(intent);
                         return true;
                     case R.id.drawer_recordatorios:
                         Toast.makeText(MainActivity.this, "Proximamente...", Toast.LENGTH_SHORT).show();

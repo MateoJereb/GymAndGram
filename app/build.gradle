@@ -30,6 +30,9 @@ android {
         enabled = true
     }
     namespace 'com.isaiajereb.gymandgram'
+    buildFeatures {
+        viewBinding true
+    }
 }
 
 dependencies {
