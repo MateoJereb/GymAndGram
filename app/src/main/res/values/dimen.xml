@@ -4,7 +4,6 @@
     <dimen name="small">13sp</dimen>
     <dimen name="mid">15sp</dimen>
     <dimen name="large">17sp</dimen>
-    <dimen name="xl">23sp</dimen>
-    <dimen name="xxl">25sp</dimen>
-    <dimen name="xxxl">30sp</dimen>
+    <dimen name="xl">25sp</dimen>
+    <dimen name="xxl">30sp</dimen>
 </resources>

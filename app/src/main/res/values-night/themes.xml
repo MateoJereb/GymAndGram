@@ -10,34 +10,18 @@
         <item name="colorSecondaryVariant">@color/teal_600</item>
         <item name="colorOnSecondary">@color/black</item>
         <!-- Status bar color. -->
-        <item name="android:statusBarColor" tools:targetApi="l">@color/night_background</item>
+        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorOnPrimary</item>
         <item name="android:windowLightStatusBar">false</item>
         <!-- Customize your theme here. -->
         <item name="colorTertiary">@color/light_gray</item>
-        <item name="android:navigationBarColor">@color/night_background</item>
-    </style>
-
-    <style name="BackgroundColor" parent="Theme.GymGram">
-        <item name="android:background">@color/night_background</item>
-    </style>
-
-    <style name="BackgroundTint" parent="Theme.GymGram">
-        <item name="backgroundTint">@color/night_background</item>
     </style>
 
     <style name="ToolbarTheme" parent="@style/Theme.GymGram">
         <item name="actionOverflowButtonStyle">@style/OverflowButton</item>
-        <item name="android:background">@color/night_background</item>
     </style>
 
     <style name="OverflowButton" parent="Widget.AppCompat.Light.ActionButton.Overflow">
         <item name="android:tint">?attr/colorPrimary</item>
-    </style>
-
-    <style name="ToolbarTitle" parent="Theme.GymGram">
-        <item name="android:fontFamily">@font/montserrat_extrabold</item>
-        <item name="android:textColor">?attr/colorPrimary</item>
-        <item name="android:textSize">@dimen/xxl</item>
     </style>
 
     <style name="TitleText" parent="Theme.GymGram">
@@ -63,7 +47,7 @@
 
     <style name="TextoSecundario" parent="Theme.GymGram">
         <item name="android:fontFamily">@font/verdana</item>
-        <item name="android:textSize">@dimen/mid</item>
+        <item name="android:textSize">@dimen/small</item>
     </style>
 
     <style name="TextoSecundario.FondoClaro" parent="TextoSecundario">
@@ -71,28 +55,22 @@
         <item name="android:textSize">@dimen/mid</item>
     </style>
 
-    <style name="TextoSecundario.ExtraBold" parent="Theme.GymGram">
-        <item name="android:fontFamily">@font/montserrat_extrabold</item>
-        <item name="android:textSize">@dimen/mid</item>
-    </style>
-
     <style name="CardViewProximoEntrenamiento" parent="Theme.GymGram">
-        <item name="android:backgroundTint">@color/yellow_pastel</item>
+        <item name="android:backgroundTint">@color/yellow_pastel_dark</item>
     </style>
 
     <style name="CardViewObjetivos" parent="Theme.GymGram">
-        <item name="android:backgroundTint">@color/green_pastel</item>
+        <item name="android:backgroundTint">@color/green_pastel_dark</item>
     </style>
 
     <style name="CardViewFrase" parent="Theme.GymGram">
-        <item name="android:backgroundTint">@color/blue_pastel</item>
+        <item name="android:backgroundTint">@color/blue_pastel_dark</item>
     </style>
 
     <style name="ContadorObjetivos" parent="TextoSecundario">
         <item name="android:fontFamily">@font/verdana</item>
-        <item name="android:textSize">@dimen/xxxl</item>
+        <item name="android:textSize">@dimen/xxl</item>
         <item name="android:textColor">@color/black</item>
     </style>
-
 
 </resources>
