@@ -18,9 +18,11 @@ import com.isaiajereb.gymandgram.R;
 import com.isaiajereb.gymandgram.databinding.FragmentListaRutinasBinding;
 import com.isaiajereb.gymandgram.model.Rutina;
 import com.isaiajereb.gymandgram.recycler_views.RutinasAdapter;
+import com.isaiajereb.gymandgram.repo.RutinasRepository;
 import com.isaiajereb.gymandgram.viewmodel.RutinasViewModel;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 public class ListaRutinasFragment extends Fragment {
@@ -66,9 +68,7 @@ public class ListaRutinasFragment extends Fragment {
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(requireActivity());
         rvRutinas.setLayoutManager(layoutManager);
 
-        ArrayList<Rutina> rutinas = new ArrayList<Rutina>();
-        rutinas.add(new Rutina(UUID.randomUUID(),"Rutina1",true, UUID.randomUUID()));
-        rutinas.add(new Rutina(UUID.randomUUID(),"Rutina2",false, UUID.randomUUID()));
+        List<Rutina> rutinas = RutinasRepository._RUTINAS;
 
         adapter = new RutinasAdapter(rutinas,requireActivity());
         rvRutinas.setAdapter(adapter);
