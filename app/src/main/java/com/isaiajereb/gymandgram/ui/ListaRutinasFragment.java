@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -17,14 +18,17 @@ import com.isaiajereb.gymandgram.R;
 import com.isaiajereb.gymandgram.databinding.FragmentListaRutinasBinding;
 import com.isaiajereb.gymandgram.model.Rutina;
 import com.isaiajereb.gymandgram.recycler_views.RutinasAdapter;
+import com.isaiajereb.gymandgram.viewmodel.RutinasViewModel;
 
 import java.util.ArrayList;
 import java.util.UUID;
 
 public class ListaRutinasFragment extends Fragment {
 
+    private RutinasViewModel viewModel;
     private FragmentListaRutinasBinding binding;
     private NavController navController;
+
     private RecyclerView rvRutinas;
     private RutinasAdapter adapter;
 
@@ -38,6 +42,8 @@ public class ListaRutinasFragment extends Fragment {
         if (getArguments() != null) {
 
         }
+
+        viewModel = new ViewModelProvider(requireActivity()).get(RutinasViewModel.class);
     }
 
     @Override
@@ -51,6 +57,7 @@ public class ListaRutinasFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        //Setear el icono de la barra de navegacion
         ((MainActivity) requireActivity()).getNavigationBar().setSelectedItemId(R.id.workout_navigation);
 
         rvRutinas = binding.rutinasRecyclerView;

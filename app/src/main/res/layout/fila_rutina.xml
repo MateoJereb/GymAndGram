@@ -5,7 +5,9 @@
     android:layout_height="wrap_content"
     android:animateLayoutChanges="true"
     android:orientation="vertical"
-    android:theme="@style/BackgroundColor">
+    android:clickable="true"
+    android:focusable="true"
+    android:background="?attr/selectableItemBackground">
 
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
@@ -22,7 +24,7 @@
             android:theme="@style/TextoSecundario.OpuestoFondo"
             android:textSize="@dimen/mid"
             android:gravity="center_vertical"
-            android:padding="5dp"
+            android:padding="10dp"
             android:layout_gravity="start"
             android:lines="1"
             android:maxLines="1"
@@ -36,7 +38,7 @@
             android:theme="@style/TextoSecundario"
             android:textSize="@dimen/mid"
             android:gravity="center_vertical"
-            android:padding="5dp"
+            android:padding="10dp"
             android:textColor="?attr/colorPrimary"
             android:layout_gravity="end"/>
 

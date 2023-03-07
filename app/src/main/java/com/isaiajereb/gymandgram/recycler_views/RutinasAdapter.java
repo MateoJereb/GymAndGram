@@ -87,3 +87,4 @@ public class RutinasAdapter extends RecyclerView.Adapter<RutinasAdapter.RutinaVi
         return dataRutinas.size();
     }
 }
+

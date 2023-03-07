@@ -67,6 +67,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginTop="8dp"
+                    android:layout_marginBottom="20dp"
                     android:background="?attr/selectableItemBackground"
 
                     android:clickable="true"
@@ -104,6 +105,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Correo electrónico"
+                    android:layout_marginTop="20dp"
                     android:textAppearance="@style/TextoSecundario.ExtraBold"
                     android:textColor="?attr/colorPrimaryVariant" />
 
@@ -119,6 +121,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Género"
+                    android:layout_marginTop="20dp"
                     android:textAppearance="@style/TextoSecundario.ExtraBold"
                     android:textColor="?attr/colorPrimaryVariant" />
 
@@ -131,6 +134,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Edad"
+                    android:layout_marginTop="20dp"
                     android:textAppearance="@style/TextoSecundario.ExtraBold"
                     android:textColor="?attr/colorPrimaryVariant" />
 
@@ -155,7 +159,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="end"
-                    android:layout_margin="10dp"
+                    android:layout_margin="20dp"
                     android:backgroundTint="?attr/colorPrimaryVariant"
                     android:theme="@style/DefaultButton"
                     android:text="Guardar" />

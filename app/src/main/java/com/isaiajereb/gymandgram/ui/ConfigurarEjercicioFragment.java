@@ -5,6 +5,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 
@@ -15,11 +16,13 @@ import android.widget.ArrayAdapter;
 
 import com.isaiajereb.gymandgram.R;
 import com.isaiajereb.gymandgram.databinding.FragmentConfigurarEjercicioBinding;
+import com.isaiajereb.gymandgram.viewmodel.RutinasViewModel;
 
 public class ConfigurarEjercicioFragment extends Fragment {
 
     private FragmentConfigurarEjercicioBinding binding;
     private NavController navController;
+    private RutinasViewModel viewModel;
 
     public ConfigurarEjercicioFragment() {
         // Required empty public constructor
@@ -31,6 +34,8 @@ public class ConfigurarEjercicioFragment extends Fragment {
         if (getArguments() != null) {
 
         }
+
+        viewModel = new ViewModelProvider(requireActivity()).get(RutinasViewModel.class);
     }
 
     @Override
@@ -44,6 +49,9 @@ public class ConfigurarEjercicioFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        //Setear el icono de la barra de navegacion
+        ((MainActivity) requireActivity()).getNavigationBar().setSelectedItemId(R.id.workout_navigation);
 
         llenarSpiner();
 
