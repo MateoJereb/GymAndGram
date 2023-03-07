@@ -25,6 +25,8 @@ public class ListaRutinasFragment extends Fragment {
 
     private FragmentListaRutinasBinding binding;
     private NavController navController;
+    private RecyclerView rvRutinas;
+    private RutinasAdapter adapter;
 
     public ListaRutinasFragment() {
         // Required empty public constructor
@@ -51,17 +53,24 @@ public class ListaRutinasFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         ((MainActivity) requireActivity()).getNavigationBar().setSelectedItemId(R.id.workout_navigation);
 
-        RecyclerView rvRutinas = binding.rutinasRecyclerView;
+        rvRutinas = binding.rutinasRecyclerView;
         rvRutinas.setHasFixedSize(true);
 
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this.getContext());
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(requireActivity());
         rvRutinas.setLayoutManager(layoutManager);
 
         ArrayList<Rutina> rutinas = new ArrayList<Rutina>();
         rutinas.add(new Rutina(UUID.randomUUID(),"Rutina1",true, UUID.randomUUID()));
         rutinas.add(new Rutina(UUID.randomUUID(),"Rutina2",false, UUID.randomUUID()));
 
-        RecyclerView.Adapter adapter = new RutinasAdapter(rutinas);
+        adapter = new RutinasAdapter(rutinas,requireActivity());
         rvRutinas.setAdapter(adapter);
+
+        adapter.setOnItemClickListener(new RutinasAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(Rutina rutina) {
+                //TODO listener
+            }
+        });
     }
 }
