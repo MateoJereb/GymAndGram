@@ -1,9 +1,15 @@
 package com.isaiajereb.gymandgram.recycler_views;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.text.SpannableString;
+import android.text.style.ForegroundColorSpan;
+import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.PopupMenu;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatTextView;
@@ -13,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.isaiajereb.gymandgram.R;
 import com.isaiajereb.gymandgram.model.Ejercicio;
+import com.isaiajereb.gymandgram.model.Rutina;
 import com.isaiajereb.gymandgram.model.UnidadTiempo;
 
 import org.w3c.dom.Text;
@@ -24,6 +31,7 @@ public class EjerciciosAdapter extends RecyclerView.Adapter<EjerciciosAdapter.Ej
     private LayoutInflater inflater;
     private Context context;
     private EjerciciosAdapter.OnItemClickListener listener;
+    private EjerciciosAdapter.OnItemLongClickListener listenerLong;
 
     public EjerciciosAdapter(List<Ejercicio> listaEjercicios, Context context){
         this.listaEjercicios = listaEjercicios;
@@ -39,6 +47,10 @@ public class EjerciciosAdapter extends RecyclerView.Adapter<EjerciciosAdapter.Ej
         this.listener = listener;
     }
 
+    public void setOnItemLongClickListener(OnItemLongClickListener listenerLong) {
+        this.listenerLong = listenerLong;
+    }
+
     @NonNull
     @Override
     public EjerciciosViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -48,7 +60,7 @@ public class EjerciciosAdapter extends RecyclerView.Adapter<EjerciciosAdapter.Ej
 
     @Override
     public void onBindViewHolder(@NonNull EjerciciosViewHolder holder, int position) {
-        holder.bindData(listaEjercicios.get(position),listener);
+        holder.bindData(listaEjercicios.get(position),listener,listenerLong);
     }
 
     @Override
@@ -58,6 +70,11 @@ public class EjerciciosAdapter extends RecyclerView.Adapter<EjerciciosAdapter.Ej
 
     public interface OnItemClickListener{
         void onItemClick(Ejercicio item);
+    }
+
+    public interface OnItemLongClickListener{
+        void onEditar(Ejercicio item);
+        void onEliminar(Ejercicio item);
     }
 
     public static class EjerciciosViewHolder extends RecyclerView.ViewHolder{
@@ -71,7 +88,7 @@ public class EjerciciosAdapter extends RecyclerView.Adapter<EjerciciosAdapter.Ej
             detalles = itemView.findViewById(R.id.detallesEjercicioTextView);
         }
 
-        void bindData(Ejercicio ejercicio, EjerciciosAdapter.OnItemClickListener listener){
+        void bindData(Ejercicio ejercicio, EjerciciosAdapter.OnItemClickListener listener, EjerciciosAdapter.OnItemLongClickListener listenerLong){
             nombre.setText(ejercicio.getNombre());
 
             String stringDetalles = "";
@@ -111,6 +128,35 @@ public class EjerciciosAdapter extends RecyclerView.Adapter<EjerciciosAdapter.Ej
                 @Override
                 public void onClick(View v) {
                     listener.onItemClick(ejercicio);
+                }
+            });
+
+            itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    SpannableString spannableEliminar = new SpannableString("Eliminar");
+                    ForegroundColorSpan redSpan = new ForegroundColorSpan(Color.parseColor("#FD6F6F"));
+                    spannableEliminar.setSpan(redSpan,0,spannableEliminar.length(),SpannableString.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+                    PopupMenu popup = new PopupMenu(itemView.getContext(),itemView, Gravity.END);
+                    popup.getMenu().add("Editar").setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+                        @Override
+                        public boolean onMenuItemClick(@NonNull MenuItem item) {
+                            listenerLong.onEditar(ejercicio);
+                            return true;
+                        }
+                    });
+
+                    popup.getMenu().add(spannableEliminar).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+                        @Override
+                        public boolean onMenuItemClick(@NonNull MenuItem item) {
+                            listenerLong.onEliminar(ejercicio);
+                            return true;
+                        }
+                    });
+
+                    popup.show();
+                    return true;
                 }
             });
         }

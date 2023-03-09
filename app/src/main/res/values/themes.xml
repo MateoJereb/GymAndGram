@@ -17,6 +17,7 @@
         <item name="android:navigationBarColor">@color/white</item>
         <item name="android:windowLightNavigationBar">true</item>
         <item name="drawerArrowStyle">@style/DrawerArrowStyle</item>
+        <item name="android:popupMenuStyle">@style/PopUpMenuBackground</item>
     </style>
 
     <style name="BackgroundColor" parent="Theme.GymGram">
@@ -125,5 +126,11 @@
         <item name="spinBars">true</item>
         <item name="color">@color/blue_800</item>
     </style>
+
+    <style name="PopUpMenuBackground" parent="Widget.AppCompat.PopupMenu">
+        <item name="android:popupBackground">@color/white</item>
+        <item name="android:popupElevation">4dp</item>
+    </style>
+
 
 </resources>
