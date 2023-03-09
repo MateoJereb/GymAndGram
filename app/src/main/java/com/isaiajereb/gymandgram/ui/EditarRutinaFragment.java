@@ -1,6 +1,12 @@
 package com.isaiajereb.gymandgram.ui;
 
+import android.app.Dialog;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -18,7 +24,6 @@ import android.widget.Toast;
 
 import com.isaiajereb.gymandgram.R;
 import com.isaiajereb.gymandgram.databinding.FragmentEditarRutinaBinding;
-import com.isaiajereb.gymandgram.databinding.FragmentInicioBinding;
 import com.isaiajereb.gymandgram.model.Ejercicio;
 import com.isaiajereb.gymandgram.model.Rutina;
 import com.isaiajereb.gymandgram.model.Usuario;
@@ -100,6 +105,63 @@ public class EditarRutinaFragment extends Fragment {
                 //TODO listener
             }
         });
+
+        binding.nombreRutinaButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialogoNombreRutina();
+            }
+        });
+
+    }
+
+    private void dialogoNombreRutina() {
+//        AlertDialog.Builder builder = new AlertDialog.Builder(this.getContext());
+//        builder.setTitle("Editar nombre de la rutina").setMessage("Ingrese el nuevo nombre");
+//        EditText nuevoNombreET = new EditText(this.getContext());
+//        builder.setView(nuevoNombreET);
+//
+//        builder.setPositiveButton("Confirmar", new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialogInterface, int i) {
+//               binding.nombreRutinaButton.setText(nuevoNombreET.getText());
+//            }
+//        });
+//        builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialogInterface, int i) {
+//
+//            }
+//        });
+//        builder.show();
+        Dialog dialog = new Dialog(this.getContext());
+        dialog.setContentView(R.layout.dialog_editar_nombre_rutina);
+        dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT); dialog.setCancelable(false);
+        dialog.getWindow().getAttributes().windowAnimations = R.style.animation;
+
+        TextView confirmar = dialog.findViewById(R.id.boton_confirmar);
+        TextView cancelar = dialog.findViewById(R.id.boton_cancelar);
+        EditText nuevoNombreET = dialog.findViewById(R.id.et_nuevo_nombre);
+
+        confirmar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(!nuevoNombreET.getText().toString().isEmpty()){
+                binding.nombreRutinaButton.setText(nuevoNombreET.getText());
+                //TODO metodo viewModel.editarNombreRUtina(idRutina,nuevoNOmbreET.getText())
+                    dialog.dismiss();
+                }
+
+            }
+        });
+        cancelar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+        dialog.show();
+
 
     }
 
