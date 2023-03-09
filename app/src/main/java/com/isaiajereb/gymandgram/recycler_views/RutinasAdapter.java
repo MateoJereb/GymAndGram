@@ -1,10 +1,17 @@
 package com.isaiajereb.gymandgram.recycler_views;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.text.SpannableString;
+import android.text.style.ForegroundColorSpan;
+import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.PopupMenu;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.LinearLayoutCompat;
@@ -21,11 +28,17 @@ public class RutinasAdapter extends RecyclerView.Adapter<RutinasAdapter.RutinaVi
     private LayoutInflater inflater;
     private Context context;
     private RutinasAdapter.OnItemClickListener listener;
+    private RutinasAdapter.OnItemLongClickListener listenerLong;
 
     public interface OnItemClickListener{
         void onItemClick(Rutina rutina);
     }
-    public static class RutinaViewHolder extends RecyclerView.ViewHolder{
+
+    public interface OnItemLongClickListener{
+        void onEditar(Rutina rutina);
+        void onEliminar(Rutina rutina);
+    }
+    public static class RutinaViewHolder extends RecyclerView.ViewHolder {
         LinearLayoutCompat card;
         TextView nombreRutinaTv;
         TextView rutinaActualTv;
@@ -37,7 +50,7 @@ public class RutinasAdapter extends RecyclerView.Adapter<RutinasAdapter.RutinaVi
             rutinaActualTv= itemView.findViewById(R.id.actualTextView);
         }
 
-        void bindData(Rutina rutina, RutinasAdapter.OnItemClickListener listener){
+        void bindData(Rutina rutina, RutinasAdapter.OnItemClickListener listener, RutinasAdapter.OnItemLongClickListener listenerLong){
             nombreRutinaTv.setText(rutina.getNombre());
             if(!rutina.getActual()){
                 rutinaActualTv.setVisibility(View.INVISIBLE);
@@ -50,6 +63,35 @@ public class RutinasAdapter extends RecyclerView.Adapter<RutinasAdapter.RutinaVi
                 @Override
                 public void onClick(View v) {
                     listener.onItemClick(rutina);
+                }
+            });
+
+            itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    SpannableString spannableEliminar = new SpannableString("Eliminar");
+                    ForegroundColorSpan redSpan = new ForegroundColorSpan(Color.parseColor("#FD6F6F"));
+                    spannableEliminar.setSpan(redSpan,0,spannableEliminar.length(),SpannableString.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+                    PopupMenu popup = new PopupMenu(itemView.getContext(),itemView, Gravity.END);
+                    popup.getMenu().add("Editar").setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+                        @Override
+                        public boolean onMenuItemClick(@NonNull MenuItem item) {
+                            listenerLong.onEditar(rutina);
+                            return true;
+                        }
+                    });
+
+                    popup.getMenu().add(spannableEliminar).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+                        @Override
+                        public boolean onMenuItemClick(@NonNull MenuItem item) {
+                            listenerLong.onEliminar(rutina);
+                            return true;
+                        }
+                    });
+
+                    popup.show();
+                    return true;
                 }
             });
         }
@@ -69,6 +111,10 @@ public class RutinasAdapter extends RecyclerView.Adapter<RutinasAdapter.RutinaVi
         this.listener = listener;
     }
 
+    public void setOnItemLongClickListener(OnItemLongClickListener listenerLong) {
+        this.listenerLong = listenerLong;
+    }
+
     @NonNull
     @Override
     public RutinasAdapter.RutinaViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -79,7 +125,7 @@ public class RutinasAdapter extends RecyclerView.Adapter<RutinasAdapter.RutinaVi
 
     @Override
     public void onBindViewHolder(@NonNull RutinasAdapter.RutinaViewHolder holder, int position) {
-        holder.bindData(dataRutinas.get(position),listener);
+        holder.bindData(dataRutinas.get(position),listener,listenerLong);
     }
 
     @Override

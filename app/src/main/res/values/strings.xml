@@ -28,4 +28,6 @@
     <string name="observaciones">Observaciones</string>
     <string name="confirmar">Confirmar</string>
     <string name="kg">Kg</string>
+    <string name="editar">Editar</string>
+    <string name="eliminar">Eliminar</string>
 </resources>
