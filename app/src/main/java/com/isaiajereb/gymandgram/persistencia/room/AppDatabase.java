@@ -18,6 +18,7 @@ import com.isaiajereb.gymandgram.persistencia.room.entity.EjercicioEntity;
 import com.isaiajereb.gymandgram.persistencia.room.entity.RutinaEntity;
 import com.isaiajereb.gymandgram.persistencia.room.entity.UsuarioEntity;
 
+import java.util.UUID;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -42,6 +43,21 @@ public abstract class AppDatabase extends RoomDatabase {
     }
 
     private static AppDatabase buildDatabase(final Context context){
-        return Room.databaseBuilder(context,AppDatabase.class,"gymandgram_localdb").build();
+        return Room.databaseBuilder(context,AppDatabase.class,"gymandgram_localdb").addCallback(new Callback() {
+            @Override
+            public void onCreate(@NonNull SupportSQLiteDatabase db) {
+                super.onCreate(db);
+                executor.execute(new Runnable() {
+                    @Override
+                    public void run() {
+                        //Crear el usuario inicial solo con una id
+                        UsuarioEntity usuario = new UsuarioEntity();
+                        usuario.setId(UUID.randomUUID());
+
+                        getInstance(context).usuarioDAO().guardarUsuario(usuario);
+                    }
+                });
+            }
+        }).build();
     }
 }
