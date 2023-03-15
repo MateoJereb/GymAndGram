@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
+import androidx.room.TypeConverters;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import com.isaiajereb.gymandgram.persistencia.room.dao.DiaDAO;
@@ -23,6 +24,7 @@ import java.util.concurrent.Executors;
 @Database(  entities = {UsuarioEntity.class, RutinaEntity.class, DiaEntity.class, EjercicioEntity.class},
             version = 1,
             exportSchema = false)
+@TypeConverters(Converters.class)
 public abstract class AppDatabase extends RoomDatabase {
     public abstract UsuarioDAO usuarioDAO();
     public abstract RutinaDAO rutinaDAO();

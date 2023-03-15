@@ -1,7 +1,27 @@
 package com.isaiajereb.gymandgram.persistencia.room.dao;
 
 import androidx.room.Dao;
+import androidx.room.Delete;
+import androidx.room.Insert;
+import androidx.room.Query;
+import androidx.room.Update;
+
+import com.isaiajereb.gymandgram.persistencia.room.entity.EjercicioEntity;
+
+import java.util.List;
+import java.util.UUID;
 
 @Dao
 public interface EjercicioDAO {
+    @Insert
+    void guardarEjercicio(EjercicioEntity ejercicio);
+
+    @Query("SELECT * FROM ejercicio WHERE id_dia=:diaID")
+    List<EjercicioEntity> getEjercicios(UUID diaID);
+
+    @Update
+    void editarEjercicio(EjercicioEntity ejercicio);
+
+    @Delete
+    void eliminarEjercicio(EjercicioEntity ejercicio);
 }
