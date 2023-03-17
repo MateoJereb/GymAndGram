@@ -33,7 +33,7 @@ public class Converters {
 
     @TypeConverter
     public static String stringFromDiaSemana(DiaSemana dia){
-        return dia.toString();
+        return dia == null ? null : dia.toString();
     }
 
     @TypeConverter
@@ -58,7 +58,7 @@ public class Converters {
 
     @TypeConverter
     public static String stringFromUnidadTiempo(UnidadTiempo unidad){
-        return unidad.toString();
+        return unidad == null ? null : unidad.toString();
     }
 
     @TypeConverter
@@ -83,6 +83,6 @@ public class Converters {
 
     @TypeConverter
     public static String stringFromGenero(Genero genero){
-        return genero.toString();
+        return genero == null ? null : genero.toString();
     }
 }

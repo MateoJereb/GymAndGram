@@ -51,8 +51,7 @@ public abstract class AppDatabase extends RoomDatabase {
                     @Override
                     public void run() {
                         //Crear el usuario inicial solo con una id
-                        UsuarioEntity usuario = new UsuarioEntity();
-                        usuario.setId(UUID.randomUUID());
+                        UsuarioEntity usuario = new UsuarioEntity(UUID.randomUUID(),null,null,null,null,null);
 
                         getInstance(context).usuarioDAO().guardarUsuario(usuario);
                     }

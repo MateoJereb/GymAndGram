@@ -18,10 +18,6 @@ public class UsuarioEntity {
     private Genero genero;
     private Integer edad;
     private String password;
-
-    public UsuarioEntity() {
-    }
-
     public UsuarioEntity(@NonNull UUID id, String nombre, String mail, Genero genero, Integer edad, String password) {
         this.id = id;
         this.nombre = nombre;

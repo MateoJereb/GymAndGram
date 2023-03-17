@@ -18,9 +18,6 @@ public class RutinaEntity {
 
     private UUID id_usuario;
 
-    public RutinaEntity() {
-    }
-
     public RutinaEntity(@NonNull UUID id, String nombre, Boolean actual, UUID id_usuario) {
         this.id = id;
         this.nombre = nombre;

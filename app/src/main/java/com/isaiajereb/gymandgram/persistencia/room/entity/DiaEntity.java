@@ -21,9 +21,6 @@ public class DiaEntity {
 
     private UUID id_rutina;
 
-    public DiaEntity() {
-    }
-
     public DiaEntity(@NonNull UUID id, DiaSemana nombre, LocalTime hora, UUID id_rutina) {
         this.id = id;
         this.nombre = nombre;

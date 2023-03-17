@@ -26,9 +26,6 @@ public class EjercicioEntity {
 
     private UUID id_dia;
 
-    public EjercicioEntity() {
-    }
-
     public EjercicioEntity(@NonNull UUID id, String nombre, Integer series, Integer repeticiones, Double peso, Double tiempo_cantidad, UnidadTiempo tiempo_unidad, String observaciones, UUID id_dia) {
         this.id = id;
         this.nombre = nombre;
