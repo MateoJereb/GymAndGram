@@ -21,9 +21,12 @@ import com.isaiajereb.gymandgram.databinding.FragmentEditarRutinaBinding;
 import com.isaiajereb.gymandgram.databinding.FragmentInicioBinding;
 import com.isaiajereb.gymandgram.model.Ejercicio;
 import com.isaiajereb.gymandgram.model.Rutina;
+import com.isaiajereb.gymandgram.model.Usuario;
 import com.isaiajereb.gymandgram.recycler_views.EjerciciosAdapter;
 import com.isaiajereb.gymandgram.repo.RutinasRepository;
 import com.isaiajereb.gymandgram.viewmodel.RutinasViewModel;
+import com.isaiajereb.gymandgram.viewmodel.RutinasViewModelFactory;
+import com.isaiajereb.gymandgram.viewmodel.UsuarioViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,7 +52,8 @@ public class EditarRutinaFragment extends Fragment {
 
         }
 
-        viewModel = new ViewModelProvider(requireActivity()).get(RutinasViewModel.class);
+        Usuario usuario = new ViewModelProvider(requireActivity()).get(UsuarioViewModel.class).getUsuario();
+        viewModel = new ViewModelProvider(requireActivity(), new RutinasViewModelFactory(requireActivity().getApplicationContext(),usuario)).get(RutinasViewModel.class);
     }
 
     @Override

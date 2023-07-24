@@ -26,6 +26,10 @@ public class UsuarioViewModel extends AndroidViewModel {
         }).start();
     }
 
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
     private OnResult<Usuario> callbackGetUsuario = new OnResult<Usuario>() {
         @Override
         public void onSuccess(Usuario result) {

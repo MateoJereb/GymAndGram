@@ -9,6 +9,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
@@ -18,9 +19,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.isaiajereb.gymandgram.R;
 import com.isaiajereb.gymandgram.databinding.FragmentListaRutinasBinding;
 import com.isaiajereb.gymandgram.model.Rutina;
+import com.isaiajereb.gymandgram.model.Usuario;
 import com.isaiajereb.gymandgram.recycler_views.RutinasAdapter;
 import com.isaiajereb.gymandgram.repo.RutinasRepository;
 import com.isaiajereb.gymandgram.viewmodel.RutinasViewModel;
+import com.isaiajereb.gymandgram.viewmodel.RutinasViewModelFactory;
+import com.isaiajereb.gymandgram.viewmodel.UsuarioViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,8 +49,8 @@ public class ListaRutinasFragment extends Fragment {
         if (getArguments() != null) {
 
         }
-
-        viewModel = new ViewModelProvider(requireActivity()).get(RutinasViewModel.class);
+        Usuario usuario = new ViewModelProvider(requireActivity()).get(UsuarioViewModel.class).getUsuario();
+        viewModel = new ViewModelProvider(requireActivity(), new RutinasViewModelFactory(requireActivity().getApplicationContext(),usuario)).get(RutinasViewModel.class);
     }
 
     @Override
@@ -69,10 +73,18 @@ public class ListaRutinasFragment extends Fragment {
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(requireActivity());
         rvRutinas.setLayoutManager(layoutManager);
 
-        List<Rutina> rutinas = RutinasRepository._RUTINAS;
-
-        adapter = new RutinasAdapter(rutinas,requireActivity());
+        adapter = new RutinasAdapter(new ArrayList<Rutina>(),requireActivity());
         rvRutinas.setAdapter(adapter);
+
+        //Cambiar la lista del adapter cuando se postee un valor en el live data
+        viewModel.getRutinas().observe(requireActivity(), new Observer<List<Rutina>>() {
+            @Override
+            public void onChanged(List<Rutina> rutinas) {
+                adapter.setDataRutinas(rutinas);
+                rvRutinas.setAdapter(adapter);
+                adapter.notifyDataSetChanged();
+            }
+        });
 
         adapter.setOnItemClickListener(new RutinasAdapter.OnItemClickListener() {
             @Override

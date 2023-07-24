@@ -17,6 +17,8 @@ import com.isaiajereb.gymandgram.persistencia.room.entity.DiaEntity;
 import com.isaiajereb.gymandgram.persistencia.room.entity.EjercicioEntity;
 import com.isaiajereb.gymandgram.persistencia.room.entity.RutinaEntity;
 import com.isaiajereb.gymandgram.persistencia.room.entity.UsuarioEntity;
+import com.isaiajereb.gymandgram.persistencia.room.mapper.RutinaMapper;
+import com.isaiajereb.gymandgram.repo.RutinasRepository;
 
 import java.util.UUID;
 import java.util.concurrent.ExecutorService;
@@ -51,8 +53,8 @@ public abstract class AppDatabase extends RoomDatabase {
                     @Override
                     public void run() {
                         //Crear el usuario inicial solo con una id
-                        UsuarioEntity usuario = new UsuarioEntity(UUID.randomUUID(),null,null,null,null,null);
-
+                        UUID userId = UUID.randomUUID();
+                        UsuarioEntity usuario = new UsuarioEntity(userId,null,null,null,null,null);
                         getInstance(context).usuarioDAO().guardarUsuario(usuario);
                     }
                 });
