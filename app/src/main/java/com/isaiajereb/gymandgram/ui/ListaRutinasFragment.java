@@ -1,6 +1,11 @@
 package com.isaiajereb.gymandgram.ui;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.text.SpannableString;
+import android.text.style.ForegroundColorSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -73,7 +78,7 @@ public class ListaRutinasFragment extends Fragment {
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(requireActivity());
         rvRutinas.setLayoutManager(layoutManager);
 
-        adapter = new RutinasAdapter(new ArrayList<Rutina>(),requireActivity());
+        adapter = new RutinasAdapter(new ArrayList<>(),requireActivity());
         rvRutinas.setAdapter(adapter);
 
         //Cambiar la lista del adapter cuando se postee un valor en el live data
@@ -89,20 +94,44 @@ public class ListaRutinasFragment extends Fragment {
         adapter.setOnItemClickListener(new RutinasAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(Rutina rutina) {
-                //TODO listener
+                Bundle bundle = new Bundle();
+                bundle.putParcelable("rutina",rutina);
+                navController.navigate(R.id.action_listaRutinasFragment_to_editarRutinaFragment,bundle);
             }
         });
 
         adapter.setOnItemLongClickListener(new RutinasAdapter.OnItemLongClickListener() {
             @Override
             public void onEditar(Rutina rutina) {
-                //TODO listener
+                Bundle bundle = new Bundle();
+                bundle.putParcelable("rutina",rutina);
+                navController.navigate(R.id.action_listaRutinasFragment_to_editarRutinaFragment,bundle);
             }
 
             @Override
             public void onEliminar(Rutina rutina) {
-                //TODO listener
+                AlertDialog.Builder builder = new AlertDialog.Builder(requireActivity());
+                builder.setMessage("¿Desea eliminar '"+rutina.getNombre()+"'?")
+                        .setPositiveButton("Eliminar", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                //TODO listener eliminar
+                            }
+                        })
+                        .setNegativeButton("Cancelar", null);
+
+                AlertDialog dialog = builder.create();
+                dialog.show();
             }
         });
+
+        binding.nuevaRuttinaButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) { onNuevaRutina(); }
+        });
+    }
+
+    private void onNuevaRutina(){
+        navController.navigate(R.id.action_listaRutinasFragment_to_editarRutinaFragment);
     }
 }
