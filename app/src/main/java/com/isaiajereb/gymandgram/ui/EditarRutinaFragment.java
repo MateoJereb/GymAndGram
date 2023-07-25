@@ -1,6 +1,12 @@
 package com.isaiajereb.gymandgram.ui;
 
+import android.app.Dialog;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -18,9 +24,9 @@ import android.widget.Toast;
 
 import com.isaiajereb.gymandgram.R;
 import com.isaiajereb.gymandgram.databinding.FragmentEditarRutinaBinding;
-import com.isaiajereb.gymandgram.databinding.FragmentInicioBinding;
 import com.isaiajereb.gymandgram.model.Ejercicio;
 import com.isaiajereb.gymandgram.model.Rutina;
+import com.isaiajereb.gymandgram.model.UnidadTiempo;
 import com.isaiajereb.gymandgram.model.Usuario;
 import com.isaiajereb.gymandgram.recycler_views.EjerciciosAdapter;
 import com.isaiajereb.gymandgram.repo.RutinasRepository;
@@ -30,6 +36,8 @@ import com.isaiajereb.gymandgram.viewmodel.UsuarioViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 public class EditarRutinaFragment extends Fragment {
 
@@ -85,8 +93,11 @@ public class EditarRutinaFragment extends Fragment {
         recyclerAdapter.setOnItemClickListener(new EjerciciosAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(Ejercicio item) {
-                //TODO listener
-            }
+                Bundle bundle = new Bundle();
+                //TODO agregar implementacion real de la rutina.
+                bundle.putInt("idRutina", 1);
+                bundle.putParcelable("ejercicio", item);
+                navController.navigate(R.id.action_editarRutinaFragment_to_configurarEjercicioFragment, bundle);}
         });
 
         recyclerAdapter.setOnItemLongClickListener(new EjerciciosAdapter.OnItemLongClickListener() {
@@ -100,6 +111,55 @@ public class EditarRutinaFragment extends Fragment {
                 //TODO listener
             }
         });
+
+        binding.nombreRutinaButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialogoNombreRutina();
+            }
+        });
+
+        binding.nuevoEjercicioButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Bundle bundle = new Bundle();
+                //TODO agregar implementacion real de la rutina.
+                bundle.putInt("idRutina", 1);
+                navController.navigate(R.id.action_editarRutinaFragment_to_configurarEjercicioFragment, bundle);
+            }
+        });
+
+    }
+
+    private void dialogoNombreRutina() {
+        Dialog dialog = new Dialog(this.getContext());
+        dialog.setContentView(R.layout.dialog_editar_nombre_rutina);
+        dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT); dialog.setCancelable(false);
+        dialog.getWindow().getAttributes().windowAnimations = R.style.animation;
+
+        TextView confirmar = dialog.findViewById(R.id.boton_confirmar);
+        TextView cancelar = dialog.findViewById(R.id.boton_cancelar);
+        EditText nuevoNombreET = dialog.findViewById(R.id.et_nuevo_nombre);
+
+        confirmar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(!nuevoNombreET.getText().toString().isEmpty()){
+                binding.nombreRutinaButton.setText(nuevoNombreET.getText());
+                //TODO metodo viewModel.editarNombreRutina(idRutina,nuevoNombreET.getText())
+                    dialog.dismiss();
+                }
+
+            }
+        });
+        cancelar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+        dialog.show();
+
 
     }
 

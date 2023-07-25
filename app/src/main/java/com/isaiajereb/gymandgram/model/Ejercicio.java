@@ -1,9 +1,14 @@
 package com.isaiajereb.gymandgram.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import androidx.annotation.NonNull;
+
 import java.util.Optional;
 import java.util.UUID;
 
-public class Ejercicio {
+public class Ejercicio implements Parcelable {
     private UUID id;
     private String nombre;
     private Optional<Integer> series;
@@ -16,7 +21,26 @@ public class Ejercicio {
     private UUID id_dia;
 
     public Ejercicio() {
+        this.series = Optional.empty();
+        this.repeticiones = Optional.empty();
+        this.peso = Optional.empty();
+        this.tiempo_cantidad = Optional.empty();
+        this.tiempo_unidad = Optional.empty();
     }
+
+    private Ejercicio(Parcel in){
+        this.readFromParcel(in);
+    }
+
+    public static final Parcelable.Creator<Ejercicio> CREATOR=
+            new Parcelable.Creator<Ejercicio>(){
+        public Ejercicio createFromParcel(Parcel in){
+            return new Ejercicio(in);
+    }
+        public Ejercicio[] newArray(int size){
+            return new Ejercicio[size];
+        }
+    };
 
     public Ejercicio(UUID id, String nombre, Optional<Integer> series, Optional<Integer> repeticiones, Optional<Double> peso, Optional<Double> tiempo_cantidad, Optional<UnidadTiempo> tiempo_unidad, String observaciones, UUID id_dia) {
         this.id = id;
@@ -101,4 +125,36 @@ public class Ejercicio {
     public void setId_dia(UUID id_dia) {
         this.id_dia = id_dia;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(@NonNull Parcel parcel, int i) {
+        parcel.writeSerializable(id);
+        parcel.writeString(nombre);
+        parcel.writeInt(series.isPresent()?series.get(): null);
+        parcel.writeInt(repeticiones.isPresent()?repeticiones.get(): null);
+        parcel.writeDouble(peso.isPresent()?peso.get(): null);
+        parcel.writeDouble(tiempo_cantidad.isPresent()?tiempo_cantidad.get(): null);
+        parcel.writeString(tiempo_unidad.isPresent()?tiempo_unidad.get().name(): null);
+        parcel.writeString(observaciones);
+
+        parcel.writeSerializable(id_dia);
+    }
+
+    private void readFromParcel(Parcel in){
+        id= (UUID) in.readSerializable();
+        nombre = in.readString();
+        series = Optional.ofNullable(in.readInt());
+        repeticiones = Optional.ofNullable(in.readInt());
+        peso= Optional.ofNullable(in.readDouble());
+        tiempo_cantidad =  Optional.ofNullable(in.readDouble());
+        tiempo_unidad = Optional.ofNullable(UnidadTiempo.valueOf(in.readString()));
+        observaciones= in.readString();
+        id_dia = (UUID) in.readSerializable();
+    }
+
 }
