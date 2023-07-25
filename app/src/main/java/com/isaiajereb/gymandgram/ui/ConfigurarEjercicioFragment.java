@@ -16,16 +16,23 @@ import android.widget.ArrayAdapter;
 
 import com.isaiajereb.gymandgram.R;
 import com.isaiajereb.gymandgram.databinding.FragmentConfigurarEjercicioBinding;
+import com.isaiajereb.gymandgram.model.Ejercicio;
+import com.isaiajereb.gymandgram.model.UnidadTiempo;
 import com.isaiajereb.gymandgram.model.Usuario;
 import com.isaiajereb.gymandgram.viewmodel.RutinasViewModel;
 import com.isaiajereb.gymandgram.viewmodel.RutinasViewModelFactory;
 import com.isaiajereb.gymandgram.viewmodel.UsuarioViewModel;
+
+import java.util.Optional;
+import java.util.UUID;
 
 public class ConfigurarEjercicioFragment extends Fragment {
 
     private FragmentConfigurarEjercicioBinding binding;
     private NavController navController;
     private RutinasViewModel viewModel;
+    private Integer idRutina;
+    private Ejercicio ejercicio;
 
     public ConfigurarEjercicioFragment() {
         // Required empty public constructor
@@ -35,7 +42,10 @@ public class ConfigurarEjercicioFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-
+            idRutina = getArguments().getInt("idRutina");
+            if(getArguments().getParcelable("ejercicio")!=null){
+                ejercicio = getArguments().getParcelable("ejercicio");
+            }else ejercicio = new Ejercicio();
         }
 
         Usuario usuario = new ViewModelProvider(requireActivity()).get(UsuarioViewModel.class).getUsuario();
@@ -58,6 +68,7 @@ public class ConfigurarEjercicioFragment extends Fragment {
         ((MainActivity) requireActivity()).getNavigationBar().setSelectedItemId(R.id.workout_navigation);
 
         llenarSpiner();
+        llenarDatosEjercicio();
 
     }
 
@@ -65,5 +76,17 @@ public class ConfigurarEjercicioFragment extends Fragment {
         String[] unidadesTiempo = getResources().getStringArray(R.array.unidad_tiempo);
         ArrayAdapter<String> adapterUnidadTiempo = new ArrayAdapter<>(this.getActivity(), android.R.layout.simple_spinner_dropdown_item, unidadesTiempo);
         binding.unidadTiempoSpinner.setAdapter(adapterUnidadTiempo);
+    }
+
+    private void llenarDatosEjercicio() {
+            if(ejercicio.getNombre()!=null)binding.ejercicioEditText.setText(ejercicio.getNombre());
+            ejercicio.getSeries().ifPresent(s-> binding.seriesEditText.setText(s.toString()));
+            ejercicio.getRepeticiones().ifPresent(rep-> binding.repeticionesEditText.setText(rep.toString()));
+            ejercicio.getPeso().ifPresent(p->binding.pesoEditText.setText(p.toString()));
+            ejercicio.getTiempo_cantidad().ifPresent(tc-> binding.tiempoEditText.setText(tc.toString()));
+            ejercicio.getTiempo_unidad().ifPresent(ut->
+                    binding.unidadTiempoSpinner.setSelection(((ArrayAdapter)binding.unidadTiempoSpinner.getAdapter()).getPosition(ut.name()))
+            );
+        if(ejercicio.getObservaciones()!=null)binding.observacionesEditText.setText(ejercicio.getObservaciones());
     }
 }

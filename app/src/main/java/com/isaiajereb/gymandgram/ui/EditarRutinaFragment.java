@@ -26,6 +26,7 @@ import com.isaiajereb.gymandgram.R;
 import com.isaiajereb.gymandgram.databinding.FragmentEditarRutinaBinding;
 import com.isaiajereb.gymandgram.model.Ejercicio;
 import com.isaiajereb.gymandgram.model.Rutina;
+import com.isaiajereb.gymandgram.model.UnidadTiempo;
 import com.isaiajereb.gymandgram.model.Usuario;
 import com.isaiajereb.gymandgram.recycler_views.EjerciciosAdapter;
 import com.isaiajereb.gymandgram.repo.RutinasRepository;
@@ -35,6 +36,8 @@ import com.isaiajereb.gymandgram.viewmodel.UsuarioViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 public class EditarRutinaFragment extends Fragment {
 
@@ -90,8 +93,11 @@ public class EditarRutinaFragment extends Fragment {
         recyclerAdapter.setOnItemClickListener(new EjerciciosAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(Ejercicio item) {
-                //TODO listener
-            }
+                Bundle bundle = new Bundle();
+                //TODO agregar implementacion real de la rutina.
+                bundle.putInt("idRutina", 1);
+                bundle.putParcelable("ejercicio", item);
+                navController.navigate(R.id.action_editarRutinaFragment_to_configurarEjercicioFragment, bundle);}
         });
 
         recyclerAdapter.setOnItemLongClickListener(new EjerciciosAdapter.OnItemLongClickListener() {
@@ -113,27 +119,19 @@ public class EditarRutinaFragment extends Fragment {
             }
         });
 
+        binding.nuevoEjercicioButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Bundle bundle = new Bundle();
+                //TODO agregar implementacion real de la rutina.
+                bundle.putInt("idRutina", 1);
+                navController.navigate(R.id.action_editarRutinaFragment_to_configurarEjercicioFragment, bundle);
+            }
+        });
+
     }
 
     private void dialogoNombreRutina() {
-//        AlertDialog.Builder builder = new AlertDialog.Builder(this.getContext());
-//        builder.setTitle("Editar nombre de la rutina").setMessage("Ingrese el nuevo nombre");
-//        EditText nuevoNombreET = new EditText(this.getContext());
-//        builder.setView(nuevoNombreET);
-//
-//        builder.setPositiveButton("Confirmar", new DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialogInterface, int i) {
-//               binding.nombreRutinaButton.setText(nuevoNombreET.getText());
-//            }
-//        });
-//        builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialogInterface, int i) {
-//
-//            }
-//        });
-//        builder.show();
         Dialog dialog = new Dialog(this.getContext());
         dialog.setContentView(R.layout.dialog_editar_nombre_rutina);
         dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT); dialog.setCancelable(false);
@@ -148,7 +146,7 @@ public class EditarRutinaFragment extends Fragment {
             public void onClick(View view) {
                 if(!nuevoNombreET.getText().toString().isEmpty()){
                 binding.nombreRutinaButton.setText(nuevoNombreET.getText());
-                //TODO metodo viewModel.editarNombreRUtina(idRutina,nuevoNOmbreET.getText())
+                //TODO metodo viewModel.editarNombreRutina(idRutina,nuevoNombreET.getText())
                     dialog.dismiss();
                 }
 
