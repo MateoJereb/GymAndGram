@@ -21,9 +21,12 @@ import com.isaiajereb.gymandgram.databinding.FragmentEditarRutinaBinding;
 import com.isaiajereb.gymandgram.databinding.FragmentInicioBinding;
 import com.isaiajereb.gymandgram.model.Ejercicio;
 import com.isaiajereb.gymandgram.model.Rutina;
+import com.isaiajereb.gymandgram.model.Usuario;
 import com.isaiajereb.gymandgram.recycler_views.EjerciciosAdapter;
 import com.isaiajereb.gymandgram.repo.RutinasRepository;
 import com.isaiajereb.gymandgram.viewmodel.RutinasViewModel;
+import com.isaiajereb.gymandgram.viewmodel.RutinasViewModelFactory;
+import com.isaiajereb.gymandgram.viewmodel.UsuarioViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,6 +41,8 @@ public class EditarRutinaFragment extends Fragment {
     private EjerciciosAdapter recyclerAdapter;
     private List<Ejercicio> listaEjercicios;
 
+    private Rutina rutina;
+
     public EditarRutinaFragment() {
         // Required empty public constructor
     }
@@ -46,10 +51,12 @@ public class EditarRutinaFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-
+            if(getArguments().get("rutina") != null) rutina = getArguments().getParcelable("rutina");
         }
+        else rutina = new Rutina();
 
-        viewModel = new ViewModelProvider(requireActivity()).get(RutinasViewModel.class);
+        Usuario usuario = new ViewModelProvider(requireActivity()).get(UsuarioViewModel.class).getUsuario();
+        viewModel = new ViewModelProvider(requireActivity(), new RutinasViewModelFactory(requireActivity().getApplicationContext(),usuario)).get(RutinasViewModel.class);
     }
 
     @Override
@@ -73,9 +80,7 @@ public class EditarRutinaFragment extends Fragment {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(requireActivity()));
 
-        listaEjercicios = RutinasRepository._EJERCICIOS;
-        recyclerAdapter.setListaEjercicios(listaEjercicios);
-        recyclerView.setAdapter(recyclerAdapter);
+        cargarInfoRutina();
 
         recyclerAdapter.setOnItemClickListener(new EjerciciosAdapter.OnItemClickListener() {
             @Override
@@ -96,5 +101,17 @@ public class EditarRutinaFragment extends Fragment {
             }
         });
 
+    }
+
+    private void cargarInfoRutina(){
+        if(rutina.getId() != null) {
+            binding.nombreRutinaButton.setText(rutina.getNombre());
+            binding.actualSwitch.setChecked(rutina.getActual());
+
+            //TODO cambiar por la info buscada en la BD
+            listaEjercicios = RutinasRepository._EJERCICIOS;
+            recyclerAdapter.setListaEjercicios(listaEjercicios);
+            recyclerView.setAdapter(recyclerAdapter);
+        }
     }
 }

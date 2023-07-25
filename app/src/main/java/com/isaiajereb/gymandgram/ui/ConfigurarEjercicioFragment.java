@@ -16,7 +16,10 @@ import android.widget.ArrayAdapter;
 
 import com.isaiajereb.gymandgram.R;
 import com.isaiajereb.gymandgram.databinding.FragmentConfigurarEjercicioBinding;
+import com.isaiajereb.gymandgram.model.Usuario;
 import com.isaiajereb.gymandgram.viewmodel.RutinasViewModel;
+import com.isaiajereb.gymandgram.viewmodel.RutinasViewModelFactory;
+import com.isaiajereb.gymandgram.viewmodel.UsuarioViewModel;
 
 public class ConfigurarEjercicioFragment extends Fragment {
 
@@ -35,7 +38,8 @@ public class ConfigurarEjercicioFragment extends Fragment {
 
         }
 
-        viewModel = new ViewModelProvider(requireActivity()).get(RutinasViewModel.class);
+        Usuario usuario = new ViewModelProvider(requireActivity()).get(UsuarioViewModel.class).getUsuario();
+        viewModel = new ViewModelProvider(requireActivity(), new RutinasViewModelFactory(requireActivity().getApplicationContext(),usuario)).get(RutinasViewModel.class);
     }
 
     @Override

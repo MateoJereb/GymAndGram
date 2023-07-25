@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 
@@ -21,6 +22,10 @@ import com.google.android.material.navigation.NavigationBarView;
 import com.google.android.material.navigation.NavigationView;
 import com.isaiajereb.gymandgram.R;
 import com.isaiajereb.gymandgram.databinding.ActivityMainBinding;
+import com.isaiajereb.gymandgram.persistencia.room.AppDatabase;
+import com.isaiajereb.gymandgram.viewmodel.UsuarioViewModel;
+
+import java.util.concurrent.Executors;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -37,6 +42,10 @@ public class MainActivity extends AppCompatActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
         setContentView(view);
+
+        /*Instanciar el ViewModel de usuario para traer el usuario a memoria
+        * De no existir la BD, la instancia y realiza una consulta para crear un usuario con UUID, pero datos nulos*/
+        new ViewModelProvider(this).get(UsuarioViewModel.class);
 
         //Setear la Toolbar
         Toolbar toolbar = binding.materialToolbar;

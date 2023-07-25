@@ -1,10 +1,18 @@
 package com.isaiajereb.gymandgram.repo;
 
 import android.content.Context;
+import android.util.Log;
+
+import androidx.lifecycle.ViewModelProvider;
 
 import com.isaiajereb.gymandgram.model.Ejercicio;
 import com.isaiajereb.gymandgram.model.Rutina;
 import com.isaiajereb.gymandgram.model.UnidadTiempo;
+import com.isaiajereb.gymandgram.model.Usuario;
+import com.isaiajereb.gymandgram.persistencia.OnResult;
+import com.isaiajereb.gymandgram.persistencia.datasource_interfaces.RutinaDataSource;
+import com.isaiajereb.gymandgram.persistencia.room.implementation.RutinaRoomDataSource;
+import com.isaiajereb.gymandgram.viewmodel.UsuarioViewModel;
 
 import java.util.List;
 import java.util.Optional;
@@ -96,8 +104,23 @@ public class RutinasRepository {
     public static final List<Ejercicio> _EJERCICIOS = List.of(ejercicio1,ejercicio2,ejercicio3,ejercicio4,ejercicio5,ejercicio6,ejercicio7);
     public static final List<Rutina> _RUTINAS = List.of(rutina1,rutina2,rutina3);
 
-    public RutinasRepository() {
+    private RutinaDataSource rutinaDataSource;
+    private Usuario usuario;
 
+    public RutinasRepository(Context context, Usuario usuario) {
+        rutinaDataSource = new RutinaRoomDataSource(context);
+        this.usuario = usuario;
     }
 
+    public void recuperarRutinas(OnResult<List<Rutina>> callback){
+        rutinaDataSource.getRutinas(usuario.getId(),callback);
+    }
+
+    private OnResult<Void> voidCallback = new OnResult<Void>() {
+        @Override
+        public void onSuccess(Void result) { }
+
+        @Override
+        public void onError(Throwable exception) { Log.e("RutinasRepository","Void callback error"); }
+    };
 }
