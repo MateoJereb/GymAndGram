@@ -15,11 +15,16 @@
             android:id="@+id/action_inicioFragment_to_listaRutinasFragment"
             app:destination="@id/listaRutinasFragment"
             app:enterAnim="@anim/left_in"
-            app:popExitAnim="@anim/left_out"/>
+            app:exitAnim="@anim/right_out"
+            app:popEnterAnim="@anim/right_in"
+            app:popExitAnim="@anim/left_out"
+            />
         <action
             android:id="@+id/action_inicioFragment_to_editarRutinaFragment"
             app:destination="@id/editarRutinaFragment"
             app:enterAnim="@anim/left_in"
+            app:exitAnim="@anim/right_out"
+            app:popEnterAnim="@anim/right_in"
             app:popExitAnim="@anim/left_out"/>
     </fragment>
 
@@ -34,7 +39,11 @@
             app:destination="@id/editarRutinaFragment" />
         <action
             android:id="@+id/action_listaRutinasFragment_to_inicioFragment"
-            app:destination="@id/inicioFragment" />
+            app:destination="@id/inicioFragment"
+            app:enterAnim="@anim/right_out"
+            app:exitAnim="@anim/left_in"
+            app:popEnterAnim="@anim/left_out"
+            app:popExitAnim="@anim/right_in"/>
     </fragment>
 
     <fragment
@@ -48,7 +57,11 @@
             app:destination="@id/configurarEjercicioFragment" />
         <action
             android:id="@+id/action_editarRutinaFragment_to_inicioFragment"
-            app:destination="@id/inicioFragment" />
+            app:destination="@id/inicioFragment"
+            app:enterAnim="@anim/right_out"
+            app:exitAnim="@anim/left_in"
+            app:popEnterAnim="@anim/left_out"
+            app:popExitAnim="@anim/right_in"/>
     </fragment>
 
     <fragment
@@ -59,7 +72,11 @@
 
         <action
             android:id="@+id/action_configurarEjercicioFragment_to_inicioFragment"
-            app:destination="@id/inicioFragment" />
+            app:destination="@id/inicioFragment"
+            app:enterAnim="@anim/right_out"
+            app:exitAnim="@anim/left_in"
+            app:popEnterAnim="@anim/left_out"
+            app:popExitAnim="@anim/right_in"/>
     </fragment>
     <fragment
         android:id="@+id/configurarPerfilFragment"

@@ -1,10 +1,13 @@
 package com.isaiajereb.gymandgram.ui;
 
 import android.app.Dialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -119,6 +122,11 @@ public class EditarRutinaFragment extends Fragment {
             }
         });
 
+        binding.seleccionarSemanaButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) { dialogoSeleccionarSemana(); }
+        });
+
         binding.nuevoEjercicioButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -128,38 +136,6 @@ public class EditarRutinaFragment extends Fragment {
                 navController.navigate(R.id.action_editarRutinaFragment_to_configurarEjercicioFragment, bundle);
             }
         });
-
-    }
-
-    private void dialogoNombreRutina() {
-        Dialog dialog = new Dialog(this.getContext());
-        dialog.setContentView(R.layout.dialog_editar_nombre_rutina);
-        dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT); dialog.setCancelable(false);
-        dialog.getWindow().getAttributes().windowAnimations = R.style.animation;
-
-        TextView confirmar = dialog.findViewById(R.id.boton_confirmar);
-        TextView cancelar = dialog.findViewById(R.id.boton_cancelar);
-        EditText nuevoNombreET = dialog.findViewById(R.id.et_nuevo_nombre);
-
-        confirmar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(!nuevoNombreET.getText().toString().isEmpty()){
-                binding.nombreRutinaButton.setText(nuevoNombreET.getText());
-                //TODO metodo viewModel.editarNombreRutina(idRutina,nuevoNombreET.getText())
-                    dialog.dismiss();
-                }
-
-            }
-        });
-        cancelar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dialog.dismiss();
-            }
-        });
-        dialog.show();
-
 
     }
 
@@ -174,4 +150,66 @@ public class EditarRutinaFragment extends Fragment {
             recyclerView.setAdapter(recyclerAdapter);
         }
     }
+    private void dialogoNombreRutina() {
+        Dialog dialog = new Dialog(requireContext());
+        dialog.setContentView(R.layout.dialog_editar_nombre_rutina);
+        dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        dialog.getWindow().getAttributes().windowAnimations = R.style.animation;
+
+        dialog.setCancelable(true);
+        dialog.setCanceledOnTouchOutside(false);
+
+        TextView confirmar = dialog.findViewById(R.id.boton_confirmar);
+        TextView cancelar = dialog.findViewById(R.id.boton_cancelar);
+        EditText nuevoNombreET = dialog.findViewById(R.id.et_nuevo_nombre);
+
+        nuevoNombreET.setText(binding.nombreRutinaButton.getText().toString());
+
+        //Abrir teclado
+        nuevoNombreET.requestFocus();
+        InputMethodManager imm = (InputMethodManager) requireContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.toggleSoftInput(InputMethodManager.SHOW_FORCED,0);
+
+        confirmar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(!nuevoNombreET.getText().toString().isEmpty()){
+                    //Cerrar teclado
+                    InputMethodManager imm = (InputMethodManager) requireContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY,0);
+
+                    binding.nombreRutinaButton.setText(nuevoNombreET.getText().toString());
+
+                    //TODO metodo viewModel.editarNombreRutina(idRutina,nuevoNombreET.getText())
+                    dialog.dismiss();
+                }
+
+            }
+        });
+        cancelar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //Cerrar teclado
+                InputMethodManager imm = (InputMethodManager) requireContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(nuevoNombreET.getWindowToken(),0);
+                dialog.dismiss();
+            }
+        });
+
+        dialog.show();
+    }
+
+   private void dialogoSeleccionarSemana(){
+        Dialog dialog = new Dialog(requireContext());
+        dialog.setContentView(R.layout.dialog_seleccionar_semana);
+        dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        dialog.getWindow().getAttributes().windowAnimations = R.style.animation;
+
+        dialog.setCancelable(true);
+        dialog.setCanceledOnTouchOutside(false);
+
+
+
+        dialog.show();
+   }
 }
