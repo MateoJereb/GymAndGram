@@ -8,7 +8,7 @@ public class Dia {
     private DiaSemana nombre;
     private LocalTime hora;
 
-    private UUID id_rutina;
+    private UUID id_semana;
 
     public Dia() {
     }
@@ -17,7 +17,7 @@ public class Dia {
         this.id = id;
         this.nombre = nombre;
         this.hora = hora;
-        this.id_rutina = id_rutina;
+        this.id_semana = id_rutina;
     }
 
     public UUID getId() {
@@ -44,11 +44,11 @@ public class Dia {
         this.hora = hora;
     }
 
-    public UUID getId_rutina() {
-        return id_rutina;
+    public UUID getId_semana() {
+        return id_semana;
     }
 
-    public void setId_rutina(UUID id_rutina) {
-        this.id_rutina = id_rutina;
+    public void setId_semana(UUID id_rutina) {
+        this.id_semana = id_rutina;
     }
 }

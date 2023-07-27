@@ -76,7 +76,23 @@
             android:gravity="center_vertical">
 
             <androidx.appcompat.widget.AppCompatTextView
-                android:layout_width="match_parent"
+                android:id="@+id/seleccionarSemanaButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Semana 1"
+                android:theme="@style/TextoSecundario.OpuestoFondo"
+                android:padding="5dp"
+
+                android:drawableEnd="@drawable/ic_more"
+                android:drawableTint="@color/gray"
+
+                android:clickable="true"
+                android:focusable="true"
+                android:background="?attr/selectableItemBackground"
+                 />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Rutina actual"
@@ -221,6 +237,26 @@
                         android:clickable="true"
                         android:focusable="true"
                         android:background="?attr/selectableItemBackground"
+                        />
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginHorizontal="20dp"
+                    android:gravity="end">
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/guardarButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Guardar"
+                        android:backgroundTint="?attr/colorPrimaryVariant"
+                        android:textColor="@color/white"
+                        android:theme="@style/DefaultButton"
                         />
 
                 </androidx.appcompat.widget.LinearLayoutCompat>

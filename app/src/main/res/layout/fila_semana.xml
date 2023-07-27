@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:clickable="true"
+    android:focusable="true"
+    android:background="?attr/selectableItemBackground">
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/nombreSemanaTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Semana 1"
+        android:theme="@style/TextoSecundario.OpuestoFondo"
+        android:textSize="@dimen/mid"
+        android:gravity="center_vertical"
+        android:paddingHorizontal="10dp"
+        android:paddingVertical="8dp"
+        android:layout_gravity="start"
+        android:lines="1"
+        android:maxLines="1"
+        android:ellipsize="end"/>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/separadorSemanas"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/gray"/>
+
+</androidx.appcompat.widget.LinearLayoutCompat>

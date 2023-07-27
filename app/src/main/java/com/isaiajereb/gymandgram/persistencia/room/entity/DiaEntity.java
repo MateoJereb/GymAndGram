@@ -11,7 +11,7 @@ import java.time.LocalTime;
 import java.util.UUID;
 
 @Entity(tableName = "dia",
-        foreignKeys = {@ForeignKey(entity = RutinaEntity.class,parentColumns = "id",childColumns = "id_rutina",onDelete = ForeignKey.CASCADE,onUpdate = ForeignKey.CASCADE)})
+        foreignKeys = {@ForeignKey(entity = SemanaEntity.class,parentColumns = "id",childColumns = "id_semana",onDelete = ForeignKey.CASCADE,onUpdate = ForeignKey.CASCADE)})
 public class DiaEntity {
     @PrimaryKey
     @NonNull
@@ -19,13 +19,13 @@ public class DiaEntity {
     private DiaSemana nombre;
     private LocalTime hora;
 
-    private UUID id_rutina;
+    private UUID id_semana;
 
-    public DiaEntity(@NonNull UUID id, DiaSemana nombre, LocalTime hora, UUID id_rutina) {
+    public DiaEntity(@NonNull UUID id, DiaSemana nombre, LocalTime hora, UUID id_semana) {
         this.id = id;
         this.nombre = nombre;
         this.hora = hora;
-        this.id_rutina = id_rutina;
+        this.id_semana = id_semana;
     }
 
     @NonNull
@@ -53,11 +53,11 @@ public class DiaEntity {
         this.hora = hora;
     }
 
-    public UUID getId_rutina() {
-        return id_rutina;
+    public UUID getId_semana() {
+        return id_semana;
     }
 
-    public void setId_rutina(UUID id_rutina) {
-        this.id_rutina = id_rutina;
+    public void setId_semana(UUID id_rutina) {
+        this.id_semana = id_rutina;
     }
 }

@@ -11,6 +11,7 @@ import androidx.lifecycle.ViewModel;
 import com.isaiajereb.gymandgram.model.Dia;
 import com.isaiajereb.gymandgram.model.Ejercicio;
 import com.isaiajereb.gymandgram.model.Rutina;
+import com.isaiajereb.gymandgram.model.Semana;
 import com.isaiajereb.gymandgram.model.Usuario;
 import com.isaiajereb.gymandgram.persistencia.OnResult;
 import com.isaiajereb.gymandgram.repo.RutinasRepository;
@@ -21,6 +22,7 @@ import java.util.List;
 public class RutinasViewModel extends ViewModel {
 
     private MutableLiveData<List<Rutina>> rutinas;
+    private MutableLiveData<List<Semana>> semanas;
     private MutableLiveData<List<Dia>> dias;
     private MutableLiveData<List<Ejercicio>> ejercicios;
 
@@ -28,6 +30,7 @@ public class RutinasViewModel extends ViewModel {
 
     public RutinasViewModel(final RutinasRepository repository) {
         rutinas = new MutableLiveData<>(new ArrayList<>());
+        semanas = new MutableLiveData<>(new ArrayList<>());
         dias = new MutableLiveData<>(new ArrayList<>());
         ejercicios = new MutableLiveData<>(new ArrayList<>());
 
@@ -43,6 +46,8 @@ public class RutinasViewModel extends ViewModel {
     public MutableLiveData<List<Rutina>> getRutinas() {
         return rutinas;
     }
+
+    public MutableLiveData<List<Semana>> getSemanas() { return semanas; }
 
     public MutableLiveData<List<Dia>> getDias() {
         return dias;

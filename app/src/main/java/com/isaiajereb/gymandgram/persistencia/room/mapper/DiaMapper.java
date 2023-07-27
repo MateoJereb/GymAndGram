@@ -12,7 +12,7 @@ public class DiaMapper {
                 dia.getId(),
                 dia.getNombre(),
                 dia.getHora(),
-                dia.getId_rutina()
+                dia.getId_semana()
         );
     }
 
@@ -21,7 +21,7 @@ public class DiaMapper {
           entity.getId(),
           entity.getNombre(),
           entity.getHora(),
-          entity.getId_rutina()
+          entity.getId_semana()
         );
     }
 
