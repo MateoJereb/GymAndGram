@@ -248,7 +248,7 @@ public class EditarRutinaFragment extends Fragment {
                 semanasAdapter.setDataSemanas(listaSemanas);
                 rvSemanas.setAdapter(semanasAdapter);
                 semanasAdapter.notifyDataSetChanged();
-                //TODO cambiar en la BD
+                //TODO cambiar en la BD y si se borra la semana que se tenia seleccionada, actualizar la pantalla a la ultima disponible
             }
         });
 
