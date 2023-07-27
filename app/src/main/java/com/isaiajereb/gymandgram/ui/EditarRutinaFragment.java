@@ -13,6 +13,8 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.AppCompatImageView;
+import androidx.appcompat.widget.AppCompatTextView;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
@@ -29,9 +31,11 @@ import com.isaiajereb.gymandgram.R;
 import com.isaiajereb.gymandgram.databinding.FragmentEditarRutinaBinding;
 import com.isaiajereb.gymandgram.model.Ejercicio;
 import com.isaiajereb.gymandgram.model.Rutina;
+import com.isaiajereb.gymandgram.model.Semana;
 import com.isaiajereb.gymandgram.model.UnidadTiempo;
 import com.isaiajereb.gymandgram.model.Usuario;
 import com.isaiajereb.gymandgram.recycler_views.EjerciciosAdapter;
+import com.isaiajereb.gymandgram.recycler_views.SemanasAdapter;
 import com.isaiajereb.gymandgram.repo.RutinasRepository;
 import com.isaiajereb.gymandgram.viewmodel.RutinasViewModel;
 import com.isaiajereb.gymandgram.viewmodel.RutinasViewModelFactory;
@@ -208,7 +212,46 @@ public class EditarRutinaFragment extends Fragment {
         dialog.setCancelable(true);
         dialog.setCanceledOnTouchOutside(false);
 
+        AppCompatImageView quitarSemana = dialog.findViewById(R.id.quitarSemanaButton);
+        AppCompatImageView agregarSemana = dialog.findViewById(R.id.agregarSemanaButton);
+        RecyclerView rvSemanas = dialog.findViewById(R.id.semanasRecyclerView);
+        AppCompatTextView cancelar = dialog.findViewById(R.id.cancelarButton);
 
+        rvSemanas.setHasFixedSize(true);
+
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(requireContext());
+        rvSemanas.setLayoutManager(layoutManager);
+
+        List<Semana> aux = List.of(new Semana(null,1,null),new Semana(null,2,null));
+        SemanasAdapter semanasAdapter = new SemanasAdapter(aux, requireContext());
+        rvSemanas.setAdapter(semanasAdapter);
+
+        quitarSemana.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //TODO listener quitar
+            }
+        });
+
+        agregarSemana.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //TODO listener agregar
+            }
+        });
+
+        semanasAdapter.setOnItemClickListener(new SemanasAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(Semana semana) {
+                //TODO listener seleccion semana
+            }
+        });
+        cancelar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //TODO listener cancelar
+            }
+        });
 
         dialog.show();
    }
