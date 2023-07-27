@@ -29,6 +29,7 @@ import android.widget.Toast;
 
 import com.isaiajereb.gymandgram.R;
 import com.isaiajereb.gymandgram.databinding.FragmentEditarRutinaBinding;
+import com.isaiajereb.gymandgram.model.Dia;
 import com.isaiajereb.gymandgram.model.Ejercicio;
 import com.isaiajereb.gymandgram.model.Rutina;
 import com.isaiajereb.gymandgram.model.Semana;
@@ -54,9 +55,10 @@ public class EditarRutinaFragment extends Fragment {
 
     private RecyclerView recyclerView;
     private EjerciciosAdapter recyclerAdapter;
-    private List<Ejercicio> listaEjercicios;
-
     private Rutina rutina;
+    private List<Semana> listaSemanas;
+    private List<Dia> listaDias;
+    private List<Ejercicio> listaEjercicios;
 
     public EditarRutinaFragment() {
         // Required empty public constructor
@@ -66,9 +68,12 @@ public class EditarRutinaFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            if(getArguments().get("rutina") != null) rutina = getArguments().getParcelable("rutina");
+            if(getArguments().get("rutina") != null){
+                rutina = getArguments().getParcelable("rutina");
+                //TODO buscar semanas, dias y ejercicios de la BD
+            }
         }
-        else rutina = new Rutina();
+        else{ rutina = new Rutina(); }
 
         Usuario usuario = new ViewModelProvider(requireActivity()).get(UsuarioViewModel.class).getUsuario();
         viewModel = new ViewModelProvider(requireActivity(), new RutinasViewModelFactory(requireActivity().getApplicationContext(),usuario)).get(RutinasViewModel.class);
@@ -153,6 +158,14 @@ public class EditarRutinaFragment extends Fragment {
             recyclerAdapter.setListaEjercicios(listaEjercicios);
             recyclerView.setAdapter(recyclerAdapter);
         }
+        else{
+            listaSemanas = new ArrayList<>();
+            listaDias = new ArrayList<>();
+            listaEjercicios = new ArrayList<>();
+
+            //TODO inicializar Semana1 y sus dias
+            listaSemanas.add(new Semana(null,1,null));
+        }
     }
     private void dialogoNombreRutina() {
         Dialog dialog = new Dialog(requireContext());
@@ -215,41 +228,56 @@ public class EditarRutinaFragment extends Fragment {
         AppCompatImageView quitarSemana = dialog.findViewById(R.id.quitarSemanaButton);
         AppCompatImageView agregarSemana = dialog.findViewById(R.id.agregarSemanaButton);
         RecyclerView rvSemanas = dialog.findViewById(R.id.semanasRecyclerView);
-        AppCompatTextView cancelar = dialog.findViewById(R.id.cancelarButton);
+        AppCompatTextView volver = dialog.findViewById(R.id.volverButton);
 
         rvSemanas.setHasFixedSize(true);
 
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(requireContext());
         rvSemanas.setLayoutManager(layoutManager);
 
-        List<Semana> aux = List.of(new Semana(null,1,null),new Semana(null,2,null));
-        SemanasAdapter semanasAdapter = new SemanasAdapter(aux, requireContext());
+        SemanasAdapter semanasAdapter = new SemanasAdapter(listaSemanas, requireContext());
         rvSemanas.setAdapter(semanasAdapter);
 
+        if(listaSemanas.size() == 1) quitarSemana.setEnabled(false);
         quitarSemana.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO listener quitar
+                listaSemanas.remove(listaSemanas.size()-1);
+                if(listaSemanas.size() == 1) quitarSemana.setEnabled(false);
+
+                semanasAdapter.setDataSemanas(listaSemanas);
+                rvSemanas.setAdapter(semanasAdapter);
+                semanasAdapter.notifyDataSetChanged();
+                //TODO cambiar en la BD
             }
         });
 
         agregarSemana.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO listener agregar
+                listaSemanas.add(new Semana(null,listaSemanas.size()+1,null));
+                if(listaSemanas.size() == 2) quitarSemana.setEnabled(true);
+
+                semanasAdapter.setDataSemanas(listaSemanas);
+                rvSemanas.setAdapter(semanasAdapter);
+                semanasAdapter.notifyDataSetChanged();
+
+                //TODO instanciar dias y copiar los ejercicios de la semana anterior
             }
         });
 
         semanasAdapter.setOnItemClickListener(new SemanasAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(Semana semana) {
-                //TODO listener seleccion semana
+                binding.seleccionarSemanaButton.setText("Semana "+semana.getNumero().toString());
+                //TODO cambiar los ejercicios a los del lunes de la semana actual
+                dialog.dismiss();
             }
         });
-        cancelar.setOnClickListener(new View.OnClickListener() {
+        volver.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO listener cancelar
+                dialog.dismiss();
             }
         });
 

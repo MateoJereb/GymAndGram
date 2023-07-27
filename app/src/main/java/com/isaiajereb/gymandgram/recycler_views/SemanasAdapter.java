@@ -50,7 +50,8 @@ public class SemanasAdapter extends RecyclerView.Adapter<SemanasAdapter.SemanasV
 
     @Override
     public void onBindViewHolder(@NonNull SemanasViewHolder holder, int position) {
-        holder.bindData(dataSemanas.get(position),listener);
+        Boolean ultima = (position+1 == dataSemanas.size());
+        holder.bindData(dataSemanas.get(position),listener,ultima);
     }
 
     @Override
@@ -58,16 +59,21 @@ public class SemanasAdapter extends RecyclerView.Adapter<SemanasAdapter.SemanasV
         return dataSemanas.size();
     }
 
-    public static class SemanasViewHolder extends RecyclerView.ViewHolder{
+    public static class SemanasViewHolder extends RecyclerView.ViewHolder {
         LinearLayoutCompat layout;
         AppCompatTextView nombre;
+        LinearLayoutCompat separador;
+
         public SemanasViewHolder(@NonNull View itemView) {
             super(itemView);
             nombre = itemView.findViewById(R.id.nombreSemanaTextView);
+            separador = itemView.findViewById(R.id.separadorSemanas);
         }
 
-        void bindData(Semana semana, SemanasAdapter.OnItemClickListener listener){
+        void bindData(Semana semana, SemanasAdapter.OnItemClickListener listener, Boolean ultima){
             nombre.setText("Semana "+semana.getNumero().toString());
+
+            if(ultima) separador.setVisibility(View.GONE);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
