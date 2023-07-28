@@ -94,9 +94,9 @@
 
                 <androidx.appcompat.widget.AppCompatEditText
                     android:id="@+id/nombre_ET"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Juan Perez"
+                    android:layout_marginEnd="40px"
                     android:textAppearance="@style/TextoSecundario"
                     app:backgroundTint="?attr/colorPrimaryVariant" />
 
@@ -111,9 +111,9 @@
 
                 <androidx.appcompat.widget.AppCompatEditText
                     android:id="@+id/email_ET"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="juanperez@gmail.com"
+                    android:layout_marginEnd="40px"
                     android:textAppearance="@style/TextoSecundario"
                     app:backgroundTint="?attr/colorPrimaryVariant" />
 
@@ -143,7 +143,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:inputType="numberDecimal"
-                    android:text="21"
                     android:textAppearance="@style/TextoSecundario"
                     app:backgroundTint="?attr/colorPrimaryVariant" />
 
@@ -156,6 +155,7 @@
                 android:orientation="vertical">
 
                 <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/guardar_perfil_boton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="end"
@@ -166,8 +166,10 @@
             </androidx.appcompat.widget.LinearLayoutCompat>
 
 
+
         </androidx.appcompat.widget.LinearLayoutCompat>
     </ScrollView>
+
 
 
 </androidx.appcompat.widget.LinearLayoutCompat>
