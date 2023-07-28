@@ -41,4 +41,8 @@ public class UsuarioViewModel extends AndroidViewModel {
             Log.e("Error getUsuario()",exception.toString());
         }
     };
+
+    public String getNombreUsuario(){
+        return usuario.getNombre();
+    }
 }
