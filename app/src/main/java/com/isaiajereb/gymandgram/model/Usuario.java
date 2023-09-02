@@ -1,8 +1,14 @@
 package com.isaiajereb.gymandgram.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import androidx.annotation.NonNull;
+
+import java.util.Optional;
 import java.util.UUID;
 
-public class Usuario {
+public class Usuario implements Parcelable {
     private UUID id;
     private String nombre;
     private String mail;
@@ -21,6 +27,22 @@ public class Usuario {
         this.edad = edad;
         this.password = password;
     }
+
+    protected Usuario(Parcel in) {
+        this.readFromParcel(in);
+    }
+
+    public static final Creator<Usuario> CREATOR = new Creator<Usuario>() {
+        @Override
+        public Usuario createFromParcel(Parcel in) {
+            return new Usuario(in);
+        }
+
+        @Override
+        public Usuario[] newArray(int size) {
+            return new Usuario[size];
+        }
+    };
 
     public UUID getId() {
         return id;
@@ -68,5 +90,29 @@ public class Usuario {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(@NonNull Parcel parcel, int i) {
+        parcel.writeSerializable(id);
+        parcel.writeString(nombre);
+        parcel.writeString(mail);
+        parcel.writeString(genero.name());
+        parcel.writeInt(edad);
+        parcel.writeString(password);
+    }
+
+    private void readFromParcel(Parcel in){
+        id = (UUID) in.readSerializable();
+        nombre = in.readString();
+        mail = in.readString();
+        genero = Genero.valueOf(in.readString());
+        edad =  in.readInt();
+        password = in.readString();
     }
 }
