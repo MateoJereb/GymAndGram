@@ -9,6 +9,7 @@ import androidx.room.RoomDatabase;
 import androidx.room.TypeConverters;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
+import com.isaiajereb.gymandgram.model.Genero;
 import com.isaiajereb.gymandgram.model.Semana;
 import com.isaiajereb.gymandgram.persistencia.room.dao.DiaDAO;
 import com.isaiajereb.gymandgram.persistencia.room.dao.EjercicioDAO;
@@ -58,7 +59,7 @@ public abstract class AppDatabase extends RoomDatabase {
                     public void run() {
                         //Crear el usuario inicial solo con una id
                         UUID userId = UUID.randomUUID();
-                        UsuarioEntity usuario = new UsuarioEntity(userId,"ADMIN",null,null,null,null);
+                        UsuarioEntity usuario = new UsuarioEntity(userId,"ADMIN","admin@gmail.com", Genero.Masculino,23, "admin");
                         getInstance(context).usuarioDAO().guardarUsuario(usuario);
                     }
                 });
