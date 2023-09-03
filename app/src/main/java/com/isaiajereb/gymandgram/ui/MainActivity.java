@@ -1,13 +1,17 @@
 package com.isaiajereb.gymandgram.ui;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -22,14 +26,18 @@ import com.google.android.material.navigation.NavigationBarView;
 import com.google.android.material.navigation.NavigationView;
 import com.isaiajereb.gymandgram.R;
 import com.isaiajereb.gymandgram.databinding.ActivityMainBinding;
-import com.isaiajereb.gymandgram.persistencia.room.AppDatabase;
+import com.isaiajereb.gymandgram.databinding.DrawerHeaderBinding;
+import com.isaiajereb.gymandgram.model.Genero;
+import com.isaiajereb.gymandgram.model.Usuario;
 import com.isaiajereb.gymandgram.viewmodel.UsuarioViewModel;
-
-import java.util.concurrent.Executors;
 
 public class MainActivity extends AppCompatActivity {
 
+    private int CODIGO_EDITAR_USUARIO = 1;
     private ActivityMainBinding binding;
+    private DrawerHeaderBinding drawerHeaderBinding;
+    private UsuarioViewModel usuarioViewModel;
+    private Usuario usuario;
 
     public BottomNavigationView getNavigationBar(){
         return binding.bottomNavigationView;
@@ -39,13 +47,16 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        /*Instanciar el ViewModel de usuario para traer el usuario a memoria
+         * De no existir la BD, la instancia y realiza una consulta para crear un usuario con UUID, pero datos nulos*/
+        usuarioViewModel = new ViewModelProvider(this).get(UsuarioViewModel.class);
+
         binding = ActivityMainBinding.inflate(getLayoutInflater());
+        drawerHeaderBinding = DrawerHeaderBinding.inflate(getLayoutInflater());
+        usuario = usuarioViewModel.getUsuario();
+
         View view = binding.getRoot();
         setContentView(view);
-
-        /*Instanciar el ViewModel de usuario para traer el usuario a memoria
-        * De no existir la BD, la instancia y realiza una consulta para crear un usuario con UUID, pero datos nulos*/
-        new ViewModelProvider(this).get(UsuarioViewModel.class);
 
         //Setear la Toolbar
         Toolbar toolbar = binding.materialToolbar;
@@ -88,8 +99,6 @@ public class MainActivity extends AppCompatActivity {
         drawer.addDrawerListener(toogle);
         toogle.syncState();
 
-
-
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -98,8 +107,13 @@ public class MainActivity extends AppCompatActivity {
 
                 switch (item.getItemId()) {
                     case R.id.drawer_perfil:
+                        usuario = usuarioViewModel.getUsuario();
                         Intent intent = new Intent(getApplicationContext(), ConfigurarPerfilActivity.class);
-                        startActivity(intent);
+                        intent.putExtra("usuarioNombre", usuario.getNombre());
+                        intent.putExtra("usuarioMail", usuario.getMail());
+                        intent.putExtra("usuarioGenero", usuario.getGenero().name());
+                        intent.putExtra("usuarioEdad", usuario.getEdad());
+                        startActivityForResult(intent, CODIGO_EDITAR_USUARIO);
                         return true;
                     case R.id.drawer_recordatorios:
                         Toast.makeText(MainActivity.this, "Proximamente...", Toast.LENGTH_SHORT).show();
@@ -139,4 +153,19 @@ public class MainActivity extends AppCompatActivity {
         if(currentId == R.id.inicioFragment)
             binding.bottomNavigationView.setSelectedItemId(R.id.home_navigation);
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode == Activity.RESULT_OK && requestCode == CODIGO_EDITAR_USUARIO){
+            Log.i("usuario",data.getStringExtra("usuarioNombre")+data.getStringExtra("usuarioMail") + data.getStringExtra("usuarioGenero") + data.getIntExtra("usuarioEdad", 0));
+            usuario.setNombre(data.getStringExtra("usuarioNombre"));
+            usuario.setMail(data.getStringExtra("usuarioMail"));
+            usuario.setGenero(Genero.valueOf(data.getStringExtra("usuarioGenero")));
+            usuario.setEdad(data.getIntExtra("usuarioEdad", 0));
+        }
+        usuarioViewModel.updateUsuario(usuario);
+//        actualizarUsuarioDrawer();
+    }
+
 }
