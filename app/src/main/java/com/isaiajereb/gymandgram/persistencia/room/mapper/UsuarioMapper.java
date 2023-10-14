@@ -1,8 +1,12 @@
 package com.isaiajereb.gymandgram.persistencia.room.mapper;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+
 import com.isaiajereb.gymandgram.model.Usuario;
 import com.isaiajereb.gymandgram.persistencia.room.entity.UsuarioEntity;
 
+import java.io.ByteArrayOutputStream;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -11,24 +15,30 @@ public class UsuarioMapper {
     }
 
     public static UsuarioEntity toEntity(final Usuario usuario){
+//        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+//        usuario.getFotoPerfil().compress(Bitmap.CompressFormat.PNG, 100, baos);
         return new UsuarioEntity(
                 usuario.getId(),
                 usuario.getNombre(),
                 usuario.getMail(),
                 usuario.getGenero(),
                 usuario.getEdad(),
-                usuario.getPassword()
+                usuario.getPassword()/*,
+                baos.toByteArray()*/
         );
     }
 
     public static Usuario fromEntity(final UsuarioEntity entity){
+//        byte[] b = entity.getFotoPerfil();
+
         return new Usuario(
                 entity.getId(),
                 entity.getNombre(),
                 entity.getMail(),
                 entity.getGenero(),
                 entity.getEdad(),
-                entity.getPassword()
+                entity.getPassword()/*,
+                BitmapFactory.decodeByteArray(b, 0, b.length)*/
         );
     }
 

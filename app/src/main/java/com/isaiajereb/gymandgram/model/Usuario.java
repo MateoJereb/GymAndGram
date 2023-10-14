@@ -1,5 +1,6 @@
 package com.isaiajereb.gymandgram.model;
 
+import android.graphics.Bitmap;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -8,41 +9,43 @@ import androidx.annotation.NonNull;
 import java.util.Optional;
 import java.util.UUID;
 
-public class Usuario implements Parcelable {
+public class Usuario /*implements Parcelable*/ {
     private UUID id;
     private String nombre;
     private String mail;
     private Genero genero;
     private Integer edad;
     private String password;
+//    private Bitmap fotoPerfil;
 
     public Usuario() {
     }
 
-    public Usuario(UUID id, String nombre, String mail, Genero genero, Integer edad, String password) {
+    public Usuario(UUID id, String nombre, String mail, Genero genero, Integer edad, String password/*, Bitmap fotoPerfil*/) {
         this.id = id;
         this.nombre = nombre;
         this.mail = mail;
         this.genero = genero;
         this.edad = edad;
         this.password = password;
+//        this.fotoPerfil = fotoPerfil;
     }
 
-    protected Usuario(Parcel in) {
-        this.readFromParcel(in);
-    }
+//    protected Usuario(Parcel in) {
+//        this.readFromParcel(in);
+//    }
 
-    public static final Creator<Usuario> CREATOR = new Creator<Usuario>() {
-        @Override
-        public Usuario createFromParcel(Parcel in) {
-            return new Usuario(in);
-        }
-
-        @Override
-        public Usuario[] newArray(int size) {
-            return new Usuario[size];
-        }
-    };
+//    public static final Creator<Usuario> CREATOR = new Creator<Usuario>() {
+//        @Override
+//        public Usuario createFromParcel(Parcel in) {
+//            return new Usuario(in);
+//        }
+//
+//        @Override
+//        public Usuario[] newArray(int size) {
+//            return new Usuario[size];
+//        }
+//    };
 
     public UUID getId() {
         return id;
@@ -92,27 +95,34 @@ public class Usuario implements Parcelable {
         this.password = password;
     }
 
-    @Override
-    public int describeContents() {
-        return 0;
-    }
+//    public Bitmap getFotoPerfil() {
+//        return fotoPerfil;
+//    }
+//
+//    public void setFotoPerfil(Bitmap fotoPerfil) {
+//        this.fotoPerfil = fotoPerfil;
+//    }
+    //    @Override
+//    public int describeContents() {
+//        return 0;
+//    }
+//
+//    @Override
+//    public void writeToParcel(@NonNull Parcel parcel, int i) {
+//        parcel.writeSerializable(id);
+//        parcel.writeString(nombre);
+//        parcel.writeString(mail);
+//        parcel.writeString(genero.name());
+//        parcel.writeInt(edad);
+//        parcel.writeString(password);
+//    }
 
-    @Override
-    public void writeToParcel(@NonNull Parcel parcel, int i) {
-        parcel.writeSerializable(id);
-        parcel.writeString(nombre);
-        parcel.writeString(mail);
-        parcel.writeString(genero.name());
-        parcel.writeInt(edad);
-        parcel.writeString(password);
-    }
-
-    private void readFromParcel(Parcel in){
-        id = (UUID) in.readSerializable();
-        nombre = in.readString();
-        mail = in.readString();
-        genero = Genero.valueOf(in.readString());
-        edad =  in.readInt();
-        password = in.readString();
-    }
+//    private void readFromParcel(Parcel in){
+//        id = (UUID) in.readSerializable();
+//        nombre = in.readString();
+//        mail = in.readString();
+//        genero = Genero.valueOf(in.readString());
+//        edad =  in.readInt();
+//        password = in.readString();
+//    }
 }

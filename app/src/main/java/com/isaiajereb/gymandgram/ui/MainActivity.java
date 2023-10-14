@@ -31,6 +31,7 @@ import com.isaiajereb.gymandgram.model.Genero;
 import com.isaiajereb.gymandgram.model.Usuario;
 import com.isaiajereb.gymandgram.viewmodel.UsuarioViewModel;
 
+
 public class MainActivity extends AppCompatActivity {
 
     private int CODIGO_EDITAR_USUARIO = 1;
@@ -38,6 +39,8 @@ public class MainActivity extends AppCompatActivity {
     private DrawerHeaderBinding drawerHeaderBinding;
     private UsuarioViewModel usuarioViewModel;
     private Usuario usuario;
+    private TextView nombreUsuarioDrawer;
+    private TextView correoUsuarioDrawer;
 
     public BottomNavigationView getNavigationBar(){
         return binding.bottomNavigationView;
@@ -52,9 +55,7 @@ public class MainActivity extends AppCompatActivity {
         usuarioViewModel = new ViewModelProvider(this).get(UsuarioViewModel.class);
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
-        drawerHeaderBinding = DrawerHeaderBinding.inflate(getLayoutInflater());
         usuario = usuarioViewModel.getUsuario();
-
         View view = binding.getRoot();
         setContentView(view);
 
@@ -130,6 +131,11 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        nombreUsuarioDrawer = (TextView) navigationView.getHeaderView(0).findViewById(R.id.drawer_nombre_usuario);
+        correoUsuarioDrawer = (TextView) navigationView.getHeaderView(0).findViewById(R.id.drawer_correo_usuario);
+        nombreUsuarioDrawer.setText(usuario.getNombre());
+        correoUsuarioDrawer.setText(usuario.getMail());
+
     }
 
     @Override
@@ -165,7 +171,8 @@ public class MainActivity extends AppCompatActivity {
             usuario.setEdad(data.getIntExtra("usuarioEdad", 0));
         }
         usuarioViewModel.updateUsuario(usuario);
-//        actualizarUsuarioDrawer();
+        nombreUsuarioDrawer.setText(usuario.getNombre());
+        correoUsuarioDrawer.setText(usuario.getMail());
     }
 
 }

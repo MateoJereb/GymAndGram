@@ -1,14 +1,19 @@
 package com.isaiajereb.gymandgram.persistencia.room;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.room.TypeConverters;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
+import com.isaiajereb.gymandgram.R;
 import com.isaiajereb.gymandgram.model.Genero;
 import com.isaiajereb.gymandgram.model.Semana;
 import com.isaiajereb.gymandgram.persistencia.room.dao.DiaDAO;
@@ -24,6 +29,7 @@ import com.isaiajereb.gymandgram.persistencia.room.entity.UsuarioEntity;
 import com.isaiajereb.gymandgram.persistencia.room.mapper.RutinaMapper;
 import com.isaiajereb.gymandgram.repo.RutinasRepository;
 
+import java.io.ByteArrayOutputStream;
 import java.util.UUID;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -59,7 +65,12 @@ public abstract class AppDatabase extends RoomDatabase {
                     public void run() {
                         //Crear el usuario inicial solo con una id
                         UUID userId = UUID.randomUUID();
-                        UsuarioEntity usuario = new UsuarioEntity(userId,"ADMIN","admin@gmail.com", Genero.Masculino,23, "admin");
+//                        Drawable fotoDefault = ContextCompat.getDrawable(context, R.drawable.profile_pic);
+//                        Bitmap bitmap = ((BitmapDrawable)fotoDefault).getBitmap();
+//                        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+//                        bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+//                        byte[] bitmapFotoDefault = stream.toByteArray();
+                        UsuarioEntity usuario = new UsuarioEntity(userId,"ADMIN","admin@gmail.com", Genero.Masculino,23, "admin"/*, bitmapFotoDefault*/);
                         getInstance(context).usuarioDAO().guardarUsuario(usuario);
                     }
                 });

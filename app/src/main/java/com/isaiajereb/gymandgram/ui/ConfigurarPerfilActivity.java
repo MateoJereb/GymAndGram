@@ -4,14 +4,23 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.media.Image;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.PickVisualMediaRequest;
+import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.activity.result.contract.ActivityResultContracts.*;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.ViewModelProvider;
@@ -28,6 +37,7 @@ import java.util.Arrays;
 public class ConfigurarPerfilActivity extends AppCompatActivity {
 
     private ActivityConfigurarPerfilBinding binding;
+//    private Bitmap fotoPerfil;
     private String nombreUsuario;
     private String mailUsuario;
     private Genero generoUsuario;
@@ -42,6 +52,8 @@ public class ConfigurarPerfilActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
         Bundle extras = getIntent().getExtras();
         if(extras != null){
+            byte[] b =  extras.getByteArray("fotoPerfil");
+//            fotoPerfil = BitmapFactory.decodeByteArray(b,0, b.length);
             nombreUsuario = extras.getString("usuarioNombre");
             mailUsuario = extras.getString("usuarioMail");
             generoUsuario = Genero.valueOf(extras.getString("usuarioGenero"));
@@ -69,7 +81,7 @@ public class ConfigurarPerfilActivity extends AppCompatActivity {
             }
         }
         binding.edadET.setText(edadUsuario.toString());
-
+//        binding.profileImage.setImageBitmap(fotoPerfil);
         //setear listeners de los campos.
         setFieldsListeners();
 
@@ -77,6 +89,22 @@ public class ConfigurarPerfilActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 abrirDialogoConfirmarGuardado();
+            }
+        });
+
+        ActivityResultLauncher<PickVisualMediaRequest> pickPhoto =
+                registerForActivityResult(new PickVisualMedia(), uri -> {
+                    if(uri != null ){
+                        binding.profileImage.setImageURI(uri);
+                    }
+                });
+
+        binding.cambiarFotoPerfil.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                pickPhoto.launch(new PickVisualMediaRequest.Builder()
+                        .setMediaType(PickVisualMedia.ImageOnly.INSTANCE)
+                        .build());
             }
         });
 
@@ -97,6 +125,7 @@ public class ConfigurarPerfilActivity extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialogInterface, int i){
                 Intent cambios = new Intent();
+//                cambios.putExtra("fotoPerfil",  binding.profileImage.get)
                 cambios.putExtra("usuarioNombre", binding.nombreET.getText().toString());
                 cambios.putExtra("usuarioMail", binding.emailET.getText().toString());
                 cambios.putExtra("usuarioGenero", binding.generoSpinner.getSelectedItem().toString());
