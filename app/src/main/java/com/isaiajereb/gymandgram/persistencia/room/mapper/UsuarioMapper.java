@@ -15,21 +15,21 @@ public class UsuarioMapper {
     }
 
     public static UsuarioEntity toEntity(final Usuario usuario){
-//        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-//        usuario.getFotoPerfil().compress(Bitmap.CompressFormat.PNG, 100, baos);
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        usuario.getFotoPerfil().compress(Bitmap.CompressFormat.PNG, 100, baos);
         return new UsuarioEntity(
                 usuario.getId(),
                 usuario.getNombre(),
                 usuario.getMail(),
                 usuario.getGenero(),
                 usuario.getEdad(),
-                usuario.getPassword()/*,
-                baos.toByteArray()*/
+                usuario.getPassword(),
+                baos.toByteArray()
         );
     }
 
     public static Usuario fromEntity(final UsuarioEntity entity){
-//        byte[] b = entity.getFotoPerfil();
+        byte[] b = entity.getFotoPerfil();
 
         return new Usuario(
                 entity.getId(),
@@ -37,8 +37,8 @@ public class UsuarioMapper {
                 entity.getMail(),
                 entity.getGenero(),
                 entity.getEdad(),
-                entity.getPassword()/*,
-                BitmapFactory.decodeByteArray(b, 0, b.length)*/
+                entity.getPassword(),
+                BitmapFactory.decodeByteArray(b, 0, b.length)
         );
     }
 

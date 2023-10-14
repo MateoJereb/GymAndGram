@@ -1,7 +1,10 @@
 package com.isaiajereb.gymandgram.ui;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -31,6 +34,11 @@ import com.isaiajereb.gymandgram.model.Genero;
 import com.isaiajereb.gymandgram.model.Usuario;
 import com.isaiajereb.gymandgram.viewmodel.UsuarioViewModel;
 
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+
+import de.hdodenhof.circleimageview.CircleImageView;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -42,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView nombreUsuarioDrawer;
     private TextView correoUsuarioDrawer;
 
+    private CircleImageView fotoPerfilDrawer;
     public BottomNavigationView getNavigationBar(){
         return binding.bottomNavigationView;
     }
@@ -109,12 +118,26 @@ public class MainActivity extends AppCompatActivity {
                 switch (item.getItemId()) {
                     case R.id.drawer_perfil:
                         usuario = usuarioViewModel.getUsuario();
-                        Intent intent = new Intent(getApplicationContext(), ConfigurarPerfilActivity.class);
-                        intent.putExtra("usuarioNombre", usuario.getNombre());
-                        intent.putExtra("usuarioMail", usuario.getMail());
-                        intent.putExtra("usuarioGenero", usuario.getGenero().name());
-                        intent.putExtra("usuarioEdad", usuario.getEdad());
-                        startActivityForResult(intent, CODIGO_EDITAR_USUARIO);
+                        try {
+                            Bitmap fotoPerfil = usuario.getFotoPerfil();
+                            String filename = "fotoperfil.png";
+                            FileOutputStream stream = openFileOutput(filename, Context.MODE_PRIVATE);
+                            fotoPerfil.compress(Bitmap.CompressFormat.PNG, 100, stream);
+
+                            stream.close();
+//                            fotoPerfil.recycle();
+
+                            Intent intent = new Intent(getApplicationContext(), ConfigurarPerfilActivity.class);
+                            intent.putExtra("fotoPerfil", filename);
+                            intent.putExtra("usuarioNombre", usuario.getNombre());
+                            intent.putExtra("usuarioMail", usuario.getMail());
+                            intent.putExtra("usuarioGenero", usuario.getGenero().name());
+                            intent.putExtra("usuarioEdad", usuario.getEdad());
+                            startActivityForResult(intent, CODIGO_EDITAR_USUARIO);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+
                         return true;
                     case R.id.drawer_recordatorios:
                         Toast.makeText(MainActivity.this, "Proximamente...", Toast.LENGTH_SHORT).show();
@@ -133,9 +156,11 @@ public class MainActivity extends AppCompatActivity {
 
         nombreUsuarioDrawer = (TextView) navigationView.getHeaderView(0).findViewById(R.id.drawer_nombre_usuario);
         correoUsuarioDrawer = (TextView) navigationView.getHeaderView(0).findViewById(R.id.drawer_correo_usuario);
+        fotoPerfilDrawer = (CircleImageView) navigationView.getHeaderView(0).findViewById(R.id.drawer_profile_image);
+
         nombreUsuarioDrawer.setText(usuario.getNombre());
         correoUsuarioDrawer.setText(usuario.getMail());
-
+        fotoPerfilDrawer.setImageBitmap(usuario.getFotoPerfil());
     }
 
     @Override
@@ -165,14 +190,27 @@ public class MainActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if(resultCode == Activity.RESULT_OK && requestCode == CODIGO_EDITAR_USUARIO){
             Log.i("usuario",data.getStringExtra("usuarioNombre")+data.getStringExtra("usuarioMail") + data.getStringExtra("usuarioGenero") + data.getIntExtra("usuarioEdad", 0));
+            String filename = data.getStringExtra("fotoPerfil");
+            Bitmap nuevaFotoPerfil=null;
+            try {
+                FileInputStream is = this.openFileInput(filename);
+                nuevaFotoPerfil = BitmapFactory.decodeStream(is);
+                is.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            usuario.setFotoPerfil(nuevaFotoPerfil);
             usuario.setNombre(data.getStringExtra("usuarioNombre"));
             usuario.setMail(data.getStringExtra("usuarioMail"));
             usuario.setGenero(Genero.valueOf(data.getStringExtra("usuarioGenero")));
             usuario.setEdad(data.getIntExtra("usuarioEdad", 0));
+            usuarioViewModel.updateUsuario(usuario);
+
+            nombreUsuarioDrawer.setText(usuario.getNombre());
+            correoUsuarioDrawer.setText(usuario.getMail());
+            fotoPerfilDrawer.setImageBitmap(usuario.getFotoPerfil());
         }
-        usuarioViewModel.updateUsuario(usuario);
-        nombreUsuarioDrawer.setText(usuario.getNombre());
-        correoUsuarioDrawer.setText(usuario.getMail());
+
     }
 
 }

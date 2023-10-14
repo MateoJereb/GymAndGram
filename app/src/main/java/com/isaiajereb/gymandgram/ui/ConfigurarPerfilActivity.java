@@ -2,6 +2,7 @@ package com.isaiajereb.gymandgram.ui;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -32,12 +33,15 @@ import com.isaiajereb.gymandgram.model.Genero;
 import com.isaiajereb.gymandgram.model.Usuario;
 import com.isaiajereb.gymandgram.viewmodel.UsuarioViewModel;
 
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.Arrays;
 
 public class ConfigurarPerfilActivity extends AppCompatActivity {
 
     private ActivityConfigurarPerfilBinding binding;
-//    private Bitmap fotoPerfil;
+    private Bitmap fotoPerfil;
     private String nombreUsuario;
     private String mailUsuario;
     private Genero generoUsuario;
@@ -52,8 +56,14 @@ public class ConfigurarPerfilActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
         Bundle extras = getIntent().getExtras();
         if(extras != null){
-            byte[] b =  extras.getByteArray("fotoPerfil");
-//            fotoPerfil = BitmapFactory.decodeByteArray(b,0, b.length);
+            String filename = getIntent().getStringExtra("fotoPerfil");
+            try {
+                FileInputStream is = this.openFileInput(filename);
+                fotoPerfil = BitmapFactory.decodeStream(is);
+                is.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             nombreUsuario = extras.getString("usuarioNombre");
             mailUsuario = extras.getString("usuarioMail");
             generoUsuario = Genero.valueOf(extras.getString("usuarioGenero"));
@@ -81,7 +91,7 @@ public class ConfigurarPerfilActivity extends AppCompatActivity {
             }
         }
         binding.edadET.setText(edadUsuario.toString());
-//        binding.profileImage.setImageBitmap(fotoPerfil);
+        binding.profileImage.setImageBitmap(fotoPerfil);
         //setear listeners de los campos.
         setFieldsListeners();
 
@@ -95,7 +105,12 @@ public class ConfigurarPerfilActivity extends AppCompatActivity {
         ActivityResultLauncher<PickVisualMediaRequest> pickPhoto =
                 registerForActivityResult(new PickVisualMedia(), uri -> {
                     if(uri != null ){
-                        binding.profileImage.setImageURI(uri);
+                        try {
+                            fotoPerfil = MediaStore.Images.Media.getBitmap(this.getContentResolver(),uri);
+                            binding.profileImage.setImageBitmap(fotoPerfil);
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
                     }
                 });
 
@@ -124,14 +139,26 @@ public class ConfigurarPerfilActivity extends AppCompatActivity {
         dialogBuilder.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i){
-                Intent cambios = new Intent();
-//                cambios.putExtra("fotoPerfil",  binding.profileImage.get)
-                cambios.putExtra("usuarioNombre", binding.nombreET.getText().toString());
-                cambios.putExtra("usuarioMail", binding.emailET.getText().toString());
-                cambios.putExtra("usuarioGenero", binding.generoSpinner.getSelectedItem().toString());
-                cambios.putExtra("usuarioEdad", Integer.parseInt(binding.edadET.getText().toString()));
-                setResult(Activity.RESULT_OK, cambios);
-                finish();
+                try {
+                    String filename = "fotoperfil.png";
+                    FileOutputStream stream = openFileOutput(filename, Context.MODE_PRIVATE);
+                    fotoPerfil.compress(Bitmap.CompressFormat.PNG, 100, stream);
+
+                    stream.close();
+                    fotoPerfil.recycle();
+
+
+                    Intent cambios = new Intent();
+                    cambios.putExtra("fotoPerfil", filename);
+                    cambios.putExtra("usuarioNombre", binding.nombreET.getText().toString());
+                    cambios.putExtra("usuarioMail", binding.emailET.getText().toString());
+                    cambios.putExtra("usuarioGenero", binding.generoSpinner.getSelectedItem().toString());
+                    cambios.putExtra("usuarioEdad", Integer.parseInt(binding.edadET.getText().toString()));
+                    setResult(Activity.RESULT_OK, cambios);
+                    finish();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         });
         AlertDialog dialog = dialogBuilder.create();

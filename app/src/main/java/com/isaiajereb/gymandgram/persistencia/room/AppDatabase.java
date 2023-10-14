@@ -65,12 +65,13 @@ public abstract class AppDatabase extends RoomDatabase {
                     public void run() {
                         //Crear el usuario inicial solo con una id
                         UUID userId = UUID.randomUUID();
-//                        Drawable fotoDefault = ContextCompat.getDrawable(context, R.drawable.profile_pic);
-//                        Bitmap bitmap = ((BitmapDrawable)fotoDefault).getBitmap();
-//                        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-//                        bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
-//                        byte[] bitmapFotoDefault = stream.toByteArray();
-                        UsuarioEntity usuario = new UsuarioEntity(userId,"ADMIN","admin@gmail.com", Genero.Masculino,23, "admin"/*, bitmapFotoDefault*/);
+                        Drawable fotoDefault = ContextCompat.getDrawable(context, R.drawable.profile_pic);
+                        Bitmap bitmap = ((BitmapDrawable)fotoDefault).getBitmap();
+                        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                        bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+                        byte[] bitmapFotoDefault = stream.toByteArray();
+                        UsuarioEntity usuario = new UsuarioEntity(userId,"ADMIN","admin@gmail.com",
+                                Genero.Masculino,23, "admin", bitmapFotoDefault);
                         getInstance(context).usuarioDAO().guardarUsuario(usuario);
                     }
                 });

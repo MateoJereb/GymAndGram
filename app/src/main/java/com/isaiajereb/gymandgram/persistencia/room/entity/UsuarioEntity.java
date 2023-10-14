@@ -18,15 +18,15 @@ public class UsuarioEntity {
     private Genero genero;
     private Integer edad;
     private String password;
-//    private byte[] fotoPerfil;
-    public UsuarioEntity(@NonNull UUID id, String nombre, String mail, Genero genero, Integer edad, String password /*,byte[] fotoPerfil*/) {
+    private byte[] fotoPerfil;
+    public UsuarioEntity(@NonNull UUID id, String nombre, String mail, Genero genero, Integer edad, String password ,byte[] fotoPerfil) {
         this.id = id;
         this.nombre = nombre;
         this.mail = mail;
         this.genero = genero;
         this.edad = edad;
         this.password = password;
-//        this.fotoPerfil=fotoPerfil;
+        this.fotoPerfil=fotoPerfil;
     }
 
     @NonNull
@@ -78,11 +78,11 @@ public class UsuarioEntity {
         this.password = password;
     }
 
-//    public byte[] getFotoPerfil() {
-//        return fotoPerfil;
-//    }
-//
-//    public void setFotoPerfil(byte[] fotoPerfil) {
-//        this.fotoPerfil = fotoPerfil;
-//    }
+    public byte[] getFotoPerfil() {
+        return fotoPerfil;
+    }
+
+    public void setFotoPerfil(byte[] fotoPerfil) {
+        this.fotoPerfil = fotoPerfil;
+    }
 }
