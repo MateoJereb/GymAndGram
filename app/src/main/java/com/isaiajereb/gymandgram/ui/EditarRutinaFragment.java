@@ -2,7 +2,6 @@ package com.isaiajereb.gymandgram.ui;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,18 +21,12 @@ import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Toast;
-
 import com.isaiajereb.gymandgram.R;
 import com.isaiajereb.gymandgram.databinding.FragmentEditarRutinaBinding;
 import com.isaiajereb.gymandgram.model.Dia;
 import com.isaiajereb.gymandgram.model.Ejercicio;
 import com.isaiajereb.gymandgram.model.Rutina;
 import com.isaiajereb.gymandgram.model.Semana;
-import com.isaiajereb.gymandgram.model.UnidadTiempo;
 import com.isaiajereb.gymandgram.model.Usuario;
 import com.isaiajereb.gymandgram.recycler_views.EjerciciosAdapter;
 import com.isaiajereb.gymandgram.recycler_views.SemanasAdapter;
@@ -44,8 +37,6 @@ import com.isaiajereb.gymandgram.viewmodel.UsuarioViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
 
 public class EditarRutinaFragment extends Fragment {
 
@@ -127,7 +118,7 @@ public class EditarRutinaFragment extends Fragment {
         binding.nombreRutinaButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                dialogoNombreRutina();
+                dialogNombreRutina();
             }
         });
 
@@ -167,7 +158,7 @@ public class EditarRutinaFragment extends Fragment {
             listaSemanas.add(new Semana(null,1,null));
         }
     }
-    private void dialogoNombreRutina() {
+    private void dialogNombreRutina() {
         Dialog dialog = new Dialog(requireContext());
         dialog.setContentView(R.layout.dialog_editar_nombre_rutina);
         dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);

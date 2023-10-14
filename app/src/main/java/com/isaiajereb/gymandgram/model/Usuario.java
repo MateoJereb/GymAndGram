@@ -1,5 +1,12 @@
 package com.isaiajereb.gymandgram.model;
 
+import android.graphics.Bitmap;
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import androidx.annotation.NonNull;
+
+import java.util.Optional;
 import java.util.UUID;
 
 public class Usuario {
@@ -9,17 +16,19 @@ public class Usuario {
     private Genero genero;
     private Integer edad;
     private String password;
+    private Bitmap fotoPerfil;
 
     public Usuario() {
     }
 
-    public Usuario(UUID id, String nombre, String mail, Genero genero, Integer edad, String password) {
+    public Usuario(UUID id, String nombre, String mail, Genero genero, Integer edad, String password, Bitmap fotoPerfil) {
         this.id = id;
         this.nombre = nombre;
         this.mail = mail;
         this.genero = genero;
         this.edad = edad;
         this.password = password;
+        this.fotoPerfil = fotoPerfil;
     }
 
     public UUID getId() {
@@ -68,5 +77,13 @@ public class Usuario {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public Bitmap getFotoPerfil() {
+        return fotoPerfil;
+    }
+
+    public void setFotoPerfil(Bitmap fotoPerfil) {
+        this.fotoPerfil = fotoPerfil;
     }
 }
