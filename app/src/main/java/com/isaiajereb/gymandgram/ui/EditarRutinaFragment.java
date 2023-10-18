@@ -15,6 +15,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatImageView;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
@@ -24,6 +25,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.isaiajereb.gymandgram.R;
 import com.isaiajereb.gymandgram.databinding.FragmentEditarRutinaBinding;
 import com.isaiajereb.gymandgram.model.Dia;
+import com.isaiajereb.gymandgram.model.DiaSemana;
 import com.isaiajereb.gymandgram.model.Ejercicio;
 import com.isaiajereb.gymandgram.model.Rutina;
 import com.isaiajereb.gymandgram.model.Semana;
@@ -36,7 +38,10 @@ import com.isaiajereb.gymandgram.viewmodel.RutinasViewModelFactory;
 import com.isaiajereb.gymandgram.viewmodel.UsuarioViewModel;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class EditarRutinaFragment extends Fragment {
 
@@ -51,6 +56,9 @@ public class EditarRutinaFragment extends Fragment {
     private List<Dia> listaDias;
     private List<Ejercicio> listaEjercicios;
 
+    private Semana semanaActual;
+    private Dia diaActual;
+
     public EditarRutinaFragment() {
         // Required empty public constructor
     }
@@ -61,7 +69,6 @@ public class EditarRutinaFragment extends Fragment {
         if (getArguments() != null) {
             if(getArguments().get("rutina") != null){
                 rutina = getArguments().getParcelable("rutina");
-                //TODO buscar semanas, dias y ejercicios de la BD
             }
         }
         else{ rutina = new Rutina(); }
@@ -90,6 +97,24 @@ public class EditarRutinaFragment extends Fragment {
 
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(requireActivity()));
+        recyclerView.setAdapter(recyclerAdapter);
+        viewModel.getDatosRutinaCargados().observe(requireActivity(), new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean valor) {
+                if(valor){
+                   listaSemanas = viewModel.getSemanas();
+                   listaDias = viewModel.getDias();
+                   listaEjercicios = viewModel.getEjercicios();
+
+                   Collections.sort(listaSemanas, Comparator.comparing(Semana::getNumero));
+
+                   semanaActual = listaSemanas.get(0);
+                   diaActual = listaDias.stream().filter(d -> d.getId_semana().equals(semanaActual.getId()) && d.getNombre().equals(DiaSemana.Lunes)).findFirst().get();
+
+                   actualizarRecyclewView();
+                }
+            }
+        });
 
         cargarInfoRutina();
 
@@ -144,10 +169,7 @@ public class EditarRutinaFragment extends Fragment {
             binding.nombreRutinaButton.setText(rutina.getNombre());
             binding.actualSwitch.setChecked(rutina.getActual());
 
-            //TODO cambiar por la info buscada en la BD
-            listaEjercicios = RutinasRepository._EJERCICIOS;
-            recyclerAdapter.setListaEjercicios(listaEjercicios);
-            recyclerView.setAdapter(recyclerAdapter);
+            viewModel.buscarDatosRutina(rutina);
         }
         else{
             listaSemanas = new ArrayList<>();
@@ -158,6 +180,15 @@ public class EditarRutinaFragment extends Fragment {
             listaSemanas.add(new Semana(null,1,null));
         }
     }
+
+    private void actualizarRecyclewView(){
+        List<Ejercicio> ejerciciosAMostrar = listaEjercicios.stream().filter(e -> e.getId_dia().equals(diaActual.getId())).collect(Collectors.toList());
+
+        recyclerAdapter.setListaEjercicios(ejerciciosAMostrar);
+        recyclerView.setAdapter(recyclerAdapter);
+        recyclerAdapter.notifyDataSetChanged();
+    }
+
     private void dialogNombreRutina() {
         Dialog dialog = new Dialog(requireContext());
         dialog.setContentView(R.layout.dialog_editar_nombre_rutina);

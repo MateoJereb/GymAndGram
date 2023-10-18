@@ -9,7 +9,7 @@ import java.util.UUID;
 public interface EjercicioDataSource {
     void guardarEjercicio(Ejercicio ejercicio, OnResult<Void> callback);
 
-    void getEjercicios(UUID diaID, OnResult<List<Ejercicio>> callback);
+    void getEjercicios(List<UUID> diasIDs, OnResult<List<Ejercicio>> callback);
 
     void editarEjercicio(Ejercicio ejercicio, OnResult<Void> callback);
 

@@ -9,7 +9,7 @@ import java.util.UUID;
 public interface DiaDataSource {
     void guardarDia(Dia dia, OnResult<Void> callback);
 
-    void getDias(UUID semanaID, OnResult<List<Dia>> callback);
+    void getDias(List<UUID> semanasIDs, OnResult<List<Dia>> callback);
 
     void cambiarHora(Dia dia, OnResult<Void> callback);
 }

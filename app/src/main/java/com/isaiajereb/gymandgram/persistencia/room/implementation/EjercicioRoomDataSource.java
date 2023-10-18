@@ -34,9 +34,9 @@ public class EjercicioRoomDataSource implements EjercicioDataSource {
     }
 
     @Override
-    public void getEjercicios(UUID diaID, OnResult<List<Ejercicio>> callback) {
+    public void getEjercicios(List<UUID> diasIDs, OnResult<List<Ejercicio>> callback) {
         try{
-            List<EjercicioEntity> entities = ejercicioDAO.getEjercicios(diaID);
+            List<EjercicioEntity> entities = ejercicioDAO.getEjercicios(diasIDs);
             List<Ejercicio> ejercicios = EjercicioMapper.fromEntities(entities);
             callback.onSuccess(ejercicios);
         }

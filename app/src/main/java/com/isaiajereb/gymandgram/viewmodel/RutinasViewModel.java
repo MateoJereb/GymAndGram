@@ -17,22 +17,26 @@ import com.isaiajereb.gymandgram.persistencia.OnResult;
 import com.isaiajereb.gymandgram.repo.RutinasRepository;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 public class RutinasViewModel extends ViewModel {
 
     private MutableLiveData<List<Rutina>> rutinas;
-    private MutableLiveData<List<Semana>> semanas;
-    private MutableLiveData<List<Dia>> dias;
-    private MutableLiveData<List<Ejercicio>> ejercicios;
+    private MutableLiveData<Boolean> datosRutinaCargados;
+    private List<Semana> semanas;
+    private List<Dia> dias;
+    private List<Ejercicio> ejercicios;
 
     private final RutinasRepository rutinasRepository;
 
     public RutinasViewModel(final RutinasRepository repository) {
         rutinas = new MutableLiveData<>(new ArrayList<>());
-        semanas = new MutableLiveData<>(new ArrayList<>());
-        dias = new MutableLiveData<>(new ArrayList<>());
-        ejercicios = new MutableLiveData<>(new ArrayList<>());
+        semanas = new ArrayList<>();
+        dias = new ArrayList<>();
+        ejercicios = new ArrayList<>();
+
+        datosRutinaCargados = new MutableLiveData<Boolean>(false);
 
         rutinasRepository = repository;
 
@@ -47,14 +51,27 @@ public class RutinasViewModel extends ViewModel {
         return rutinas;
     }
 
-    public MutableLiveData<List<Semana>> getSemanas() { return semanas; }
+    public List<Semana> getSemanas() { return semanas; }
 
-    public MutableLiveData<List<Dia>> getDias() {
+    public List<Dia> getDias() {
         return dias;
     }
 
-    public MutableLiveData<List<Ejercicio>> getEjercicios() {
+    public List<Ejercicio> getEjercicios() {
         return ejercicios;
+    }
+
+    public MutableLiveData<Boolean> getDatosRutinaCargados() {
+        return datosRutinaCargados;
+    }
+
+    public void buscarDatosRutina(Rutina rutina){
+        datosRutinaCargados.postValue(false);
+
+        new Thread(() -> {
+            Log.d("RutinasViewModel","Buscar datos rutina");
+            rutinasRepository.recuperarDatosRutina(rutina,datosRutinaCallback);
+        }).start();
     }
 
     private OnResult<List<Rutina>> rutinasCargadasCallback = new OnResult<List<Rutina>>() {
@@ -67,6 +84,22 @@ public class RutinasViewModel extends ViewModel {
         @Override
         public void onError(Throwable exception) {
             Log.e("RutinasViewModel","Error al buscar las rutinas");
+        }
+    };
+
+    private OnResult<LinkedHashMap<String,Object>> datosRutinaCallback = new OnResult<LinkedHashMap<String, Object>>() {
+        @Override
+        public void onSuccess(LinkedHashMap<String, Object> result) {
+            semanas = (List<Semana>) result.get("semanas");
+            dias = (List<Dia>) result.get("dias");
+            ejercicios = (List<Ejercicio>) result.get("ejercicios");
+
+            datosRutinaCargados.postValue(true);
+        }
+
+        @Override
+        public void onError(Throwable exception) {
+            Log.e("RutinasViewModel","Error al buscar los datos de la rutina");
         }
     };
 }

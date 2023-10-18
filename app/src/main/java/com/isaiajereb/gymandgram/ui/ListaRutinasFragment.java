@@ -44,6 +44,8 @@ public class ListaRutinasFragment extends Fragment {
     private RecyclerView rvRutinas;
     private RutinasAdapter adapter;
 
+    private Usuario usuario;
+
     public ListaRutinasFragment() {
         // Required empty public constructor
     }
@@ -54,7 +56,7 @@ public class ListaRutinasFragment extends Fragment {
         if (getArguments() != null) {
 
         }
-        Usuario usuario = new ViewModelProvider(requireActivity()).get(UsuarioViewModel.class).getUsuario();
+        usuario = new ViewModelProvider(requireActivity()).get(UsuarioViewModel.class).getUsuario();
         viewModel = new ViewModelProvider(requireActivity(), new RutinasViewModelFactory(requireActivity().getApplicationContext(),usuario)).get(RutinasViewModel.class);
     }
 
