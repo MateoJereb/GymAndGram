@@ -11,6 +11,7 @@ import java.util.UUID;
 public class Ejercicio implements Parcelable {
     private UUID id;
     private String nombre;
+    private Integer posicion;
     private Optional<Integer> series;
     private Optional<Integer> repeticiones;
     private Optional<Double> peso;
@@ -42,9 +43,10 @@ public class Ejercicio implements Parcelable {
         }
     };
 
-    public Ejercicio(UUID id, String nombre, Optional<Integer> series, Optional<Integer> repeticiones, Optional<Double> peso, Optional<Double> tiempo_cantidad, Optional<UnidadTiempo> tiempo_unidad, String observaciones, UUID id_dia) {
+    public Ejercicio(UUID id, String nombre, Integer posicion, Optional<Integer> series, Optional<Integer> repeticiones, Optional<Double> peso, Optional<Double> tiempo_cantidad, Optional<UnidadTiempo> tiempo_unidad, String observaciones, UUID id_dia) {
         this.id = id;
         this.nombre = nombre;
+        this.posicion = posicion;
         this.series = series;
         this.repeticiones = repeticiones;
         this.peso = peso;
@@ -68,6 +70,14 @@ public class Ejercicio implements Parcelable {
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
+    }
+
+    public Integer getPosicion() {
+        return posicion;
+    }
+
+    public void setPosicion(Integer posicion) {
+        this.posicion = posicion;
     }
 
     public Optional<Integer> getSeries() {

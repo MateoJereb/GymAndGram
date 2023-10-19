@@ -183,6 +183,7 @@ public class EditarRutinaFragment extends Fragment {
 
     private void actualizarRecyclewView(){
         List<Ejercicio> ejerciciosAMostrar = listaEjercicios.stream().filter(e -> e.getId_dia().equals(diaActual.getId())).collect(Collectors.toList());
+        Collections.sort(listaEjercicios,Comparator.comparing(Ejercicio::getPosicion));
 
         recyclerAdapter.setListaEjercicios(ejerciciosAMostrar);
         recyclerView.setAdapter(recyclerAdapter);

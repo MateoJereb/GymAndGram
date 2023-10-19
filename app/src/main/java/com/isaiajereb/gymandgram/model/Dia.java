@@ -13,11 +13,11 @@ public class Dia {
     public Dia() {
     }
 
-    public Dia(UUID id, DiaSemana nombre, LocalTime hora, UUID id_rutina) {
+    public Dia(UUID id, DiaSemana nombre, LocalTime hora, UUID id_semana) {
         this.id = id;
         this.nombre = nombre;
         this.hora = hora;
-        this.id_semana = id_rutina;
+        this.id_semana = id_semana;
     }
 
     public UUID getId() {
