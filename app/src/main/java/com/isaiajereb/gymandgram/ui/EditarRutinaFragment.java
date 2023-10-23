@@ -2,9 +2,15 @@ package com.isaiajereb.gymandgram.ui;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Typeface;
 import android.os.Bundle;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.style.AbsoluteSizeSpan;
+import android.text.style.TypefaceSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,12 +18,14 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatImageView;
 import androidx.appcompat.widget.AppCompatTextView;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -26,6 +34,8 @@ import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.timepicker.MaterialTimePicker;
+import com.google.android.material.timepicker.TimeFormat;
 import com.isaiajereb.gymandgram.R;
 import com.isaiajereb.gymandgram.databinding.FragmentEditarRutinaBinding;
 import com.isaiajereb.gymandgram.model.Dia;
@@ -98,6 +108,8 @@ public class EditarRutinaFragment extends Fragment {
         }
         else{
             rutina = new Rutina();
+            rutina.setNombre("Nombre rutina");
+            rutina.setActual(false);
             rutina.setId_usuario(usuario.getId());
             rutinaGuardada = false;
         }
@@ -636,7 +648,38 @@ public class EditarRutinaFragment extends Fragment {
    }
 
    private void dialogoSeleccionarHora(){
-        //TODO dialogo seleccionar hora y actualizar la pantalla y la lista
+       SpannableString titulo = new SpannableString("Seleccionar hora de inicio");
+       Typeface typeface = ResourcesCompat.getFont(requireContext(),R.font.montserrat_bold);
+       titulo.setSpan(new TypefaceSpan(typeface),0,titulo.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+       MaterialTimePicker picker = new MaterialTimePicker.Builder()
+               .setTimeFormat(TimeFormat.CLOCK_24H)
+               .setHour(diaActual.getHora().getHour())
+               .setMinute(diaActual.getHora().getMinute())
+               .setTitleText(titulo)
+               .setInputMode(MaterialTimePicker.INPUT_MODE_CLOCK)
+               .build();
+
+       picker.addOnPositiveButtonClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View v) {
+               Integer hora = picker.getHour(), min = picker.getMinute();
+
+               String horaTexto = "";
+               if(hora < 10) horaTexto+="0"+hora+":";
+               else horaTexto+=hora+":";
+
+               if(min < 10) horaTexto+="0"+min;
+               else horaTexto+=min.toString();
+
+               binding.horaButton.setText(horaTexto);
+
+               diaActual.setHora(LocalTime.of(hora,min));
+               listaDias.stream().filter(d -> d.getId().equals(diaActual.getId())).forEach(d -> d.setHora(LocalTime.of(hora,min)));
+           }
+       });
+
+       picker.show(requireActivity().getSupportFragmentManager(),"MATERIAL_TIME_PICKER_TAG");
    }
 
    private void dialogoSeleccionarActual(){
