@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
@@ -85,7 +86,10 @@ public abstract class AppDatabase extends RoomDatabase {
                         List<DiaEntity> dias = DiaMapper.toEntities(RutinasRepository.getDiasIniciales());
                         List<EjercicioEntity> ejercicios = EjercicioMapper.toEntities(RutinasRepository.getEjerciciosIniciales());
 
-
+                        getInstance(context).rutinaDAO().guardarRutina(rutina);
+                        getInstance(context).semanaDAO().guardarSemanas(semanas);
+                        getInstance(context).diaDAO().guardarDias(dias);
+                        getInstance(context).ejercicioDAO().guardarEjercicios(ejercicios);
                     }
                 });
             }

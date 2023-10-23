@@ -74,6 +74,11 @@ public class RutinasViewModel extends ViewModel {
         }).start();
     }
 
+    //Metodo auxiliar para evitar actualizar nuevamente las listas al girar la pantalla
+    public void notificarDatosRecibidos(){
+        datosRutinaCargados.postValue(false);
+    }
+
     private OnResult<List<Rutina>> rutinasCargadasCallback = new OnResult<List<Rutina>>() {
         @Override
         public void onSuccess(List<Rutina> result) {
@@ -84,6 +89,7 @@ public class RutinasViewModel extends ViewModel {
         @Override
         public void onError(Throwable exception) {
             Log.e("RutinasViewModel","Error al buscar las rutinas");
+            exception.printStackTrace();
         }
     };
 

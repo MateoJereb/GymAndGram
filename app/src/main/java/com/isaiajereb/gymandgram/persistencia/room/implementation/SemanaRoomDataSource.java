@@ -34,6 +34,18 @@ public class SemanaRoomDataSource implements SemanaDataSource {
     }
 
     @Override
+    public void guardarSemanas(List<Semana> semanas, OnResult<Void> callback) {
+        try{
+            List<SemanaEntity> entities = SemanaMapper.toEntities(semanas);
+            semanaDAO.guardarSemanas(entities);
+            callback.onSuccess(null);
+        }
+        catch (Exception e){
+            callback.onError(e);
+        }
+    }
+
+    @Override
     public void getSemanas(UUID rutinaID, OnResult<List<Semana>> callback) {
         try{
             List<SemanaEntity> entities = semanaDAO.getSemanas(rutinaID);

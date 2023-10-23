@@ -34,6 +34,18 @@ public class DiaRoomDataSource implements DiaDataSource {
     }
 
     @Override
+    public void guardarDias(List<Dia> dias, OnResult<Void> callback) {
+        try{
+            List<DiaEntity> entities = DiaMapper.toEntities(dias);
+            diaDAO.guardarDias(entities);
+            callback.onSuccess(null);
+        }
+        catch(Exception e){
+            callback.onError(e);
+        }
+    }
+
+    @Override
     public void getDias(List<UUID> semanasIDs, OnResult<List<Dia>> callback) {
         try{
             List<DiaEntity> entities = diaDAO.getDias(semanasIDs);

@@ -16,6 +16,9 @@ public interface DiaDAO {
     @Insert
     void guardarDia(DiaEntity dia);
 
+    @Insert
+    void guardarDias(List<DiaEntity> dias);
+
     @Query("SELECT * FROM dia WHERE id_semana IN (:semanasIDs)")
     List<DiaEntity> getDias(List<UUID> semanasIDs);
 

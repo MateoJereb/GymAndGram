@@ -16,6 +16,9 @@ public interface SemanaDAO {
     @Insert
     void guardarSemana(SemanaEntity semana);
 
+    @Insert
+    void guardarSemanas(List<SemanaEntity> semanas);
+
     @Query("SELECT * FROM semana WHERE id_rutina=:rutinaID")
     List<SemanaEntity> getSemanas(UUID rutinaID);
 

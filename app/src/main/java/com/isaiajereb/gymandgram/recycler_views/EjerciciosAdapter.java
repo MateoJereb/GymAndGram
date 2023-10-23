@@ -117,9 +117,9 @@ public class EjerciciosAdapter extends RecyclerView.Adapter<EjerciciosAdapter.Ej
                 stringDetalles+= ejercicio.getTiempo_cantidad().get().toString();
 
                 if(ejercicio.getTiempo_unidad().get() == UnidadTiempo.Minuto)
-                    stringDetalles+= " seg";
-                else
                     stringDetalles+= " min";
+                else
+                    stringDetalles+= " seg";
             }
 
             detalles.setText(stringDetalles);

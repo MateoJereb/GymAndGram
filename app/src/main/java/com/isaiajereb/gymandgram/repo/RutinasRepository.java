@@ -162,46 +162,46 @@ public class RutinasRepository {
     public static List<Dia> getDiasIniciales(){
         List<Dia> lista =  new ArrayList<>();
 
-        Dia lunes1 = new Dia(idLunes1, DiaSemana.Lunes, LocalTime.of(16,0),idRutina);
+        Dia lunes1 = new Dia(idLunes1, DiaSemana.Lunes, LocalTime.of(16,0),idSemana1);
         lista.add(lunes1);
 
-        Dia martes1 = new Dia(idMartes1, DiaSemana.Martes, null, idRutina);
+        Dia martes1 = new Dia(idMartes1, DiaSemana.Martes, LocalTime.of(0,0), idSemana1);
         lista.add(martes1);
 
-        Dia miercoles1 = new Dia(idMiercoles1, DiaSemana.Miercoles, null, idRutina);
+        Dia miercoles1 = new Dia(idMiercoles1, DiaSemana.Miercoles, LocalTime.of(0,0), idSemana1);
         lista.add(miercoles1);
 
-        Dia jueves1 = new Dia(idJueves1, DiaSemana.Jueves, null, idRutina);
+        Dia jueves1 = new Dia(idJueves1, DiaSemana.Jueves, LocalTime.of(0,0), idSemana1);
         lista.add(jueves1);
 
-        Dia viernes1 = new Dia(idViernes1, DiaSemana.Viernes, null, idRutina);
+        Dia viernes1 = new Dia(idViernes1, DiaSemana.Viernes, LocalTime.of(0,0), idSemana1);
         lista.add(viernes1);
 
-        Dia sabado1 = new Dia(idSabado1, DiaSemana.Sabado, null, idRutina);
+        Dia sabado1 = new Dia(idSabado1, DiaSemana.Sabado, LocalTime.of(0,0), idSemana1);
         lista.add(sabado1);
 
-        Dia domingo1 = new Dia(idDomingo1, DiaSemana.Domingo, null, idRutina);
+        Dia domingo1 = new Dia(idDomingo1, DiaSemana.Domingo, LocalTime.of(0,0), idSemana1);
         lista.add(domingo1);
 
-        Dia lunes2 = new Dia(idLunes2, DiaSemana.Lunes, LocalTime.of(16,0),idRutina);
+        Dia lunes2 = new Dia(idLunes2, DiaSemana.Lunes, LocalTime.of(16,0),idSemana2);
         lista.add(lunes2);
 
-        Dia martes2 = new Dia(idMartes2, DiaSemana.Martes, null, idRutina);
+        Dia martes2 = new Dia(idMartes2, DiaSemana.Martes, LocalTime.of(0,0), idSemana2);
         lista.add(martes2);
 
-        Dia miercoles2 = new Dia(idMiercoles2, DiaSemana.Miercoles, null, idRutina);
+        Dia miercoles2 = new Dia(idMiercoles2, DiaSemana.Miercoles, LocalTime.of(0,0), idSemana2);
         lista.add(miercoles2);
 
-        Dia jueves2 = new Dia(idJueves2, DiaSemana.Jueves, null, idRutina);
+        Dia jueves2 = new Dia(idJueves2, DiaSemana.Jueves, LocalTime.of(0,0), idSemana2);
         lista.add(jueves2);
 
-        Dia viernes2 = new Dia(idViernes2, DiaSemana.Viernes, null, idRutina);
+        Dia viernes2 = new Dia(idViernes2, DiaSemana.Viernes, LocalTime.of(0,0), idSemana2);
         lista.add(viernes2);
 
-        Dia sabado2 = new Dia(idSabado2, DiaSemana.Sabado, null, idRutina);
+        Dia sabado2 = new Dia(idSabado2, DiaSemana.Sabado, LocalTime.of(0,0), idSemana2);
         lista.add(sabado2);
 
-        Dia domingo2 = new Dia(idDomingo2, DiaSemana.Domingo, null, idRutina);
+        Dia domingo2 = new Dia(idDomingo2, DiaSemana.Domingo, LocalTime.of(0,0), idSemana2);
         lista.add(domingo2);
 
         return lista;
@@ -296,16 +296,6 @@ public class RutinasRepository {
         ej4lunes2.setPeso(Optional.of(10.0));
         ej4lunes2.setId_dia(idLunes2);
         lista.add(ej4lunes2);
-
-        Ejercicio ej5lunes2 = new Ejercicio();
-        ej5lunes2.setId(UUID.randomUUID());
-        ej5lunes2.setNombre("Bici");
-        ej5lunes2.setPosicion(4);
-        ej5lunes2.setTiempo_cantidad(Optional.of(15.0));
-        ej5lunes2.setTiempo_unidad(Optional.of(UnidadTiempo.Minuto));
-        ej5lunes2.setId_dia(idLunes2);
-        lista.add(ej5lunes2);
-
 
 
         return lista;

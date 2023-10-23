@@ -145,11 +145,11 @@ public class Ejercicio implements Parcelable {
     public void writeToParcel(@NonNull Parcel parcel, int i) {
         parcel.writeSerializable(id);
         parcel.writeString(nombre);
-        parcel.writeInt(series.isPresent()?series.get(): null);
-        parcel.writeInt(repeticiones.isPresent()?repeticiones.get(): null);
-        parcel.writeDouble(peso.isPresent()?peso.get(): null);
-        parcel.writeDouble(tiempo_cantidad.isPresent()?tiempo_cantidad.get(): null);
-        parcel.writeString(tiempo_unidad.isPresent()?tiempo_unidad.get().name(): null);
+        parcel.writeValue(series);
+        parcel.writeValue(repeticiones);
+        parcel.writeValue(peso);
+        parcel.writeValue(tiempo_cantidad);
+        parcel.writeValue(tiempo_unidad);
         parcel.writeString(observaciones);
 
         parcel.writeSerializable(id_dia);
@@ -158,11 +158,12 @@ public class Ejercicio implements Parcelable {
     private void readFromParcel(Parcel in){
         id= (UUID) in.readSerializable();
         nombre = in.readString();
-        series = Optional.ofNullable(in.readInt());
-        repeticiones = Optional.ofNullable(in.readInt());
-        peso= Optional.ofNullable(in.readDouble());
-        tiempo_cantidad =  Optional.ofNullable(in.readDouble());
-        tiempo_unidad = Optional.ofNullable(UnidadTiempo.valueOf(in.readString()));
+        series = (Optional<Integer>) in.readValue(Optional.class.getClassLoader());
+        repeticiones = (Optional<Integer>) in.readValue(Optional.class.getClassLoader());
+        peso = (Optional<Double>) in.readValue(Optional.class.getClassLoader());
+        tiempo_cantidad = (Optional<Double>) in.readValue(Optional.class.getClassLoader());
+        tiempo_unidad = (Optional<UnidadTiempo>) in.readValue(Optional.class.getClassLoader());
+
         observaciones= in.readString();
         id_dia = (UUID) in.readSerializable();
     }

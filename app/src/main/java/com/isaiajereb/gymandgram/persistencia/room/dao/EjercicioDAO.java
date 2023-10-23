@@ -16,6 +16,9 @@ public interface EjercicioDAO {
     @Insert
     void guardarEjercicio(EjercicioEntity ejercicio);
 
+    @Insert
+    void guardarEjercicios(List<EjercicioEntity> ejercicios);
+
     @Query("SELECT * FROM ejercicio WHERE id_dia IN (:diasIDs)")
     List<EjercicioEntity> getEjercicios(List<UUID> diasIDs);
 
