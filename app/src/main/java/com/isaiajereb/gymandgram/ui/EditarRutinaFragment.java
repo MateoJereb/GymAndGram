@@ -658,6 +658,9 @@ public class EditarRutinaFragment extends Fragment {
                             rutina.setActual(false);
                         }
                     });
+
+            AlertDialog dialog = builder.create();
+            dialog.show();
         }
    }
    private void onGuardar(){
