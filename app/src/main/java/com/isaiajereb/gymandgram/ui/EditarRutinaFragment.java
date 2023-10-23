@@ -1,7 +1,9 @@
 package com.isaiajereb.gymandgram.ui;
 
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -10,6 +12,7 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -64,6 +67,7 @@ public class EditarRutinaFragment extends Fragment {
     private Dia diaActual;
 
     private Boolean huboSavedInstances;
+    private Boolean rutinaGuardada;
 
     public EditarRutinaFragment() {
         // Required empty public constructor
@@ -89,11 +93,13 @@ public class EditarRutinaFragment extends Fragment {
         if (getArguments() != null) {
             if(getArguments().get("rutina") != null){
                 rutina = getArguments().getParcelable("rutina");
+                rutinaGuardada = true;
             }
         }
         else{
             rutina = new Rutina();
             rutina.setId_usuario(usuario.getId());
+            rutinaGuardada = false;
         }
 
         if(savedInstanceState != null){
@@ -158,22 +164,19 @@ public class EditarRutinaFragment extends Fragment {
         recyclerAdapter.setOnItemClickListener(new EjerciciosAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(Ejercicio item) {
-                Bundle bundle = new Bundle();
-                //TODO agregar implementacion real de la rutina.
-                bundle.putInt("idRutina", 1);
-                bundle.putParcelable("ejercicio", item);
-                navController.navigate(R.id.action_editarRutinaFragment_to_configurarEjercicioFragment, bundle);}
+                onEditarEjercicio(item);
+            }
         });
 
         recyclerAdapter.setOnItemLongClickListener(new EjerciciosAdapter.OnItemLongClickListener() {
             @Override
             public void onEditar(Ejercicio item) {
-                //TODO listener
+                onEditarEjercicio(item);
             }
 
             @Override
             public void onEliminar(Ejercicio item) {
-                //TODO listener
+                onEliminarEjercicio(item);
             }
         });
 
@@ -184,9 +187,38 @@ public class EditarRutinaFragment extends Fragment {
             }
         });
 
+        binding.compartirButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(requireActivity(), "Proximamente...", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        binding.eliminarButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialogoEliminarRutina();
+                    }
+                }
+        );
+
         binding.seleccionarSemanaButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) { dialogoSeleccionarSemana(); }
+        });
+
+        binding.horaButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialogoSeleccionarHora();
+            }
+        });
+
+        binding.actualSwitch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialogoSeleccionarActual();
+            }
         });
 
         binding.nuevoEjercicioButton.setOnClickListener(new View.OnClickListener() {
@@ -333,13 +365,30 @@ public class EditarRutinaFragment extends Fragment {
         quitarSemana.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                listaSemanas.remove(listaSemanas.size()-1);
-                if(listaSemanas.size() == 1) quitarSemana.setEnabled(false);
+                AlertDialog.Builder builderConfirmarQuitar = new AlertDialog.Builder(requireContext());
 
-                semanasAdapter.setDataSemanas(listaSemanas);
-                rvSemanas.setAdapter(semanasAdapter);
-                semanasAdapter.notifyDataSetChanged();
-                //TODO cambiar en la BD y si se borra la semana que se tenia seleccionada, actualizar la pantalla a la ultima disponible
+                builderConfirmarQuitar.setMessage("¿Desea eliminar la Semana "+listaSemanas.size()+"?")
+                        .setPositiveButton("SI", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                if(semanaActual.getNumero() == listaSemanas.size()){
+                                    semanaActual = listaSemanas.get(listaSemanas.size()-2);
+                                    diaActual = listaDias.stream().filter(d -> d.getId_semana().equals(semanaActual.getId()) && d.getNombre().equals(DiaSemana.Lunes)).findFirst().get();
+                                    actualizarDia();
+                                }
+
+                                listaSemanas.remove(listaSemanas.size()-1);
+                                if(listaSemanas.size() == 1) quitarSemana.setEnabled(false);
+
+                                semanasAdapter.setDataSemanas(listaSemanas);
+                                rvSemanas.setAdapter(semanasAdapter);
+                                semanasAdapter.notifyDataSetChanged();
+                            }
+                        })
+                        .setNegativeButton("NO", null);
+
+                AlertDialog dialogConfirmarQuitar = builderConfirmarQuitar.create();
+                dialogConfirmarQuitar.show();
             }
         });
 
@@ -405,6 +454,101 @@ public class EditarRutinaFragment extends Fragment {
                     ejsNuevoLunes.add(nuevoEj);
                 });
 
+                ejsUltimoMartes.stream().forEach(e -> {
+                    Ejercicio nuevoEj = new Ejercicio(
+                            UUID.randomUUID(),
+                            e.getNombre(),
+                            e.getPosicion(),
+                            e.getSeries(),
+                            e.getRepeticiones(),
+                            e.getPeso(),
+                            e.getTiempo_cantidad(),
+                            e.getTiempo_unidad(),
+                            e.getObservaciones(),
+                            idNuevoMartes
+                    );
+                    ejsNuevoMartes.add(nuevoEj);
+                });
+
+                ejsUltimoMiercoles.stream().forEach(e -> {
+                    Ejercicio nuevoEj = new Ejercicio(
+                            UUID.randomUUID(),
+                            e.getNombre(),
+                            e.getPosicion(),
+                            e.getSeries(),
+                            e.getRepeticiones(),
+                            e.getPeso(),
+                            e.getTiempo_cantidad(),
+                            e.getTiempo_unidad(),
+                            e.getObservaciones(),
+                            idNuevoMiercoles
+                    );
+                    ejsNuevoMiercoles.add(nuevoEj);
+                });
+
+                ejsUltimoJueves.stream().forEach(e -> {
+                    Ejercicio nuevoEj = new Ejercicio(
+                            UUID.randomUUID(),
+                            e.getNombre(),
+                            e.getPosicion(),
+                            e.getSeries(),
+                            e.getRepeticiones(),
+                            e.getPeso(),
+                            e.getTiempo_cantidad(),
+                            e.getTiempo_unidad(),
+                            e.getObservaciones(),
+                            idNuevoJueves
+                    );
+                    ejsNuevoJueves.add(nuevoEj);
+                });
+
+                ejsUltimoViernes.stream().forEach(e -> {
+                    Ejercicio nuevoEj = new Ejercicio(
+                            UUID.randomUUID(),
+                            e.getNombre(),
+                            e.getPosicion(),
+                            e.getSeries(),
+                            e.getRepeticiones(),
+                            e.getPeso(),
+                            e.getTiempo_cantidad(),
+                            e.getTiempo_unidad(),
+                            e.getObservaciones(),
+                            idNuevoViernes
+                    );
+                    ejsNuevoViernes.add(nuevoEj);
+                });
+
+                ejsUltimoSabado.stream().forEach(e -> {
+                    Ejercicio nuevoEj = new Ejercicio(
+                            UUID.randomUUID(),
+                            e.getNombre(),
+                            e.getPosicion(),
+                            e.getSeries(),
+                            e.getRepeticiones(),
+                            e.getPeso(),
+                            e.getTiempo_cantidad(),
+                            e.getTiempo_unidad(),
+                            e.getObservaciones(),
+                            idNuevoSabado
+                    );
+                    ejsNuevoSabado.add(nuevoEj);
+                });
+
+                ejsUltimoDomingo.stream().forEach(e -> {
+                    Ejercicio nuevoEj = new Ejercicio(
+                            UUID.randomUUID(),
+                            e.getNombre(),
+                            e.getPosicion(),
+                            e.getSeries(),
+                            e.getRepeticiones(),
+                            e.getPeso(),
+                            e.getTiempo_cantidad(),
+                            e.getTiempo_unidad(),
+                            e.getObservaciones(),
+                            idNuevoDomingo
+                    );
+                    ejsNuevoDomingo.add(nuevoEj);
+                });
 
                 listaSemanas.add(nuevaSemana);
 
@@ -451,6 +595,71 @@ public class EditarRutinaFragment extends Fragment {
         dialog.show();
    }
 
+   private void dialogoEliminarRutina(){
+       if(!rutinaGuardada){
+           AlertDialog.Builder builder = new AlertDialog.Builder(requireActivity());
+           builder.setTitle("Error")
+                   .setMessage("La rutina aún no se encuentra guardada, por lo que no se puede eliminar")
+                   .setPositiveButton("Aceptar",null);
+
+           AlertDialog dialog = builder.create();
+           dialog.show();
+       }
+       else{
+           AlertDialog.Builder builder = new AlertDialog.Builder(requireActivity());
+
+           builder.setMessage("¿Desea eliminar la rutina '"+rutina.getNombre()+"'?")
+                   .setPositiveButton("SI", new DialogInterface.OnClickListener() {
+                       @Override
+                       public void onClick(DialogInterface dialog, int which) {
+                           //TODO eliminar rutina de la BD
+                       }
+                   })
+                   .setNegativeButton("NO",null);
+
+           AlertDialog dialog = builder.create();
+           dialog.show();
+       }
+   }
+
+   private void onEditarEjercicio(Ejercicio ejercicio){
+       Bundle bundle = new Bundle();
+       //TODO agregar implementacion real de la rutina.
+       bundle.putInt("idRutina", 1);
+       bundle.putParcelable("ejercicio", ejercicio);
+       navController.navigate(R.id.action_editarRutinaFragment_to_configurarEjercicioFragment, bundle);
+   }
+
+   private void onEliminarEjercicio(Ejercicio ejercicio){
+       listaEjercicios.remove(ejercicio);
+       actualizarDia();
+   }
+
+   private void dialogoSeleccionarHora(){
+        //TODO dialogo seleccionar hora y actualizar la pantalla y la lista
+   }
+
+   private void dialogoSeleccionarActual(){
+        if(binding.actualSwitch.isChecked()){
+            AlertDialog.Builder builder = new AlertDialog.Builder(requireActivity());
+
+            builder.setMessage("¿Desea seleccionar la rutina como actual? Esto puede modificar el estado de otra rutina")
+                    .setPositiveButton("SI", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            //TODO desmarcar la actual de la BD (esta actual se guarda recien cuando se toca guardar)
+                            rutina.setActual(true);
+                        }
+                    })
+                    .setNegativeButton("NO", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            binding.actualSwitch.setChecked(false);
+                            rutina.setActual(false);
+                        }
+                    });
+        }
+   }
    private void onGuardar(){
         //TODO guardar todos los cambios en la BD
    }
