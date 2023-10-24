@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.AbsoluteSizeSpan;
@@ -34,6 +35,7 @@ import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.timepicker.MaterialTimePicker;
 import com.google.android.material.timepicker.TimeFormat;
 import com.isaiajereb.gymandgram.R;
@@ -47,6 +49,7 @@ import com.isaiajereb.gymandgram.model.Usuario;
 import com.isaiajereb.gymandgram.recycler_views.EjerciciosAdapter;
 import com.isaiajereb.gymandgram.recycler_views.SemanasAdapter;
 import com.isaiajereb.gymandgram.repo.RutinasRepository;
+import com.isaiajereb.gymandgram.viewmodel.EjerciciosConfiguradosViewModel;
 import com.isaiajereb.gymandgram.viewmodel.RutinasViewModel;
 import com.isaiajereb.gymandgram.viewmodel.RutinasViewModelFactory;
 import com.isaiajereb.gymandgram.viewmodel.UsuarioViewModel;
@@ -65,6 +68,7 @@ public class EditarRutinaFragment extends Fragment {
     private FragmentEditarRutinaBinding binding;
     private NavController navController;
     private RutinasViewModel viewModel;
+    private EjerciciosConfiguradosViewModel ejerciciosConfiguradosViewModel;
 
     private RecyclerView recyclerView;
     private EjerciciosAdapter recyclerAdapter;
@@ -99,6 +103,7 @@ public class EditarRutinaFragment extends Fragment {
         super.onCreate(savedInstanceState);
         Usuario usuario = new ViewModelProvider(requireActivity()).get(UsuarioViewModel.class).getUsuario();
         viewModel = new ViewModelProvider(requireActivity(), new RutinasViewModelFactory(requireActivity().getApplicationContext(),usuario)).get(RutinasViewModel.class);
+        ejerciciosConfiguradosViewModel = new ViewModelProvider(requireActivity()).get(EjerciciosConfiguradosViewModel.class);
 
         if (getArguments() != null) {
             if(getArguments().get("rutina") != null){
@@ -219,6 +224,19 @@ public class EditarRutinaFragment extends Fragment {
             public void onClick(View v) { dialogoSeleccionarSemana(); }
         });
 
+        binding.diasTabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                onSeleccionarTabDia(tab.getPosition());
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {}
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {}
+        });
+
         binding.horaButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -236,13 +254,19 @@ public class EditarRutinaFragment extends Fragment {
         binding.nuevoEjercicioButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Bundle bundle = new Bundle();
-                //TODO agregar implementacion real de la rutina.
-                bundle.putInt("idRutina", 1);
-                navController.navigate(R.id.action_editarRutinaFragment_to_configurarEjercicioFragment, bundle);
+                onNuevoEjercicio();
             }
         });
 
+        ejerciciosConfiguradosViewModel.getConfigurando().observe(requireActivity(), new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean valor) {
+                //Si se pone en falso quiere decir que se salio de la pantalla ConfigurarEjercicio sin guardar => dejar de observar el LiveData del ejercicio que se estaba creando/editando
+                if(!valor){
+                    ejerciciosConfiguradosViewModel.getEjercicioConfigurado().removeObservers(requireActivity());
+                }
+            }
+        });
     }
     private void cargarInfoRutina(){
         if(rutina.getId() != null) {
@@ -634,10 +658,51 @@ public class EditarRutinaFragment extends Fragment {
        }
    }
 
+   private void onSeleccionarTabDia(Integer numDia){
+        switch (numDia){
+            case 0:
+                diaActual = listaDias.stream().filter(d -> d.getId_semana().equals(semanaActual.getId()) && d.getNombre().equals(DiaSemana.Lunes)).findFirst().get();
+                break;
+            case 1:
+                diaActual = listaDias.stream().filter(d -> d.getId_semana().equals(semanaActual.getId()) && d.getNombre().equals(DiaSemana.Martes)).findFirst().get();
+                break;
+            case 2:
+                diaActual = listaDias.stream().filter(d -> d.getId_semana().equals(semanaActual.getId()) && d.getNombre().equals(DiaSemana.Miercoles)).findFirst().get();
+                break;
+            case 3:
+                diaActual = listaDias.stream().filter(d -> d.getId_semana().equals(semanaActual.getId()) && d.getNombre().equals(DiaSemana.Jueves)).findFirst().get();
+                break;
+            case 4:
+                diaActual = listaDias.stream().filter(d -> d.getId_semana().equals(semanaActual.getId()) && d.getNombre().equals(DiaSemana.Viernes)).findFirst().get();
+                break;
+            case 5:
+                diaActual = listaDias.stream().filter(d -> d.getId_semana().equals(semanaActual.getId()) && d.getNombre().equals(DiaSemana.Sabado)).findFirst().get();
+                break;
+            case 6:
+                diaActual = listaDias.stream().filter(d -> d.getId_semana().equals(semanaActual.getId()) && d.getNombre().equals(DiaSemana.Domingo)).findFirst().get();
+                break;
+        }
+
+        actualizarDia();
+   }
+
    private void onEditarEjercicio(Ejercicio ejercicio){
+       //Observar el LiveData para actualizar el fragmento actual cuando se guarda el ejercicio que se esta editanto en el fragmento ConfigurarEjercicio
+       ejerciciosConfiguradosViewModel.getEjercicioConfigurado().observe(requireActivity(), new Observer<Ejercicio>() {
+           @Override
+           public void onChanged(Ejercicio ejercicio) {
+               Integer pos = 0;
+               while(!listaEjercicios.get(pos).getId().equals(ejercicio.getId())) pos++;
+
+               listaEjercicios.set(pos,ejercicio);
+               actualizarDia();
+
+               //Ya se edito el ejercicio => dejar de observar el LiveData
+               ejerciciosConfiguradosViewModel.getEjercicioConfigurado().removeObservers(requireActivity());
+           }
+       });
+
        Bundle bundle = new Bundle();
-       //TODO agregar implementacion real de la rutina.
-       bundle.putInt("idRutina", 1);
        bundle.putParcelable("ejercicio", ejercicio);
        navController.navigate(R.id.action_editarRutinaFragment_to_configurarEjercicioFragment, bundle);
    }
@@ -645,6 +710,23 @@ public class EditarRutinaFragment extends Fragment {
    private void onEliminarEjercicio(Ejercicio ejercicio){
        listaEjercicios.remove(ejercicio);
        actualizarDia();
+   }
+
+   private void onNuevoEjercicio(){
+        //Observar el LiveData para actualizar el fragmento actual cuando se guarda el ejercicio que se esta creando en el fragmento ConfigurarEjercicio
+        ejerciciosConfiguradosViewModel.getEjercicioConfigurado().observe(requireActivity(), new Observer<Ejercicio>() {
+            @Override
+            public void onChanged(Ejercicio ejercicio) {
+                ejercicio.setId_dia(diaActual.getId());
+                listaEjercicios.add(ejercicio);
+                actualizarDia();
+
+                //Ya se creo el ejercicio => dejar de observar el LiveData
+                ejerciciosConfiguradosViewModel.getEjercicioConfigurado().removeObservers(requireActivity());
+            }
+        });
+
+       navController.navigate(R.id.action_editarRutinaFragment_to_configurarEjercicioFragment);
    }
 
    private void dialogoSeleccionarHora(){
@@ -709,4 +791,6 @@ public class EditarRutinaFragment extends Fragment {
    private void onGuardar(){
         //TODO guardar todos los cambios en la BD
    }
+
+
 }
