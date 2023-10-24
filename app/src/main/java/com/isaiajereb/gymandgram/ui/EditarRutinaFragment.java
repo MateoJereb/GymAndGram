@@ -27,6 +27,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatImageView;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.core.content.res.ResourcesCompat;
+import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -45,6 +46,7 @@ import com.isaiajereb.gymandgram.model.DiaSemana;
 import com.isaiajereb.gymandgram.model.Ejercicio;
 import com.isaiajereb.gymandgram.model.Rutina;
 import com.isaiajereb.gymandgram.model.Semana;
+import com.isaiajereb.gymandgram.model.UnidadTiempo;
 import com.isaiajereb.gymandgram.model.Usuario;
 import com.isaiajereb.gymandgram.recycler_views.EjerciciosAdapter;
 import com.isaiajereb.gymandgram.recycler_views.SemanasAdapter;
@@ -59,6 +61,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -80,6 +83,7 @@ public class EditarRutinaFragment extends Fragment {
 
     private Boolean huboSavedInstances;
     private Boolean rutinaGuardada;
+
 
     public EditarRutinaFragment() {
         // Required empty public constructor
@@ -261,10 +265,7 @@ public class EditarRutinaFragment extends Fragment {
             binding.nombreRutinaButton.setText(rutina.getNombre());
             binding.actualSwitch.setChecked(rutina.getActual());
 
-            if(!huboSavedInstances){
-                viewModel.buscarDatosRutina(rutina);
-                Log.e("EditarRutinaFragment","BUSCAR EN BD");
-            }
+            if(!huboSavedInstances) viewModel.buscarDatosRutina(rutina);
             else actualizarDia();
         }
         else{
@@ -306,7 +307,7 @@ public class EditarRutinaFragment extends Fragment {
 
     private void actualizarDia(){
         List<Ejercicio> ejerciciosAMostrar = listaEjercicios.stream().filter(e -> e.getId_dia().equals(diaActual.getId())).collect(Collectors.toList());
-        Collections.sort(listaEjercicios,Comparator.comparing(Ejercicio::getPosicion));
+        Collections.sort(ejerciciosAMostrar,Comparator.comparing(Ejercicio::getPosicion));
 
         recyclerAdapter.setListaEjercicios(ejerciciosAMostrar);
         recyclerView.setAdapter(recyclerAdapter);
@@ -677,10 +678,69 @@ public class EditarRutinaFragment extends Fragment {
    }
 
    private void onEditarEjercicio(Ejercicio ejercicio){
-       ConfigurarEjercicioDialog dialog = new ConfigurarEjercicioDialog(requireActivity());
-       dialog.setDatosEjercicio(ejercicio);
+       ConfigurarEjercicioDialogFragment dialog = new ConfigurarEjercicioDialogFragment();
+       Bundle bundle = new Bundle();
+       bundle.putParcelable("ejercicio",ejercicio);
+       dialog.setArguments(bundle);
 
-       dialog.show();
+       dialog.setOnEliminarListener(new ConfigurarEjercicioDialogFragment.EliminarEjercicioListener() {
+           @Override
+           public void onEliminar() {
+               AlertDialog.Builder builder = new AlertDialog.Builder(requireActivity());
+               builder.setMessage("¿Desea eliminar el ejercicio actual?")
+                       .setPositiveButton("SI", new DialogInterface.OnClickListener() {
+                           @Override
+                           public void onClick(DialogInterface dialogEliminar, int which) {
+                               onEliminarEjercicio(ejercicio);
+                               actualizarDia();
+
+                               dialog.dismiss();
+                           }
+                       })
+                       .setNegativeButton("NO",null);
+
+               builder.create().show();
+           }
+       });
+
+       dialog.setOnConfirmarListener(new ConfigurarEjercicioDialogFragment.ConfirmarEjercicioListener() {
+           @Override
+           public void onConfirmar() {
+               ejercicio.setNombre(dialog.getEjercicioText());
+
+               if(dialog.getSeriesText().trim().isEmpty()) ejercicio.setSeries(Optional.empty());
+               else ejercicio.setSeries(Optional.of(Integer.parseInt(dialog.getSeriesText())));
+
+               if(dialog.getRepeticionesText().trim().isEmpty()) ejercicio.setRepeticiones(Optional.empty());
+               else ejercicio.setRepeticiones(Optional.of(Integer.parseInt(dialog.getRepeticionesText())));
+
+               if(dialog.getPesoText().trim().isEmpty()) ejercicio.setPeso(Optional.empty());
+               else ejercicio.setPeso(Optional.of(Math.round(Double.parseDouble(dialog.getPesoText()) * 100.0) / 100.0));
+
+               if(dialog.getTiempoText().trim().isEmpty()){
+                   ejercicio.setTiempo_unidad(Optional.empty());
+                   ejercicio.setTiempo_cantidad(Optional.empty());
+               }
+               else{
+                   ejercicio.setTiempo_cantidad(Optional.of(Math.round(Double.parseDouble(dialog.getTiempoText()) * 100.0) / 100.0));
+                   if(dialog.getUnidadTiempoPosition() == 0) ejercicio.setTiempo_unidad(Optional.of(UnidadTiempo.Minuto));
+                   else ejercicio.setTiempo_unidad(Optional.of(UnidadTiempo.Segundo));
+               }
+
+               ejercicio.setObservaciones(dialog.getObervacionesText());
+
+               int pos = 0;
+               while(!listaEjercicios.get(pos).getId().equals(ejercicio.getId())) pos++;
+
+               listaEjercicios.set(pos,ejercicio);
+               actualizarDia();
+
+               dialog.dismiss();
+
+           }
+       });
+
+       dialog.show(getChildFragmentManager(),"ConfigurarEjercicioDialogFragment");
    }
 
    private void onEliminarEjercicio(Ejercicio ejercicio){
@@ -689,11 +749,68 @@ public class EditarRutinaFragment extends Fragment {
    }
 
    private void onNuevoEjercicio(){
-        ConfigurarEjercicioDialog dialog = new ConfigurarEjercicioDialog(requireActivity());
+        ConfigurarEjercicioDialogFragment dialog = new ConfigurarEjercicioDialogFragment();
 
+       dialog.setOnEliminarListener(new ConfigurarEjercicioDialogFragment.EliminarEjercicioListener() {
+           @Override
+           public void onEliminar() {
+                AlertDialog.Builder builder = new AlertDialog.Builder(requireActivity());
+                builder.setMessage("¿Desea descartar el nuevo ejercicio?")
+                        .setPositiveButton("SI", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogEliminar, int which) {
+                                dialog.dismiss();
+                            }
+                        })
+                        .setNegativeButton("NO",null);
 
+                builder.create().show();
+           }
+       });
 
-        dialog.show();
+       dialog.setOnConfirmarListener(new ConfigurarEjercicioDialogFragment.ConfirmarEjercicioListener() {
+           @Override
+           public void onConfirmar() {
+               Ejercicio ejercicio = new Ejercicio();
+               ejercicio.setId(UUID.randomUUID());
+               ejercicio.setId_dia(diaActual.getId());
+
+               List<Ejercicio> ejerciciosDiaActual = listaEjercicios.stream().filter(e -> e.getId_dia().equals(diaActual.getId())).collect(Collectors.toList());
+               Collections.sort(ejerciciosDiaActual,Comparator.comparing(Ejercicio::getPosicion));
+
+               ejercicio.setPosicion(ejerciciosDiaActual.get(ejerciciosDiaActual.size()-1).getPosicion() + 1);
+
+               ejercicio.setNombre(dialog.getEjercicioText());
+
+               if(dialog.getSeriesText().trim().isEmpty()) ejercicio.setSeries(Optional.empty());
+               else ejercicio.setSeries(Optional.of(Integer.parseInt(dialog.getSeriesText())));
+
+               if(dialog.getRepeticionesText().trim().isEmpty()) ejercicio.setRepeticiones(Optional.empty());
+               else ejercicio.setRepeticiones(Optional.of(Integer.parseInt(dialog.getRepeticionesText())));
+
+               if(dialog.getPesoText().trim().isEmpty()) ejercicio.setPeso(Optional.empty());
+               else ejercicio.setPeso(Optional.of(Math.round(Double.parseDouble(dialog.getPesoText()) * 100.0) / 100.0));
+
+               if(dialog.getTiempoText().trim().isEmpty()){
+                   ejercicio.setTiempo_unidad(Optional.empty());
+                   ejercicio.setTiempo_cantidad(Optional.empty());
+               }
+               else{
+                   ejercicio.setTiempo_cantidad(Optional.of(Math.round(Double.parseDouble(dialog.getTiempoText()) * 100.0) / 100.0));
+                   if(dialog.getUnidadTiempoPosition() == 0) ejercicio.setTiempo_unidad(Optional.of(UnidadTiempo.Minuto));
+                   else ejercicio.setTiempo_unidad(Optional.of(UnidadTiempo.Segundo));
+               }
+
+               ejercicio.setObservaciones(dialog.getObervacionesText());
+
+               listaEjercicios.add(ejercicio);
+               actualizarDia();
+
+               dialog.dismiss();
+           }
+       });
+
+        dialog.show(getChildFragmentManager(),"ConfigurarEjercicioDialogFragment");
    }
 
    private void dialogoSeleccionarHora(){

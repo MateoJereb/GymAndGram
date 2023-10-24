@@ -24,6 +24,7 @@ import com.isaiajereb.gymandgram.model.UnidadTiempo;
 
 import org.w3c.dom.Text;
 
+import java.text.DecimalFormat;
 import java.util.List;
 
 public class EjerciciosAdapter extends RecyclerView.Adapter<EjerciciosAdapter.EjerciciosViewHolder> {
@@ -108,13 +109,13 @@ public class EjerciciosAdapter extends RecyclerView.Adapter<EjerciciosAdapter.Ej
 
             if(ejercicio.getPeso().isPresent()){
                 if(!primero) stringDetalles+= " | ";
-                stringDetalles+= ejercicio.getPeso().get().toString() + " kg";
+                stringDetalles+= new DecimalFormat("#.##").format(ejercicio.getPeso().get()) + " kg";
                 primero = false;
             }
 
             if(ejercicio.getTiempo_cantidad().isPresent()){
                 if(!primero) stringDetalles+= " | ";
-                stringDetalles+= ejercicio.getTiempo_cantidad().get().toString();
+                stringDetalles+= new DecimalFormat("#.##").format(ejercicio.getTiempo_cantidad().get());
 
                 if(ejercicio.getTiempo_unidad().get() == UnidadTiempo.Minuto)
                     stringDetalles+= " min";
