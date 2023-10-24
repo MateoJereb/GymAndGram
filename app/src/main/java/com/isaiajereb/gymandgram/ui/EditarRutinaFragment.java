@@ -49,7 +49,6 @@ import com.isaiajereb.gymandgram.model.Usuario;
 import com.isaiajereb.gymandgram.recycler_views.EjerciciosAdapter;
 import com.isaiajereb.gymandgram.recycler_views.SemanasAdapter;
 import com.isaiajereb.gymandgram.repo.RutinasRepository;
-import com.isaiajereb.gymandgram.viewmodel.EjerciciosConfiguradosViewModel;
 import com.isaiajereb.gymandgram.viewmodel.RutinasViewModel;
 import com.isaiajereb.gymandgram.viewmodel.RutinasViewModelFactory;
 import com.isaiajereb.gymandgram.viewmodel.UsuarioViewModel;
@@ -68,7 +67,6 @@ public class EditarRutinaFragment extends Fragment {
     private FragmentEditarRutinaBinding binding;
     private NavController navController;
     private RutinasViewModel viewModel;
-    private EjerciciosConfiguradosViewModel ejerciciosConfiguradosViewModel;
 
     private RecyclerView recyclerView;
     private EjerciciosAdapter recyclerAdapter;
@@ -103,7 +101,6 @@ public class EditarRutinaFragment extends Fragment {
         super.onCreate(savedInstanceState);
         Usuario usuario = new ViewModelProvider(requireActivity()).get(UsuarioViewModel.class).getUsuario();
         viewModel = new ViewModelProvider(requireActivity(), new RutinasViewModelFactory(requireActivity().getApplicationContext(),usuario)).get(RutinasViewModel.class);
-        ejerciciosConfiguradosViewModel = new ViewModelProvider(requireActivity()).get(EjerciciosConfiguradosViewModel.class);
 
         if (getArguments() != null) {
             if(getArguments().get("rutina") != null){
@@ -257,16 +254,6 @@ public class EditarRutinaFragment extends Fragment {
                 onNuevoEjercicio();
             }
         });
-
-        ejerciciosConfiguradosViewModel.getConfigurando().observe(requireActivity(), new Observer<Boolean>() {
-            @Override
-            public void onChanged(Boolean valor) {
-                //Si se pone en falso quiere decir que se salio de la pantalla ConfigurarEjercicio sin guardar => dejar de observar el LiveData del ejercicio que se estaba creando/editando
-                if(!valor){
-                    ejerciciosConfiguradosViewModel.getEjercicioConfigurado().removeObservers(requireActivity());
-                }
-            }
-        });
     }
     private void cargarInfoRutina(){
         if(rutina.getId() != null) {
@@ -274,7 +261,10 @@ public class EditarRutinaFragment extends Fragment {
             binding.nombreRutinaButton.setText(rutina.getNombre());
             binding.actualSwitch.setChecked(rutina.getActual());
 
-            if(!huboSavedInstances) viewModel.buscarDatosRutina(rutina);
+            if(!huboSavedInstances){
+                viewModel.buscarDatosRutina(rutina);
+                Log.e("EditarRutinaFragment","BUSCAR EN BD");
+            }
             else actualizarDia();
         }
         else{
@@ -687,24 +677,10 @@ public class EditarRutinaFragment extends Fragment {
    }
 
    private void onEditarEjercicio(Ejercicio ejercicio){
-       //Observar el LiveData para actualizar el fragmento actual cuando se guarda el ejercicio que se esta editanto en el fragmento ConfigurarEjercicio
-       ejerciciosConfiguradosViewModel.getEjercicioConfigurado().observe(requireActivity(), new Observer<Ejercicio>() {
-           @Override
-           public void onChanged(Ejercicio ejercicio) {
-               Integer pos = 0;
-               while(!listaEjercicios.get(pos).getId().equals(ejercicio.getId())) pos++;
+       ConfigurarEjercicioDialog dialog = new ConfigurarEjercicioDialog(requireActivity());
+       dialog.setDatosEjercicio(ejercicio);
 
-               listaEjercicios.set(pos,ejercicio);
-               actualizarDia();
-
-               //Ya se edito el ejercicio => dejar de observar el LiveData
-               ejerciciosConfiguradosViewModel.getEjercicioConfigurado().removeObservers(requireActivity());
-           }
-       });
-
-       Bundle bundle = new Bundle();
-       bundle.putParcelable("ejercicio", ejercicio);
-       navController.navigate(R.id.action_editarRutinaFragment_to_configurarEjercicioFragment, bundle);
+       dialog.show();
    }
 
    private void onEliminarEjercicio(Ejercicio ejercicio){
@@ -713,20 +689,11 @@ public class EditarRutinaFragment extends Fragment {
    }
 
    private void onNuevoEjercicio(){
-        //Observar el LiveData para actualizar el fragmento actual cuando se guarda el ejercicio que se esta creando en el fragmento ConfigurarEjercicio
-        ejerciciosConfiguradosViewModel.getEjercicioConfigurado().observe(requireActivity(), new Observer<Ejercicio>() {
-            @Override
-            public void onChanged(Ejercicio ejercicio) {
-                ejercicio.setId_dia(diaActual.getId());
-                listaEjercicios.add(ejercicio);
-                actualizarDia();
+        ConfigurarEjercicioDialog dialog = new ConfigurarEjercicioDialog(requireActivity());
 
-                //Ya se creo el ejercicio => dejar de observar el LiveData
-                ejerciciosConfiguradosViewModel.getEjercicioConfigurado().removeObservers(requireActivity());
-            }
-        });
 
-       navController.navigate(R.id.action_editarRutinaFragment_to_configurarEjercicioFragment);
+
+        dialog.show();
    }
 
    private void dialogoSeleccionarHora(){
