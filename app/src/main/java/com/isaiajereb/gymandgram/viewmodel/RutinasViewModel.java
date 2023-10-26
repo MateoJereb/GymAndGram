@@ -159,6 +159,7 @@ public class RutinasViewModel extends ViewModel {
         @Override
         public void onError(Throwable exception) {
             rutinaGuardada.postValue(ERROR_AL_GUARDAR_RUTINA);
+            exception.printStackTrace();
             Log.e("RutinasViewModel","Error al guardar la rutina");
         }
     };

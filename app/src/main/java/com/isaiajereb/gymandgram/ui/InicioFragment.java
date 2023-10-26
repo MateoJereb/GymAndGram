@@ -35,8 +35,6 @@ public class InicioFragment extends Fragment {
         if (getArguments() != null) {
 
         }
-
-
     }
 
     @Override

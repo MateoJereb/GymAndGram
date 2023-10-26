@@ -921,11 +921,7 @@ public class EditarRutinaFragment extends Fragment {
                    viewModel.getRutinaGuardada().removeObservers(requireActivity());
                    viewModel.notificarRutinaGuardadaRecibido();
 
-                   AlertDialog.Builder builder = new AlertDialog.Builder(requireActivity());
-                   builder.setMessage("Rutina guardada exitosamente!")
-                           .setPositiveButton("Aceptar",null);
-
-                   builder.create().show();
+                   finalizarGuardadoYVolver();
                }
                else{
                    if(codigo.equals(RutinasViewModel.ERROR_AL_GUARDAR_RUTINA)) {
@@ -951,6 +947,36 @@ public class EditarRutinaFragment extends Fragment {
             rutina.setFechaUltimaModificacion(LocalDateTime.now());
             viewModel.guardarRutinaCompleta(rutina,listaSemanas,listaDias,listaEjercicios);
         }
+   }
+
+   private void finalizarGuardadoYVolver(){
+       AlertDialog.Builder builder = new AlertDialog.Builder(requireActivity());
+       builder.setMessage("Rutina guardada exitosamente!")
+               .setCancelable(false)
+               .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+                   @Override
+                   public void onClick(DialogInterface dialog, int which) {
+                       Bundle bundle = new Bundle();
+                       bundle.putParcelable("rutina",rutina);
+
+                       //Se navega hacia atras para quitar el fragmento actual de la pila, pero se vuelve a un mismo fragmento pasando la rutina guardada como una rutina que se esta editando
+                       navController.popBackStack();
+
+                       Integer currentId = navController.getCurrentDestination().getId();
+
+                       if(currentId == R.id.inicioFragment) {
+                           navController.navigate(R.id.action_inicioFragment_to_editarRutinaFragment, bundle);
+                       }
+                       else{
+                           if(currentId == R.id.listaRutinasFragment){
+                               navController.navigate(R.id.action_listaRutinasFragment_to_editarRutinaFragment,bundle);
+                           }
+                       }
+                   }
+               });
+
+       builder.create().show();
+
    }
 
 

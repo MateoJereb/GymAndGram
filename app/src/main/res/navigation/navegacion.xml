@@ -59,6 +59,10 @@
             app:exitAnim="@anim/left_in"
             app:popEnterAnim="@anim/left_out"
             app:popExitAnim="@anim/right_in"/>
+
+        <action
+            android:id="@+id/action_editarRutinaFragment_self"
+            app:destination="@id/editarRutinaFragment"/>
     </fragment>
 
 
