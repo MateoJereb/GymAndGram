@@ -34,6 +34,9 @@ public class RutinasViewModel extends ViewModel {
     public MutableLiveData<Integer> rutinaGuardada;
     private Rutina rutinaEnGuardado;
 
+    private Rutina rutinaActual;
+    private MutableLiveData<List<Dia>> diasRutinaActual;
+
     private final RutinasRepository rutinasRepository;
 
     public RutinasViewModel(final RutinasRepository repository) {
@@ -44,6 +47,9 @@ public class RutinasViewModel extends ViewModel {
 
         datosRutinaCargados = new MutableLiveData<Boolean>(false);
         rutinaGuardada = new MutableLiveData<>(SIN_ACTIVIDAD);
+
+        rutinaActual = null;
+        diasRutinaActual = new MutableLiveData<>(new ArrayList<>());
 
         rutinasRepository = repository;
 
@@ -73,6 +79,14 @@ public class RutinasViewModel extends ViewModel {
 
     public MutableLiveData<Boolean> getDatosRutinaCargados() {
         return datosRutinaCargados;
+    }
+
+    public Rutina getRutinaActual() {
+        return rutinaActual;
+    }
+
+    public MutableLiveData<List<Dia>> getDiasRutinaActual() {
+        return diasRutinaActual;
     }
 
     public void buscarDatosRutina(Rutina rutina){
@@ -113,6 +127,12 @@ public class RutinasViewModel extends ViewModel {
         }).start();
     }
 
+    private void buscarDiasRutinaActual(Rutina rutina){
+        new Thread(() -> {
+            rutinasRepository.buscarDiasRutinaActual(rutina,diasRutinaActualCargados);
+        }).start();
+    }
+
     public void notificarRutinaGuardadaRecibido(){
         rutinaGuardada.postValue(SIN_ACTIVIDAD);
     }
@@ -122,6 +142,19 @@ public class RutinasViewModel extends ViewModel {
         public void onSuccess(List<Rutina> result) {
             rutinas.postValue(result);
             Log.d("RutinasViewModel","Rutinas encontradas");
+
+            Rutina actual = null;
+
+            for(Rutina r : result){
+                if(r.getActual()){
+                    actual = r;
+                    break;
+                }
+            }
+
+            rutinaActual = actual;
+            if(rutinaActual == null) diasRutinaActual.postValue(new ArrayList<>());
+            else buscarDiasRutinaActual(rutinaActual);
         }
 
         @Override
@@ -173,6 +206,19 @@ public class RutinasViewModel extends ViewModel {
         @Override
         public void onError(Throwable exception) {
             Log.e("RutinasViewModel","Error al eliminar la rutina");
+        }
+    };
+
+    private OnResult<List<Dia>> diasRutinaActualCargados = new OnResult<List<Dia>>() {
+        @Override
+        public void onSuccess(List<Dia> result) {
+            diasRutinaActual.postValue(result);
+            Log.d("RutinasViewModel","Dias rutina actual encontrados");
+        }
+
+        @Override
+        public void onError(Throwable exception) {
+            Log.e("RutinasViewModel","Error al buscar dias rutina actual");
         }
     };
 }

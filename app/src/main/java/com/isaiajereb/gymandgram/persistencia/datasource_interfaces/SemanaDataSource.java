@@ -16,4 +16,6 @@ public interface SemanaDataSource {
     void eliminarSemana(Semana semana, OnResult<Void> callback);
 
     void eliminarSemanas(List<Semana> semanas, OnResult<Void> callback);
+
+    void getUltimaSemana(UUID rutinaID, OnResult<Semana> callback);
 }

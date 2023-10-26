@@ -85,6 +85,7 @@ public class EditarRutinaFragment extends Fragment {
 
     private Boolean huboSavedInstances;
     private Boolean rutinaGuardada;
+    private Boolean mostrandoUltimoDialog = false;
 
 
     public EditarRutinaFragment() {
@@ -100,6 +101,7 @@ public class EditarRutinaFragment extends Fragment {
         outState.putParcelableArrayList("listaSemanas",(ArrayList) listaSemanas);
         outState.putParcelableArrayList("listaDias",(ArrayList) listaDias);
         outState.putParcelableArrayList("listaEjercicios",(ArrayList) listaEjercicios);
+        outState.putBoolean("mostrandoUltimoDialog",mostrandoUltimoDialog);
     }
 
     @Override
@@ -129,8 +131,13 @@ public class EditarRutinaFragment extends Fragment {
             listaSemanas = savedInstanceState.getParcelableArrayList("listaSemanas");
             listaDias = savedInstanceState.getParcelableArrayList("listaDias");
             listaEjercicios = savedInstanceState.getParcelableArrayList("listaEjercicios");
+            mostrandoUltimoDialog = savedInstanceState.getBoolean("mostrandoUltimoDialog");
 
             huboSavedInstances = true;
+
+            if(mostrandoUltimoDialog){
+                finalizarGuardadoYVolver();
+            }
         }
         else{
             huboSavedInstances = false;
@@ -880,7 +887,8 @@ public class EditarRutinaFragment extends Fragment {
                binding.horaButton.setText(horaTexto);
 
                diaActual.setHora(LocalTime.of(hora,min));
-               listaDias.stream().filter(d -> d.getId().equals(diaActual.getId())).forEach(d -> d.setHora(LocalTime.of(hora,min)));
+               //Todas las semanas deben tener el mismo horario para el mismo dia
+               listaDias.stream().filter(d -> d.getNombre().equals(diaActual.getNombre())).forEach(d -> d.setHora(LocalTime.of(hora,min)));
            }
        });
 
@@ -976,7 +984,7 @@ public class EditarRutinaFragment extends Fragment {
                });
 
        builder.create().show();
-
+       mostrandoUltimoDialog = true;
    }
 
 

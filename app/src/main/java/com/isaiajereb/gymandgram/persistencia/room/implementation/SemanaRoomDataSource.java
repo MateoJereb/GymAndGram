@@ -80,4 +80,16 @@ public class SemanaRoomDataSource implements SemanaDataSource {
             callback.onError(e);
         }
     }
+
+    @Override
+    public void getUltimaSemana(UUID rutinaID, OnResult<Semana> callback) {
+        try{
+            SemanaEntity entity = semanaDAO.getUltimaSemana(rutinaID);
+            Semana semana = SemanaMapper.fromEntity(entity);
+            callback.onSuccess(semana);
+        }
+        catch (Exception e){
+            callback.onError(e);
+        }
+    }
 }

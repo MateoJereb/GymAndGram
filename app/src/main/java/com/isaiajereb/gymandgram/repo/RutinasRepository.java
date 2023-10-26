@@ -42,6 +42,7 @@ public class RutinasRepository {
 
     private OnResult<LinkedHashMap<String,Object>> datosRutinaCargadosCallback;
     private LinkedHashMap<String,Object> datosRutina;
+    private OnResult<List<Dia>> diasRutinaActualCallback;
 
     public RutinasRepository(Context context, Usuario usuario) {
         rutinaDataSource = new RutinaRoomDataSource(context);
@@ -74,6 +75,11 @@ public class RutinasRepository {
 
     public void eliminarRutina(Rutina rutina, OnResult<Void> callback){
         rutinaDataSource.eliminarRutina(rutina,callback);
+    }
+
+    public void buscarDiasRutinaActual(Rutina rutina, OnResult<List<Dia>> callback){
+        diasRutinaActualCallback = callback;
+        recuperarDatosRutina(rutina,datosRutinaActualCargadosCallback);
     }
 
     private OnResult<List<Semana>> semanasCargadasCallback = new OnResult<List<Semana>>() {
@@ -122,6 +128,33 @@ public class RutinasRepository {
         }
     };
 
+    private OnResult<LinkedHashMap<String,Object>> datosRutinaActualCargadosCallback = new OnResult<LinkedHashMap<String, Object>>() {
+        @Override
+        public void onSuccess(LinkedHashMap<String, Object> result) {
+            List<Dia> diasConEjercicios = new ArrayList<>();
+
+            List<Semana> semanas = (List<Semana>) result.get("semanas");
+            List<Dia> dias = (List<Dia>) result.get("dias");
+            List<Ejercicio> ejercicios = (List<Ejercicio>) result.get("ejercicios");
+
+            Semana ultimaSemana = semanas.get(semanas.size()-1);
+            List<Dia> diasUltimaSemana = dias.stream().filter(d -> d.getId_semana().equals(ultimaSemana.getId())).collect(Collectors.toList());
+
+            for(Dia dia : diasUltimaSemana){
+                List<Ejercicio> ejerciciosDia = ejercicios.stream().filter(e -> e.getId_dia().equals(dia.getId())).collect(Collectors.toList());
+
+                if(ejerciciosDia.size() > 0) diasConEjercicios.add(dia);
+            }
+
+            diasRutinaActualCallback.onSuccess(diasConEjercicios);
+        }
+
+        @Override
+        public void onError(Throwable exception) {
+            Log.e("RutinasRepository","Error al buscar datos rutina actual");
+        }
+    };
+
     private OnResult<Void> voidCallback = new OnResult<Void>() {
         @Override
         public void onSuccess(Void result) { }
@@ -155,7 +188,7 @@ public class RutinasRepository {
         Rutina r = new Rutina();
         r.setId(idRutina);
         r.setNombre("Mi primera rutina");
-        r.setActual(false);
+        r.setActual(true);
         r.setFechaCreacion(LocalDateTime.now());
         r.setFechaUltimaModificacion(LocalDateTime.now());
 

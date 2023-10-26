@@ -30,4 +30,7 @@ public interface DiaDAO {
 
     @Delete
     void eliminarDias(List<DiaEntity> dias);
+
+    @Query("SELECT * FROM dia WHERE id_semana=:semanaID")
+    List<DiaEntity> getDiasBySemanaID(UUID semanaID);
 }

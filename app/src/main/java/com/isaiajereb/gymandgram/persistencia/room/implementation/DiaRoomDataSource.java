@@ -92,4 +92,16 @@ public class DiaRoomDataSource implements DiaDataSource {
             callback.onError(e);
         }
     }
+
+    @Override
+    public void getDiasBySemanaID(UUID semanaID, OnResult<List<Dia>> callback) {
+        try{
+            List<DiaEntity> entities = diaDAO.getDiasBySemanaID(semanaID);
+            List<Dia> dias = DiaMapper.fromEntities(entities);
+            callback.onSuccess(dias);
+        }
+        catch (Exception e){
+            callback.onError(e);
+        }
+    }
 }

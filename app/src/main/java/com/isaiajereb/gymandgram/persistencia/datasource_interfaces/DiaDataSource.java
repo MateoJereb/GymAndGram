@@ -18,4 +18,6 @@ public interface DiaDataSource {
     void eliminarDia(Dia dia, OnResult<Void> callback);
 
     void elmininarDias(List<Dia> dias, OnResult<Void> callback);
+
+    void getDiasBySemanaID(UUID semanaID, OnResult<List<Dia>> callback);
 }
