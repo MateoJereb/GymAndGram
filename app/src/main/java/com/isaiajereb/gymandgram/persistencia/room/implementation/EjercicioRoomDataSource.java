@@ -80,4 +80,16 @@ public class EjercicioRoomDataSource implements EjercicioDataSource {
             callback.onError(e);
         }
     }
+
+    @Override
+    public void eliminarEjercicios(List<Ejercicio> ejercicios, OnResult<Void> callback) {
+        try{
+            List<EjercicioEntity> entities = EjercicioMapper.toEntities(ejercicios);
+            ejercicioDAO.eliminarEjercicios(entities);
+            callback.onSuccess(null);
+        }
+        catch (Exception e){
+            callback.onError(e);
+        }
+    }
 }

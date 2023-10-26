@@ -5,6 +5,7 @@ import androidx.room.Entity;
 import androidx.room.ForeignKey;
 import androidx.room.PrimaryKey;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity(tableName = "rutina",
@@ -15,13 +16,17 @@ public class RutinaEntity {
     private UUID id;
     private String nombre;
     private Boolean actual;
+    private LocalDateTime fechaCreacion;
+    private LocalDateTime fechaUltimaModificacion;
 
     private UUID id_usuario;
 
-    public RutinaEntity(@NonNull UUID id, String nombre, Boolean actual, UUID id_usuario) {
+    public RutinaEntity(@NonNull UUID id, String nombre, Boolean actual, LocalDateTime fechaCreacion, LocalDateTime fechaUltimaModificacion, UUID id_usuario) {
         this.id = id;
         this.nombre = nombre;
         this.actual = actual;
+        this.fechaCreacion = fechaCreacion;
+        this.fechaUltimaModificacion = fechaUltimaModificacion;
         this.id_usuario = id_usuario;
     }
 
@@ -48,6 +53,22 @@ public class RutinaEntity {
 
     public void setActual(Boolean actual) {
         this.actual = actual;
+    }
+
+    public LocalDateTime getFechaCreacion() {
+        return fechaCreacion;
+    }
+
+    public void setFechaCreacion(LocalDateTime fechaCreacion) {
+        this.fechaCreacion = fechaCreacion;
+    }
+
+    public LocalDateTime getFechaUltimaModificacion() {
+        return fechaUltimaModificacion;
+    }
+
+    public void setFechaUltimaModificacion(LocalDateTime fechaUltimaModificacion) {
+        this.fechaUltimaModificacion = fechaUltimaModificacion;
     }
 
     public UUID getId_usuario() {

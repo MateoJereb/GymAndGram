@@ -15,6 +15,7 @@ import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.AppCompatEditText;
 import androidx.appcompat.widget.AppCompatImageView;
 import androidx.appcompat.widget.AppCompatSpinner;
+import androidx.appcompat.widget.AppCompatTextView;
 import androidx.fragment.app.DialogFragment;
 
 import com.isaiajereb.gymandgram.R;
@@ -33,10 +34,12 @@ public class ConfigurarEjercicioDialogFragment extends DialogFragment {
     private AppCompatEditText tiempoEditText;
     private AppCompatSpinner unidadTiempoSpinner;
     private AppCompatEditText observacionesEditText;
-    private AppCompatButton confirmarButton;
+    private AppCompatTextView cancelarButton;
+    private AppCompatTextView confirmarButton;
 
     private EliminarEjercicioListener listenerEliminar;
     private ConfirmarEjercicioListener listenerConfirmar;
+    private CancelarListener listenerCancelar;
 
     public interface EliminarEjercicioListener{
         void onEliminar();
@@ -44,6 +47,10 @@ public class ConfigurarEjercicioDialogFragment extends DialogFragment {
 
     public interface ConfirmarEjercicioListener{
         void onConfirmar();
+    }
+
+    public interface CancelarListener{
+        void onCancelar();
     }
 
     @NonNull
@@ -61,6 +68,7 @@ public class ConfigurarEjercicioDialogFragment extends DialogFragment {
         tiempoEditText = view.findViewById(R.id.tiempoEditText);
         unidadTiempoSpinner = view.findViewById(R.id.unidadTiempoSpinner);
         observacionesEditText = view.findViewById(R.id.observacionesEditText);
+        cancelarButton = view.findViewById(R.id.cancelarButton);
         confirmarButton = view.findViewById(R.id.confirmarButton);
 
         //Llenar spiner de unidades de tiempo
@@ -92,11 +100,19 @@ public class ConfigurarEjercicioDialogFragment extends DialogFragment {
         dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         //dialog.getWindow().getAttributes().windowAnimations = R.style.animation;
         dialog.setCancelable(true);
+        dialog.setCanceledOnTouchOutside(false);
 
         botonEliminar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 listenerEliminar.onEliminar();
+            }
+        });
+
+        cancelarButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listenerCancelar.onCancelar();
             }
         });
 
@@ -121,6 +137,10 @@ public class ConfigurarEjercicioDialogFragment extends DialogFragment {
 
     public void setOnEliminarListener(EliminarEjercicioListener listenerEliminar) {
         this.listenerEliminar = listenerEliminar;
+    }
+
+    public void setOnCancelarListener(CancelarListener listenerCancelar){
+        this.listenerCancelar = listenerCancelar;
     }
 
     public void setOnConfirmarListener(ConfirmarEjercicioListener listenerConfirmar) {

@@ -32,6 +32,8 @@ import com.isaiajereb.gymandgram.viewmodel.RutinasViewModelFactory;
 import com.isaiajereb.gymandgram.viewmodel.UsuarioViewModel;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.UUID;
 
@@ -87,6 +89,8 @@ public class ListaRutinasFragment extends Fragment {
         viewModel.getRutinas().observe(requireActivity(), new Observer<List<Rutina>>() {
             @Override
             public void onChanged(List<Rutina> rutinas) {
+                Collections.sort(rutinas, Comparator.comparing(Rutina::getFechaCreacion));
+
                 adapter.setDataRutinas(rutinas);
                 rvRutinas.setAdapter(adapter);
                 adapter.notifyDataSetChanged();

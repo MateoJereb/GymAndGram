@@ -68,4 +68,16 @@ public class SemanaRoomDataSource implements SemanaDataSource {
             callback.onError(e);
         }
     }
+
+    @Override
+    public void eliminarSemanas(List<Semana> semanas, OnResult<Void> callback) {
+        try{
+            List<SemanaEntity> entities = SemanaMapper.toEntities(semanas);
+            semanaDAO.eliminarSemanas(entities);
+            callback.onSuccess(null);
+        }
+        catch (Exception e){
+            callback.onError(e);
+        }
+    }
 }

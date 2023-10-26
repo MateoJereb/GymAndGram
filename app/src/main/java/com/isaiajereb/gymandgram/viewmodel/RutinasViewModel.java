@@ -22,11 +22,17 @@ import java.util.List;
 
 public class RutinasViewModel extends ViewModel {
 
+    public static final Integer RUTINA_GUARDADA = 1;
+    public static final Integer SIN_ACTIVIDAD = 0;
+    public static final Integer ERROR_AL_GUARDAR_RUTINA = -1;
+
     private MutableLiveData<List<Rutina>> rutinas;
     private MutableLiveData<Boolean> datosRutinaCargados;
     private List<Semana> semanas;
     private List<Dia> dias;
     private List<Ejercicio> ejercicios;
+    public MutableLiveData<Integer> rutinaGuardada;
+    private Rutina rutinaEnGuardado;
 
     private final RutinasRepository rutinasRepository;
 
@@ -37,10 +43,14 @@ public class RutinasViewModel extends ViewModel {
         ejercicios = new ArrayList<>();
 
         datosRutinaCargados = new MutableLiveData<Boolean>(false);
+        rutinaGuardada = new MutableLiveData<>(SIN_ACTIVIDAD);
 
         rutinasRepository = repository;
 
-        //Recuperar rutinas de la BD
+        buscarRutinas();
+    }
+
+    public void buscarRutinas(){
         new Thread(() -> {
             Log.d("RutinasViewModel","Buscar rutinas");
             rutinasRepository.recuperarRutinas(rutinasCargadasCallback);
@@ -79,6 +89,34 @@ public class RutinasViewModel extends ViewModel {
         datosRutinaCargados.postValue(false);
     }
 
+    public MutableLiveData<Integer> getRutinaGuardada() {
+        return rutinaGuardada;
+    }
+
+    public void guardarRutinaCompleta(Rutina rutina, List<Semana> semanas, List<Dia> dias, List<Ejercicio> ejercicios){
+        new Thread(() -> {
+            rutinaEnGuardado = rutina;
+            rutinasRepository.guardarRutinaCompleta(rutina,semanas,dias,ejercicios,rutinaGuardadaCallback);
+        }).start();
+    }
+
+    public void editarRutinaCompleta(Rutina rutina, List<Semana> semanas, List<Dia> dias, List<Ejercicio> ejercicios){
+        new Thread(() -> {
+            rutinaEnGuardado = rutina;
+            rutinasRepository.editarRutinaCompleta(rutina,semanas,dias,ejercicios,rutinaGuardadaCallback);
+        }).start();
+    }
+
+    public void eliminarRutina(Rutina rutina){
+        new Thread(() -> {
+            rutinasRepository.eliminarRutina(rutina,rutinaEliminadaCallback);
+        }).start();
+    }
+
+    public void notificarRutinaGuardadaRecibido(){
+        rutinaGuardada.postValue(SIN_ACTIVIDAD);
+    }
+
     private OnResult<List<Rutina>> rutinasCargadasCallback = new OnResult<List<Rutina>>() {
         @Override
         public void onSuccess(List<Rutina> result) {
@@ -106,6 +144,34 @@ public class RutinasViewModel extends ViewModel {
         @Override
         public void onError(Throwable exception) {
             Log.e("RutinasViewModel","Error al buscar los datos de la rutina");
+        }
+    };
+
+    private OnResult<Void> rutinaGuardadaCallback = new OnResult<Void>(){
+        @Override
+        public void onSuccess(Void result) {
+            rutinaGuardada.postValue(RUTINA_GUARDADA);
+            Log.d("RutinasViewModel","Rutina guardada");
+
+            buscarRutinas();
+        }
+
+        @Override
+        public void onError(Throwable exception) {
+            rutinaGuardada.postValue(ERROR_AL_GUARDAR_RUTINA);
+            Log.e("RutinasViewModel","Error al guardar la rutina");
+        }
+    };
+
+    private OnResult<Void> rutinaEliminadaCallback = new OnResult<Void>() {
+        @Override
+        public void onSuccess(Void result) {
+            buscarRutinas();
+        }
+
+        @Override
+        public void onError(Throwable exception) {
+            Log.e("RutinasViewModel","Error al eliminar la rutina");
         }
     };
 }

@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.Parcelable;
 import android.text.SpannableString;
 import android.text.Spanned;
@@ -55,6 +56,7 @@ import com.isaiajereb.gymandgram.viewmodel.RutinasViewModel;
 import com.isaiajereb.gymandgram.viewmodel.RutinasViewModelFactory;
 import com.isaiajereb.gymandgram.viewmodel.UsuarioViewModel;
 
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -258,6 +260,13 @@ public class EditarRutinaFragment extends Fragment {
                 onNuevoEjercicio();
             }
         });
+
+        binding.guardarButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onGuardar();
+            }
+        });
     }
     private void cargarInfoRutina(){
         if(rutina.getId() != null) {
@@ -331,6 +340,7 @@ public class EditarRutinaFragment extends Fragment {
         EditText nuevoNombreET = dialog.findViewById(R.id.et_nuevo_nombre);
 
         nuevoNombreET.setText(binding.nombreRutinaButton.getText().toString());
+        nuevoNombreET.selectAll();
 
         //Abrir teclado
         nuevoNombreET.requestFocus();
@@ -399,12 +409,22 @@ public class EditarRutinaFragment extends Fragment {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 if(semanaActual.getNumero() == listaSemanas.size()){
+                                    DiaSemana diaSemanaActual = diaActual.getNombre();
+
                                     semanaActual = listaSemanas.get(listaSemanas.size()-2);
-                                    diaActual = listaDias.stream().filter(d -> d.getId_semana().equals(semanaActual.getId()) && d.getNombre().equals(DiaSemana.Lunes)).findFirst().get();
+                                    diaActual = listaDias.stream().filter(d -> d.getId_semana().equals(semanaActual.getId()) && d.getNombre().equals(diaSemanaActual)).findFirst().get();
                                     actualizarDia();
                                 }
 
-                                listaSemanas.remove(listaSemanas.size()-1);
+                                Semana ultimaSemana = listaSemanas.get(listaSemanas.size() - 1);
+                                List<Dia> diasUltimaSemana = listaDias.stream().filter(d -> d.getId_semana().equals(ultimaSemana.getId())).collect(Collectors.toList());
+                                List<UUID> idsDiasUltimaSemana = diasUltimaSemana.stream().map(d -> d.getId()).collect(Collectors.toList());
+                                List<Ejercicio> ejerciciosUltimaSemana = listaEjercicios.stream().filter(e -> idsDiasUltimaSemana.contains(e.getId_dia())).collect(Collectors.toList());
+
+                                listaSemanas.remove(ultimaSemana);
+                                listaDias.removeAll(diasUltimaSemana);
+                                listaEjercicios.removeAll(ejerciciosUltimaSemana);
+
                                 if(listaSemanas.size() == 1) quitarSemana.setEnabled(false);
 
                                 semanasAdapter.setDataSemanas(listaSemanas);
@@ -606,8 +626,11 @@ public class EditarRutinaFragment extends Fragment {
         semanasAdapter.setOnItemClickListener(new SemanasAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(Semana semana) {
+                DiaSemana diaSemanaActual = diaActual.getNombre();
+
                 semanaActual = semana;
-                diaActual = listaDias.stream().filter(d -> d.getId_semana().equals(semanaActual.getId()) && d.getNombre().equals(DiaSemana.Lunes)).findFirst().get();
+                diaActual = listaDias.stream().filter(d -> d.getId_semana().equals(semanaActual.getId()) && d.getNombre().equals(diaSemanaActual)).findFirst().get();
+
                 actualizarDia();
                 dialog.dismiss();
             }
@@ -639,7 +662,8 @@ public class EditarRutinaFragment extends Fragment {
                    .setPositiveButton("SI", new DialogInterface.OnClickListener() {
                        @Override
                        public void onClick(DialogInterface dialog, int which) {
-                           //TODO eliminar rutina de la BD
+                           viewModel.eliminarRutina(rutina);
+                           navController.navigateUp();
                        }
                    })
                    .setNegativeButton("NO",null);
@@ -700,6 +724,13 @@ public class EditarRutinaFragment extends Fragment {
                        .setNegativeButton("NO",null);
 
                builder.create().show();
+           }
+       });
+
+       dialog.setOnCancelarListener(new ConfigurarEjercicioDialogFragment.CancelarListener() {
+           @Override
+           public void onCancelar() {
+               dialog.dismiss();
            }
        });
 
@@ -768,6 +799,13 @@ public class EditarRutinaFragment extends Fragment {
            }
        });
 
+       dialog.setOnCancelarListener(new ConfigurarEjercicioDialogFragment.CancelarListener() {
+           @Override
+           public void onCancelar() {
+               dialog.dismiss();
+           }
+       });
+
        dialog.setOnConfirmarListener(new ConfigurarEjercicioDialogFragment.ConfirmarEjercicioListener() {
            @Override
            public void onConfirmar() {
@@ -778,7 +816,8 @@ public class EditarRutinaFragment extends Fragment {
                List<Ejercicio> ejerciciosDiaActual = listaEjercicios.stream().filter(e -> e.getId_dia().equals(diaActual.getId())).collect(Collectors.toList());
                Collections.sort(ejerciciosDiaActual,Comparator.comparing(Ejercicio::getPosicion));
 
-               ejercicio.setPosicion(ejerciciosDiaActual.get(ejerciciosDiaActual.size()-1).getPosicion() + 1);
+               if(ejerciciosDiaActual.size() == 0) ejercicio.setPosicion(1);
+               else ejercicio.setPosicion(ejerciciosDiaActual.get(ejerciciosDiaActual.size()-1).getPosicion() + 1);
 
                ejercicio.setNombre(dialog.getEjercicioText());
 
@@ -856,7 +895,6 @@ public class EditarRutinaFragment extends Fragment {
                     .setPositiveButton("SI", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            //TODO desmarcar la actual de la BD (esta actual se guarda recien cuando se toca guardar)
                             rutina.setActual(true);
                         }
                     })
@@ -871,9 +909,48 @@ public class EditarRutinaFragment extends Fragment {
             AlertDialog dialog = builder.create();
             dialog.show();
         }
+        else{
+            rutina.setActual(false);
+        }
    }
    private void onGuardar(){
-        //TODO guardar todos los cambios en la BD
+       viewModel.getRutinaGuardada().observe(requireActivity(), new Observer<Integer>() {
+           @Override
+           public void onChanged(Integer codigo) {
+               if(codigo.equals(RutinasViewModel.RUTINA_GUARDADA)) {
+                   viewModel.getRutinaGuardada().removeObservers(requireActivity());
+                   viewModel.notificarRutinaGuardadaRecibido();
+
+                   AlertDialog.Builder builder = new AlertDialog.Builder(requireActivity());
+                   builder.setMessage("Rutina guardada exitosamente!")
+                           .setPositiveButton("Aceptar",null);
+
+                   builder.create().show();
+               }
+               else{
+                   if(codigo.equals(RutinasViewModel.ERROR_AL_GUARDAR_RUTINA)) {
+                       viewModel.notificarRutinaGuardadaRecibido();
+
+                       AlertDialog.Builder builder = new AlertDialog.Builder(requireActivity());
+                       builder.setTitle("Error!")
+                               .setMessage("No se pudo guardar la rutina")
+                               .setPositiveButton("Aceptar", null);
+
+                       builder.create().show();
+                   }
+               }
+           }
+       });
+
+        if(rutinaGuardada){
+            rutina.setFechaUltimaModificacion(LocalDateTime.now());
+            viewModel.editarRutinaCompleta(rutina,listaSemanas,listaDias,listaEjercicios);
+        }
+        else{
+            rutina.setFechaCreacion(LocalDateTime.now());
+            rutina.setFechaUltimaModificacion(LocalDateTime.now());
+            viewModel.guardarRutinaCompleta(rutina,listaSemanas,listaDias,listaEjercicios);
+        }
    }
 
 

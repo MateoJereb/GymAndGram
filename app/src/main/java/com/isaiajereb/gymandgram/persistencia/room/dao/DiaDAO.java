@@ -24,4 +24,10 @@ public interface DiaDAO {
 
     @Update
     void editarDia(DiaEntity dia);
+
+    @Delete
+    void eliminarDia(DiaEntity dia);
+
+    @Delete
+    void eliminarDias(List<DiaEntity> dias);
 }

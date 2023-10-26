@@ -12,6 +12,8 @@ public class RutinaMapper {
                 rutina.getId(),
                 rutina.getNombre(),
                 rutina.getActual(),
+                rutina.getFechaCreacion(),
+                rutina.getFechaUltimaModificacion(),
                 rutina.getId_usuario()
         );
     }
@@ -21,6 +23,8 @@ public class RutinaMapper {
                 entity.getId(),
                 entity.getNombre(),
                 entity.getActual(),
+                entity.getFechaCreacion(),
+                entity.getFechaUltimaModificacion(),
                 entity.getId_usuario()
         );
     }

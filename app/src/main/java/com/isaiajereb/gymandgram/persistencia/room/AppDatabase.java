@@ -86,10 +86,7 @@ public abstract class AppDatabase extends RoomDatabase {
                         List<DiaEntity> dias = DiaMapper.toEntities(RutinasRepository.getDiasIniciales());
                         List<EjercicioEntity> ejercicios = EjercicioMapper.toEntities(RutinasRepository.getEjerciciosIniciales());
 
-                        getInstance(context).rutinaDAO().guardarRutina(rutina);
-                        getInstance(context).semanaDAO().guardarSemanas(semanas);
-                        getInstance(context).diaDAO().guardarDias(dias);
-                        getInstance(context).ejercicioDAO().guardarEjercicios(ejercicios);
+                        getInstance(context).rutinaDAO().guardarRutinaCompleta(rutina,semanas,dias,ejercicios);
                     }
                 });
             }

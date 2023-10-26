@@ -27,4 +27,7 @@ public interface EjercicioDAO {
 
     @Delete
     void eliminarEjercicio(EjercicioEntity ejercicio);
+
+    @Delete
+    void eliminarEjercicios(List<EjercicioEntity> ejercicios);
 }

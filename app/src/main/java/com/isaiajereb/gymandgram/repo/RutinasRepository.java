@@ -23,6 +23,7 @@ import com.isaiajereb.gymandgram.persistencia.room.implementation.RutinaRoomData
 import com.isaiajereb.gymandgram.persistencia.room.implementation.SemanaRoomDataSource;
 import com.isaiajereb.gymandgram.viewmodel.UsuarioViewModel;
 
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -61,6 +62,18 @@ public class RutinasRepository {
         datosRutina = new LinkedHashMap<>();
 
         semanaDataSource.getSemanas(rutina.getId(),semanasCargadasCallback);
+    }
+
+    public void guardarRutinaCompleta(Rutina rutina, List<Semana> semanas, List<Dia> dias, List<Ejercicio> ejercicios, OnResult<Void> callback){
+       rutinaDataSource.guardarRutinaCompleta(rutina,semanas,dias,ejercicios,callback);
+    }
+
+    public void editarRutinaCompleta(Rutina rutina, List<Semana> semanas, List<Dia> dias, List<Ejercicio> ejercicios, OnResult<Void> callback){
+        rutinaDataSource.editarRutinaCompleta(rutina,semanas,dias,ejercicios,callback);
+    }
+
+    public void eliminarRutina(Rutina rutina, OnResult<Void> callback){
+        rutinaDataSource.eliminarRutina(rutina,callback);
     }
 
     private OnResult<List<Semana>> semanasCargadasCallback = new OnResult<List<Semana>>() {
@@ -143,6 +156,8 @@ public class RutinasRepository {
         r.setId(idRutina);
         r.setNombre("Mi primera rutina");
         r.setActual(false);
+        r.setFechaCreacion(LocalDateTime.now());
+        r.setFechaUltimaModificacion(LocalDateTime.now());
 
         return r;
     }

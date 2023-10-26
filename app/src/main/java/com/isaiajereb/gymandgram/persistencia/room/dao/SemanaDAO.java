@@ -27,4 +27,7 @@ public interface SemanaDAO {
 
     @Delete
     void eliminarSemana(SemanaEntity semana);
+
+    @Delete
+    void eliminarSemanas(List<SemanaEntity> semanas);
 }

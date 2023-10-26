@@ -16,4 +16,6 @@ public interface EjercicioDataSource {
     void editarEjercicio(Ejercicio ejercicio, OnResult<Void> callback);
 
     void eliminarEjercicio(Ejercicio ejercicio, OnResult<Void> callback);
+
+    void eliminarEjercicios(List<Ejercicio> ejercicios, OnResult<Void> callback);
 }

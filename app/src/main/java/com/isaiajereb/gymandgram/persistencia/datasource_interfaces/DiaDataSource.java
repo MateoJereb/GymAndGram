@@ -14,4 +14,8 @@ public interface DiaDataSource {
     void getDias(List<UUID> semanasIDs, OnResult<List<Dia>> callback);
 
     void cambiarHora(Dia dia, OnResult<Void> callback);
+
+    void eliminarDia(Dia dia, OnResult<Void> callback);
+
+    void elmininarDias(List<Dia> dias, OnResult<Void> callback);
 }

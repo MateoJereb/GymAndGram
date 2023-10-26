@@ -68,4 +68,28 @@ public class DiaRoomDataSource implements DiaDataSource {
             callback.onError(e);
         }
     }
+
+    @Override
+    public void eliminarDia(Dia dia, OnResult<Void> callback) {
+        try{
+            DiaEntity entity = DiaMapper.toEntity(dia);
+            diaDAO.eliminarDia(entity);
+            callback.onSuccess(null);
+        }
+        catch (Exception e){
+            callback.onError(e);
+        }
+    }
+
+    @Override
+    public void elmininarDias(List<Dia> dias, OnResult<Void> callback) {
+        try{
+            List<DiaEntity> entities = DiaMapper.toEntities(dias);
+            diaDAO.eliminarDias(entities);
+            callback.onSuccess(null);
+        }
+        catch(Exception e){
+            callback.onError(e);
+        }
+    }
 }
