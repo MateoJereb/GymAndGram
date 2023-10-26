@@ -125,18 +125,14 @@ public class ListaRutinasFragment extends Fragment {
         adapter.setOnItemClickListener(new RutinasAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(Rutina rutina) {
-                Bundle bundle = new Bundle();
-                bundle.putParcelable("rutina",rutina);
-                navController.navigate(R.id.action_listaRutinasFragment_to_editarRutinaFragment,bundle);
+                onEditarRutina(rutina);
             }
         });
 
         adapter.setOnItemLongClickListener(new RutinasAdapter.OnItemLongClickListener() {
             @Override
             public void onEditar(Rutina rutina) {
-                Bundle bundle = new Bundle();
-                bundle.putParcelable("rutina",rutina);
-                navController.navigate(R.id.action_listaRutinasFragment_to_editarRutinaFragment,bundle);
+                onEditarRutina(rutina);
             }
 
             @Override
@@ -153,6 +149,22 @@ public class ListaRutinasFragment extends Fragment {
 
     private void onNuevaRutina(){
         navController.navigate(R.id.action_listaRutinasFragment_to_editarRutinaFragment);
+    }
+
+    private void onEditarRutina(Rutina rutina){
+        //Se crea una nueva rutina para evitar cambiar la que esta en memoria
+        Rutina copiaRutina = new Rutina(
+                rutina.getId(),
+                rutina.getNombre(),
+                rutina.getActual(),
+                rutina.getFechaCreacion(),
+                rutina.getFechaUltimaModificacion(),
+                rutina.getId_usuario()
+        );
+
+        Bundle bundle = new Bundle();
+        bundle.putParcelable("rutina",copiaRutina);
+        navController.navigate(R.id.action_listaRutinasFragment_to_editarRutinaFragment,bundle);
     }
 
     private void ordenarRutinas(){
