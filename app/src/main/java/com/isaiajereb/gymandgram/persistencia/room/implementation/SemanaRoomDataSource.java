@@ -34,6 +34,18 @@ public class SemanaRoomDataSource implements SemanaDataSource {
     }
 
     @Override
+    public void guardarSemanas(List<Semana> semanas, OnResult<Void> callback) {
+        try{
+            List<SemanaEntity> entities = SemanaMapper.toEntities(semanas);
+            semanaDAO.guardarSemanas(entities);
+            callback.onSuccess(null);
+        }
+        catch (Exception e){
+            callback.onError(e);
+        }
+    }
+
+    @Override
     public void getSemanas(UUID rutinaID, OnResult<List<Semana>> callback) {
         try{
             List<SemanaEntity> entities = semanaDAO.getSemanas(rutinaID);
@@ -51,6 +63,30 @@ public class SemanaRoomDataSource implements SemanaDataSource {
             SemanaEntity entity = SemanaMapper.toEntity(semana);
             semanaDAO.eliminarSemana(entity);
             callback.onSuccess(null);
+        }
+        catch (Exception e){
+            callback.onError(e);
+        }
+    }
+
+    @Override
+    public void eliminarSemanas(List<Semana> semanas, OnResult<Void> callback) {
+        try{
+            List<SemanaEntity> entities = SemanaMapper.toEntities(semanas);
+            semanaDAO.eliminarSemanas(entities);
+            callback.onSuccess(null);
+        }
+        catch (Exception e){
+            callback.onError(e);
+        }
+    }
+
+    @Override
+    public void getUltimaSemana(UUID rutinaID, OnResult<Semana> callback) {
+        try{
+            SemanaEntity entity = semanaDAO.getUltimaSemana(rutinaID);
+            Semana semana = SemanaMapper.fromEntity(entity);
+            callback.onSuccess(semana);
         }
         catch (Exception e){
             callback.onError(e);

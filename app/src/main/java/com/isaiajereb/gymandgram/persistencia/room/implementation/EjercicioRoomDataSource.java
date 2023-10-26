@@ -34,9 +34,21 @@ public class EjercicioRoomDataSource implements EjercicioDataSource {
     }
 
     @Override
-    public void getEjercicios(UUID diaID, OnResult<List<Ejercicio>> callback) {
+    public void guardarEjercicios(List<Ejercicio> ejercicios, OnResult<Void> callback) {
         try{
-            List<EjercicioEntity> entities = ejercicioDAO.getEjercicios(diaID);
+            List<EjercicioEntity> entities = EjercicioMapper.toEntities(ejercicios);
+            ejercicioDAO.guardarEjercicios(entities);
+            callback.onSuccess(null);
+        }
+        catch (Exception e){
+            callback.onError(e);
+        }
+    }
+
+    @Override
+    public void getEjercicios(List<UUID> diasIDs, OnResult<List<Ejercicio>> callback) {
+        try{
+            List<EjercicioEntity> entities = ejercicioDAO.getEjercicios(diasIDs);
             List<Ejercicio> ejercicios = EjercicioMapper.fromEntities(entities);
             callback.onSuccess(ejercicios);
         }
@@ -62,6 +74,18 @@ public class EjercicioRoomDataSource implements EjercicioDataSource {
         try{
             EjercicioEntity entity = EjercicioMapper.toEntity(ejercicio);
             ejercicioDAO.eliminarEjercicio(entity);
+            callback.onSuccess(null);
+        }
+        catch (Exception e){
+            callback.onError(e);
+        }
+    }
+
+    @Override
+    public void eliminarEjercicios(List<Ejercicio> ejercicios, OnResult<Void> callback) {
+        try{
+            List<EjercicioEntity> entities = EjercicioMapper.toEntities(ejercicios);
+            ejercicioDAO.eliminarEjercicios(entities);
             callback.onSuccess(null);
         }
         catch (Exception e){

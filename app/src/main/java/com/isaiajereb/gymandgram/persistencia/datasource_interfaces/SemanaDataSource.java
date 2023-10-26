@@ -9,8 +9,13 @@ import java.util.UUID;
 
 public interface SemanaDataSource {
     void guardarSemana(Semana semana, OnResult<Void> callback);
+    void guardarSemanas(List<Semana> semanas, OnResult<Void> callback);
 
     void getSemanas(UUID rutinaID, OnResult<List<Semana>> callback);
 
     void eliminarSemana(Semana semana, OnResult<Void> callback);
+
+    void eliminarSemanas(List<Semana> semanas, OnResult<Void> callback);
+
+    void getUltimaSemana(UUID rutinaID, OnResult<Semana> callback);
 }

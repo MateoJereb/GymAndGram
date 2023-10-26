@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
@@ -26,10 +27,14 @@ import com.isaiajereb.gymandgram.persistencia.room.entity.EjercicioEntity;
 import com.isaiajereb.gymandgram.persistencia.room.entity.RutinaEntity;
 import com.isaiajereb.gymandgram.persistencia.room.entity.SemanaEntity;
 import com.isaiajereb.gymandgram.persistencia.room.entity.UsuarioEntity;
+import com.isaiajereb.gymandgram.persistencia.room.mapper.DiaMapper;
+import com.isaiajereb.gymandgram.persistencia.room.mapper.EjercicioMapper;
 import com.isaiajereb.gymandgram.persistencia.room.mapper.RutinaMapper;
+import com.isaiajereb.gymandgram.persistencia.room.mapper.SemanaMapper;
 import com.isaiajereb.gymandgram.repo.RutinasRepository;
 
 import java.io.ByteArrayOutputStream;
+import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -63,7 +68,7 @@ public abstract class AppDatabase extends RoomDatabase {
                 executor.execute(new Runnable() {
                     @Override
                     public void run() {
-                        //Crear el usuario inicial solo con una id
+                        //Crear el usuario inicial
                         UUID userId = UUID.randomUUID();
                         Drawable fotoDefault = ContextCompat.getDrawable(context, R.drawable.profile_pic);
                         Bitmap bitmap = ((BitmapDrawable)fotoDefault).getBitmap();
@@ -73,6 +78,15 @@ public abstract class AppDatabase extends RoomDatabase {
                         UsuarioEntity usuario = new UsuarioEntity(userId,"ADMIN","admin@gmail.com",
                                 Genero.Masculino,23, "admin", bitmapFotoDefault);
                         getInstance(context).usuarioDAO().guardarUsuario(usuario);
+
+                        //Crear la rutina inicial
+                        RutinaEntity rutina = RutinaMapper.toEntity(RutinasRepository.getRutinaInicial());
+                        rutina.setId_usuario(userId);
+                        List<SemanaEntity> semanas = SemanaMapper.toEntities(RutinasRepository.getSemanasIniciales());
+                        List<DiaEntity> dias = DiaMapper.toEntities(RutinasRepository.getDiasIniciales());
+                        List<EjercicioEntity> ejercicios = EjercicioMapper.toEntities(RutinasRepository.getEjerciciosIniciales());
+
+                        getInstance(context).rutinaDAO().guardarRutinaCompleta(rutina,semanas,dias,ejercicios);
                     }
                 });
             }

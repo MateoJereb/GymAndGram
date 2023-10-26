@@ -12,6 +12,7 @@ public class EjercicioMapper {
         return new EjercicioEntity(
                 ejercicio.getId(),
                 ejercicio.getNombre(),
+                ejercicio.getPosicion(),
                 (ejercicio.getSeries().isPresent()) ? ejercicio.getSeries().get() : null,
                 (ejercicio.getRepeticiones().isPresent()) ? ejercicio.getRepeticiones().get() : null,
                 (ejercicio.getPeso().isPresent()) ? ejercicio.getPeso().get() : null,
@@ -26,6 +27,7 @@ public class EjercicioMapper {
         return new Ejercicio(
                 entity.getId(),
                 entity.getNombre(),
+                entity.getPosicion(),
                 Optional.ofNullable(entity.getSeries()),
                 Optional.ofNullable(entity.getRepeticiones()),
                 Optional.ofNullable(entity.getPeso()),

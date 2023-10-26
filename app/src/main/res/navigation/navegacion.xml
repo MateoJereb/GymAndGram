@@ -53,35 +53,18 @@
         tools:layout="@layout/fragment_editar_rutina">
 
         <action
-            android:id="@+id/action_editarRutinaFragment_to_configurarEjercicioFragment"
-            app:destination="@id/configurarEjercicioFragment" />
-        <action
             android:id="@+id/action_editarRutinaFragment_to_inicioFragment"
             app:destination="@id/inicioFragment"
             app:enterAnim="@anim/right_out"
             app:exitAnim="@anim/left_in"
             app:popEnterAnim="@anim/left_out"
             app:popExitAnim="@anim/right_in"/>
-    </fragment>
-
-    <fragment
-        android:id="@+id/configurarEjercicioFragment"
-        android:name="com.isaiajereb.gymandgram.ui.ConfigurarEjercicioFragment"
-        android:label="@string/app_name"
-        tools:layout="@layout/fragment_configurar_ejercicio">
 
         <action
-            android:id="@+id/action_configurarEjercicioFragment_to_inicioFragment"
-            app:destination="@id/inicioFragment"
-            app:enterAnim="@anim/right_out"
-            app:exitAnim="@anim/left_in"
-            app:popEnterAnim="@anim/left_out"
-            app:popExitAnim="@anim/right_in"/>
+            android:id="@+id/action_editarRutinaFragment_self"
+            app:destination="@id/editarRutinaFragment"/>
     </fragment>
-    <fragment
-        android:id="@+id/configurarPerfilFragment"
-        android:name="com.isaiajereb.gymandgram.ui.ConfigurarPerfilFragment"
-        android:label="fragment_configurar_perfil"
-        tools:layout="@layout/fragment_configurar_perfil" />
+
+
 
 </navigation>

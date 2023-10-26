@@ -60,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         /*Instanciar el ViewModel de usuario para traer el usuario a memoria
-         * De no existir la BD, la instancia y realiza una consulta para crear un usuario con UUID, pero datos nulos*/
+         * De no existir la BD, la instancia y realiza una consulta para crear un usuario*/
         usuarioViewModel = new ViewModelProvider(this).get(UsuarioViewModel.class);
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());

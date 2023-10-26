@@ -5,12 +5,16 @@ import android.os.Parcelable;
 
 import androidx.annotation.NonNull;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 public class Rutina implements Parcelable {
     private UUID id;
     private String nombre;
     private Boolean actual;
+
+    private LocalDateTime fechaCreacion;
+    private LocalDateTime fechaUltimaModificacion;
 
     private UUID id_usuario;
 
@@ -33,10 +37,12 @@ public class Rutina implements Parcelable {
                 }
             };
 
-    public Rutina(UUID id, String nombre, Boolean actual, UUID id_usuario) {
+    public Rutina(UUID id, String nombre, Boolean actual, LocalDateTime fechaCreacion, LocalDateTime fechaUltimaModificacion, UUID id_usuario) {
         this.id = id;
         this.nombre = nombre;
         this.actual = actual;
+        this.fechaCreacion = fechaCreacion;
+        this.fechaUltimaModificacion = fechaUltimaModificacion;
         this.id_usuario = id_usuario;
     }
 
@@ -64,6 +70,22 @@ public class Rutina implements Parcelable {
         this.actual = actual;
     }
 
+    public LocalDateTime getFechaCreacion() {
+        return fechaCreacion;
+    }
+
+    public void setFechaCreacion(LocalDateTime fechaCreacion) {
+        this.fechaCreacion = fechaCreacion;
+    }
+
+    public LocalDateTime getFechaUltimaModificacion() {
+        return fechaUltimaModificacion;
+    }
+
+    public void setFechaUltimaModificacion(LocalDateTime fechaUltimaModificacion) {
+        this.fechaUltimaModificacion = fechaUltimaModificacion;
+    }
+
     public UUID getId_usuario() {
         return id_usuario;
     }
@@ -83,6 +105,8 @@ public class Rutina implements Parcelable {
         parcel.writeString(nombre);
         int actualAux = actual ? 1 : 0;
         parcel.writeInt(actualAux);
+        parcel.writeSerializable(fechaCreacion);
+        parcel.writeSerializable(fechaUltimaModificacion);
         parcel.writeSerializable(id_usuario);
     }
 
@@ -91,6 +115,8 @@ public class Rutina implements Parcelable {
         nombre = in.readString();
         int actualAux = in.readInt();
         actual = (actualAux == 1);
+        fechaCreacion = (LocalDateTime) in.readSerializable();
+        fechaUltimaModificacion = (LocalDateTime) in.readSerializable();
         id_usuario = (UUID) in.readSerializable();
     }
 }

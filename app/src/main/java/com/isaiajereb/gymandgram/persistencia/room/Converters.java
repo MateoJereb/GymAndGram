@@ -6,6 +6,7 @@ import com.isaiajereb.gymandgram.model.DiaSemana;
 import com.isaiajereb.gymandgram.model.Genero;
 import com.isaiajereb.gymandgram.model.UnidadTiempo;
 
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.UUID;
@@ -44,6 +45,16 @@ public class Converters {
     @TypeConverter
     public static String stringFromLocalTime(LocalTime l){
         return l.format(DateTimeFormatter.ofPattern("HH:mm"));
+    }
+
+    @TypeConverter
+    public static LocalDateTime localDateTimeFromString(String s){
+        return LocalDateTime.parse(s,DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss"));
+    }
+
+    @TypeConverter
+    public static String stringFromLocalDateTime(LocalDateTime l){
+        return l.format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss"));
     }
 
     @TypeConverter

@@ -34,9 +34,21 @@ public class DiaRoomDataSource implements DiaDataSource {
     }
 
     @Override
-    public void getDias(UUID semanaID, OnResult<List<Dia>> callback) {
+    public void guardarDias(List<Dia> dias, OnResult<Void> callback) {
         try{
-            List<DiaEntity> entities = diaDAO.getDias(semanaID);
+            List<DiaEntity> entities = DiaMapper.toEntities(dias);
+            diaDAO.guardarDias(entities);
+            callback.onSuccess(null);
+        }
+        catch(Exception e){
+            callback.onError(e);
+        }
+    }
+
+    @Override
+    public void getDias(List<UUID> semanasIDs, OnResult<List<Dia>> callback) {
+        try{
+            List<DiaEntity> entities = diaDAO.getDias(semanasIDs);
             List<Dia> dias = DiaMapper.fromEntities(entities);
             callback.onSuccess(dias);
         }
@@ -51,6 +63,42 @@ public class DiaRoomDataSource implements DiaDataSource {
             DiaEntity entity = DiaMapper.toEntity(dia);
             diaDAO.editarDia(entity);
             callback.onSuccess(null);
+        }
+        catch (Exception e){
+            callback.onError(e);
+        }
+    }
+
+    @Override
+    public void eliminarDia(Dia dia, OnResult<Void> callback) {
+        try{
+            DiaEntity entity = DiaMapper.toEntity(dia);
+            diaDAO.eliminarDia(entity);
+            callback.onSuccess(null);
+        }
+        catch (Exception e){
+            callback.onError(e);
+        }
+    }
+
+    @Override
+    public void elmininarDias(List<Dia> dias, OnResult<Void> callback) {
+        try{
+            List<DiaEntity> entities = DiaMapper.toEntities(dias);
+            diaDAO.eliminarDias(entities);
+            callback.onSuccess(null);
+        }
+        catch(Exception e){
+            callback.onError(e);
+        }
+    }
+
+    @Override
+    public void getDiasBySemanaID(UUID semanaID, OnResult<List<Dia>> callback) {
+        try{
+            List<DiaEntity> entities = diaDAO.getDiasBySemanaID(semanaID);
+            List<Dia> dias = DiaMapper.fromEntities(entities);
+            callback.onSuccess(dias);
         }
         catch (Exception e){
             callback.onError(e);

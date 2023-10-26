@@ -139,7 +139,7 @@
                 app:tabMaxWidth="45sp">
 
                 <com.google.android.material.tabs.TabItem
-                     android:layout_width="match_parent"
+                    android:layout_width="match_parent"
                      android:layout_height="wrap_content"
                      android:text="L" />
 

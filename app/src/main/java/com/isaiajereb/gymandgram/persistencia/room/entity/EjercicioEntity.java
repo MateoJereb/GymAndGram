@@ -17,6 +17,8 @@ public class EjercicioEntity {
     @NonNull
     private UUID id;
     private String nombre;
+
+    private Integer posicion;
     private Integer series;
     private Integer repeticiones;
     private Double peso;
@@ -26,9 +28,10 @@ public class EjercicioEntity {
 
     private UUID id_dia;
 
-    public EjercicioEntity(@NonNull UUID id, String nombre, Integer series, Integer repeticiones, Double peso, Double tiempo_cantidad, UnidadTiempo tiempo_unidad, String observaciones, UUID id_dia) {
+    public EjercicioEntity(@NonNull UUID id, String nombre, Integer posicion, Integer series, Integer repeticiones, Double peso, Double tiempo_cantidad, UnidadTiempo tiempo_unidad, String observaciones, UUID id_dia) {
         this.id = id;
         this.nombre = nombre;
+        this.posicion = posicion;
         this.series = series;
         this.repeticiones = repeticiones;
         this.peso = peso;
@@ -53,6 +56,14 @@ public class EjercicioEntity {
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
+    }
+
+    public Integer getPosicion() {
+        return posicion;
+    }
+
+    public void setPosicion(Integer posicion) {
+        this.posicion = posicion;
     }
 
     public Integer getSeries() {

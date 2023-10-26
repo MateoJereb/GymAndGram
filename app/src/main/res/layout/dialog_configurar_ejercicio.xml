@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".ui.ConfigurarEjercicioFragment"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:orientation="vertical">
 
     <ScrollView
@@ -40,7 +37,7 @@
                     android:src="@drawable/ic_delete"
                     android:tint="@color/red_pastel"
                     android:layout_marginTop="20dp"
-                    android:layout_marginHorizontal="20dp"
+                    android:layout_marginEnd="20dp"
 
                     android:clickable="true"
                     android:focusable="true"
@@ -70,6 +67,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
                     android:layout_weight="1"
+                    android:inputType="textCapSentences"
+                    android:maxLines="1"
                     android:textAppearance="@style/TextoSecundario.OpuestoFondo" />
 
             </androidx.appcompat.widget.LinearLayoutCompat>
@@ -96,6 +95,7 @@
                     android:layout_marginStart="10dp"
                     android:layout_weight="1"
                     android:inputType="number"
+                    android:maxLines="1"
                     android:textAppearance="@style/TextoSecundario.OpuestoFondo" />
 
             </androidx.appcompat.widget.LinearLayoutCompat>
@@ -122,6 +122,7 @@
                     android:layout_marginStart="10dp"
                     android:layout_weight="1"
                     android:inputType="number"
+                    android:maxLines="1"
                     android:textAppearance="@style/TextoSecundario.OpuestoFondo" />
 
             </androidx.appcompat.widget.LinearLayoutCompat>
@@ -153,7 +154,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="10dp"
                         android:layout_weight="1"
-                        android:inputType="number"
+                        android:inputType="numberDecimal"
                         android:textAppearance="@style/TextoSecundario.OpuestoFondo" />
 
                     <androidx.appcompat.widget.AppCompatTextView
@@ -196,7 +197,8 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="10dp"
                         android:layout_weight="1"
-                        android:inputType="number"
+                        android:inputType="numberDecimal"
+                        android:maxLines="1"
                         android:textAppearance="@style/TextoSecundario.OpuestoFondo" />
 
                     <androidx.appcompat.widget.AppCompatSpinner
@@ -234,24 +236,46 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
                     android:layout_weight="1"
+                    android:maxLines="1"
+                    android:inputType="textCapSentences"
                     android:textAppearance="@style/TextoSecundario.OpuestoFondo" />
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/confirmarButton"
-                android:layout_width="wrap_content"
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/confirmar"
-                android:theme="@style/DefaultButton"
-                android:layout_marginHorizontal="20dp"
-                android:layout_marginTop="40dp"
-                android:layout_gravity="end"/>
+                android:orientation="horizontal"
+                android:gravity="end">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/cancelarButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="CANCELAR"
+                    android:textStyle="bold"
+                    android:layout_marginBottom="20dp"
+                    android:layout_marginTop="40dp"
+                    android:layout_marginHorizontal="20dp"
+                    android:textColor="?attr/colorPrimary"/>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/confirmarButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="CONFIRMAR"
+                    android:textStyle="bold"
+                    android:layout_marginBottom="20dp"
+                    android:layout_marginTop="40dp"
+                    android:layout_marginHorizontal="20dp"
+                    android:textColor="?attr/colorPrimary"/>
+                
+            </androidx.appcompat.widget.LinearLayoutCompat>
+            
+            
 
 
         </androidx.appcompat.widget.LinearLayoutCompat>
     </ScrollView>
 
-
 </androidx.appcompat.widget.LinearLayoutCompat>
-

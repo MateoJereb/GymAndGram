@@ -6,6 +6,7 @@ import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
 
+import com.isaiajereb.gymandgram.model.Semana;
 import com.isaiajereb.gymandgram.persistencia.room.entity.SemanaEntity;
 
 import java.util.List;
@@ -16,6 +17,9 @@ public interface SemanaDAO {
     @Insert
     void guardarSemana(SemanaEntity semana);
 
+    @Insert
+    void guardarSemanas(List<SemanaEntity> semanas);
+
     @Query("SELECT * FROM semana WHERE id_rutina=:rutinaID")
     List<SemanaEntity> getSemanas(UUID rutinaID);
 
@@ -24,4 +28,10 @@ public interface SemanaDAO {
 
     @Delete
     void eliminarSemana(SemanaEntity semana);
+
+    @Delete
+    void eliminarSemanas(List<SemanaEntity> semanas);
+
+    @Query("SELECT * FROM semana WHERE id_rutina=:rutinaID LIMIT 1")
+    SemanaEntity getUltimaSemana(UUID rutinaID);
 }
