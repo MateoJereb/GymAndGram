@@ -41,6 +41,7 @@ import java.time.temporal.TemporalUnit;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Random;
 
 public class InicioFragment extends Fragment {
 
@@ -108,6 +109,18 @@ public class InicioFragment extends Fragment {
                 }
             }
         });
+
+        elegirFrase();
+    }
+
+    private void elegirFrase() {
+        Integer[] imagenes = {R.drawable.imagen_1,R.drawable.imagen_2,R.drawable.imagen_3,R.drawable.imagen_4,R.drawable.imagen_5,R.drawable.imagen_6,R.drawable.imagen_7,R.drawable.imagen_8};
+        Integer[] frases = {R.string.frase1,R.string.frase2,R.string.frase3,R.string.frase4,R.string.frase5,R.string.frase6,R.string.frase7,R.string.frase8};
+
+        Integer numRandom = new Random().nextInt(8);
+
+        binding.fraseTextView.setText(frases[numRandom]);
+        binding.fraseImageView.setImageDrawable(getResources().getDrawable(imagenes[numRandom]));
     }
 
     private void calcularProximoEntrenamiento(List<Dia> dias){

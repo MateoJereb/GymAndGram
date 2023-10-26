@@ -30,4 +30,17 @@
     <string name="kg">Kg</string>
     <string name="editar">Editar</string>
     <string name="eliminar">Eliminar</string>
+
+
+    <!-- Frases -->
+    <string name="frase1">"Vamos a conseguir muchas más cosas si pensamos que nada es imposible" - Vince Lombardi</string>
+    <string name="frase2">"Odié cada minuto de entrenamiento, pero dije, “no te rindas. Sufre ahora y vive el resto de tu vida como un campeón" - Muhammad Ali</string>
+    <string name="frase3">"La fuerza no viene de una capacidad física. Viene de una voluntad indomable" - Mahatma Gandhi</string>
+    <string name="frase4">"El primer paso es el más importante. Es el más crucial y más efectivo, ya que iniciará la dirección que has elegido" - Steve Backley</string>
+    <string name="frase5">Disciplina: es saber escoger entre lo que queremos ahora y lo que queremos para siempre</string>
+    <string name="frase6">"Las pequeñas hazañas realizadas son mejores que las grandes hazañas planeadas" - Peter Marshall</string>
+    <string name="frase7">"Para tener éxito, en primer lugar debemos creer que podemos" - Nikos Kazantzakis</string>
+    <string name="frase8">"No cuentes los días, haz que los días cuenten" - Muhammad Ali</string>
+
+
 </resources>
