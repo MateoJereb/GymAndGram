@@ -35,6 +35,8 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.TemporalAdjuster;
+import java.time.temporal.TemporalAdjusters;
 import java.time.temporal.TemporalUnit;
 import java.util.Collections;
 import java.util.Comparator;
@@ -135,8 +137,30 @@ public class InicioFragment extends Fragment {
         if(diaProxEntrenamiento == null) diaProxEntrenamiento = dias.get(0);
 
 
+        LocalDate fechaProxEntrenamiento = LocalDate.now();
 
-        binding.proxExtranamientoTextView.setText(diaProxEntrenamiento.getNombre().toString()+ " "+diaProxEntrenamiento.getHora().format(DateTimeFormatter.ofPattern("HH:mm")));
+        if(diaActual.ordinal() == diaProxEntrenamiento.getNombre().ordinal()){ //Mismo dia de la semana
+            if(horaActual.isAfter(diaProxEntrenamiento.getHora())){ //Proxima semana
+                fechaProxEntrenamiento = fechaProxEntrenamiento.plusDays(7);
+            }
+        }
+        else{
+            DayOfWeek dayOfWeek = DayOfWeek.values()[diaProxEntrenamiento.getNombre().ordinal()];
+            fechaProxEntrenamiento = fechaProxEntrenamiento.with(TemporalAdjusters.next(dayOfWeek));
+        }
+
+        Integer hour = diaProxEntrenamiento.getHora().getHour(),
+                minute = diaProxEntrenamiento.getHora().getMinute();
+
+        Integer numDia = fechaProxEntrenamiento.getDayOfMonth();
+
+        String[] meses = {"Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"};
+        String nombreMes = meses[fechaProxEntrenamiento.getMonthValue()-1];
+
+        String horaFormat = diaProxEntrenamiento.getHora().format(DateTimeFormatter.ofPattern("HH:mm"));
+
+        String textoProxEntrenamiento = diaProxEntrenamiento.getNombre().toString()+ " "+numDia+" de "+nombreMes+", "+horaFormat+" hs";
+        binding.proxExtranamientoTextView.setText(textoProxEntrenamiento);
     }
 
     private void formatearContadoresObjetivos(){
