@@ -1,10 +1,12 @@
 package com.isaiajereb.gymandgram.ui;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -98,7 +100,9 @@ public class ConfigurarPerfilActivity extends AppCompatActivity {
         binding.guardarPerfilBoton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                abrirDialogoConfirmarGuardado();
+                if(camposCompletos()) {
+                    abrirDialogoConfirmarGuardado();
+                }
             }
         });
 
@@ -125,6 +129,24 @@ public class ConfigurarPerfilActivity extends AppCompatActivity {
 
     }
 
+    private Boolean camposCompletos(){
+        Boolean salida = true;
+
+        if(binding.nombreET.getText().toString().isEmpty()){
+            binding.nombreET.setBackgroundTintList(ColorStateList.valueOf(getColor(R.color.red_pastel)));
+            salida = false;
+        }
+        if(binding.emailET.getText().toString().isEmpty()){
+            binding.emailET.setBackgroundTintList(ColorStateList.valueOf(getColor(R.color.red_pastel)));
+            salida = false;
+        }
+        if(binding.edadET.getText().toString().isEmpty()){
+            binding.edadET.setBackgroundTintList(ColorStateList.valueOf(getColor(R.color.red_pastel)));
+            salida = false;
+        }
+
+        return salida;
+    }
     private void abrirDialogoConfirmarGuardado() {
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
 
@@ -166,80 +188,45 @@ public class ConfigurarPerfilActivity extends AppCompatActivity {
     }
 
     private void setFieldsListeners() {
+
         binding.nombreET.addTextChangedListener(new TextWatcher(){
 
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
+                binding.nombreET.setBackgroundTintList(ColorStateList.valueOf(getColor(R.color.blue_500)));
             }
 
             @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
 
             @Override
-            public void afterTextChanged(Editable editable) {
-            if(editable.toString().isEmpty()){
-                binding.guardarPerfilBoton.setEnabled(false);
-                binding.nombreET.setBackgroundColor(getColor(R.color.red_pastel));
-                Log.e("gym&gram", "error empty name");
-            }else{
-                binding.nombreET.setBackgroundColor(Color.TRANSPARENT);
-                binding.guardarPerfilBoton.setEnabled(true);
-
-            }
-            }
+            public void afterTextChanged(Editable editable) {}
         });
         binding.emailET.addTextChangedListener(new TextWatcher(){
 
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
+                binding.emailET.setBackgroundTintList(ColorStateList.valueOf(getColor(R.color.blue_500)));
             }
 
             @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
 
             @Override
-            public void afterTextChanged(Editable editable) {
-                if(editable.toString().isEmpty()){
-                    binding.guardarPerfilBoton.setEnabled(false);
-                    binding.emailET.setBackgroundColor(getColor(R.color.red_pastel));
-                    Log.e("gym&gram", "error empty mail");
-                }else{
-                    binding.emailET.setBackgroundColor(Color.TRANSPARENT);
-                    binding.guardarPerfilBoton.setEnabled(true);
-
-                }
-            }
+            public void afterTextChanged(Editable editable) {}
         });
         binding.edadET.addTextChangedListener(new TextWatcher(){
 
                 @Override
                 public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
+                    binding.edadET.setBackgroundTintList(ColorStateList.valueOf(getColor(R.color.blue_500)));
                 }
 
                 @Override
-                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-                }
+                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
 
                 @Override
-                public void afterTextChanged(Editable editable) {
-                    if(editable.toString().isEmpty()){
-                        binding.guardarPerfilBoton.setEnabled(false);
-                        binding.edadET.setBackgroundColor(getColor(R.color.red_pastel));
-                        Log.e("gym&gram", "error empty mail");
-                    }else{
-                        binding.edadET.setBackgroundColor(Color.TRANSPARENT);
-                        binding.guardarPerfilBoton.setEnabled(true);
-
-                    }
-                }
+                public void afterTextChanged(Editable editable) {}
             });
         }
 
@@ -248,4 +235,5 @@ public class ConfigurarPerfilActivity extends AppCompatActivity {
         onBackPressed();
         return true;
     }
+
 }

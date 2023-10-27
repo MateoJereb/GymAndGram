@@ -96,8 +96,10 @@
                     android:id="@+id/nombre_ET"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="40px"
-                    android:textAppearance="@style/TextoSecundario"
+                    android:layout_marginEnd="20dp"
+                    android:inputType="textCapSentences"
+                    android:maxLines="1"
+                    android:textAppearance="@style/TextoSecundario.OpuestoFondo"
                     app:backgroundTint="?attr/colorPrimaryVariant" />
 
 
@@ -113,8 +115,10 @@
                     android:id="@+id/email_ET"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="40px"
-                    android:textAppearance="@style/TextoSecundario"
+                    android:layout_marginEnd="20dp"
+                    android:inputType="textCapSentences"
+                    android:maxLines="1"
+                    android:textAppearance="@style/TextoSecundario.OpuestoFondo"
                     app:backgroundTint="?attr/colorPrimaryVariant" />
 
                 <androidx.appcompat.widget.AppCompatTextView
@@ -140,10 +144,12 @@
 
                 <androidx.appcompat.widget.AppCompatEditText
                     android:id="@+id/edad_ET"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="numberDecimal"
-                    android:textAppearance="@style/TextoSecundario"
+                    android:layout_marginEnd="20dp"
+                    android:inputType="textCapSentences"
+                    android:maxLines="1"
+                    android:textAppearance="@style/TextoSecundario.OpuestoFondo"
                     app:backgroundTint="?attr/colorPrimaryVariant" />
 
             </androidx.appcompat.widget.LinearLayoutCompat>
