@@ -201,9 +201,6 @@ public class RutinasRepository {
         Semana sem1 = new Semana(idSemana1,1,idRutina);
         lista.add(sem1);
 
-        Semana sem2 = new Semana(idSemana2,2,idRutina);
-        lista.add(sem2);
-
         return lista;
     }
 
@@ -230,27 +227,6 @@ public class RutinasRepository {
 
         Dia domingo1 = new Dia(idDomingo1, DiaSemana.Domingo, LocalTime.of(0,0), idSemana1);
         lista.add(domingo1);
-
-        Dia lunes2 = new Dia(idLunes2, DiaSemana.Lunes, LocalTime.of(16,0),idSemana2);
-        lista.add(lunes2);
-
-        Dia martes2 = new Dia(idMartes2, DiaSemana.Martes, LocalTime.of(0,0), idSemana2);
-        lista.add(martes2);
-
-        Dia miercoles2 = new Dia(idMiercoles2, DiaSemana.Miercoles, LocalTime.of(0,0), idSemana2);
-        lista.add(miercoles2);
-
-        Dia jueves2 = new Dia(idJueves2, DiaSemana.Jueves, LocalTime.of(0,0), idSemana2);
-        lista.add(jueves2);
-
-        Dia viernes2 = new Dia(idViernes2, DiaSemana.Viernes, LocalTime.of(0,0), idSemana2);
-        lista.add(viernes2);
-
-        Dia sabado2 = new Dia(idSabado2, DiaSemana.Sabado, LocalTime.of(0,0), idSemana2);
-        lista.add(sabado2);
-
-        Dia domingo2 = new Dia(idDomingo2, DiaSemana.Domingo, LocalTime.of(0,0), idSemana2);
-        lista.add(domingo2);
 
         return lista;
     }
@@ -296,54 +272,6 @@ public class RutinasRepository {
         ej4lunes1.setPeso(Optional.of(7.5));
         ej4lunes1.setId_dia(idLunes1);
         lista.add(ej4lunes1);
-
-        Ejercicio ej5lunes1 = new Ejercicio();
-        ej5lunes1.setId(UUID.randomUUID());
-        ej5lunes1.setNombre("Bici");
-        ej5lunes1.setPosicion(4);
-        ej5lunes1.setTiempo_cantidad(Optional.of(15.0));
-        ej5lunes1.setTiempo_unidad(Optional.of(UnidadTiempo.Minuto));
-        ej5lunes1.setId_dia(idLunes1);
-        lista.add(ej5lunes1);
-
-        Ejercicio ej1lunes2 = new Ejercicio();
-        ej1lunes2.setId(UUID.randomUUID());
-        ej1lunes2.setNombre("Abdominales inferiores");
-        ej1lunes2.setPosicion(0);
-        ej1lunes2.setRepeticiones(Optional.of(15));
-        ej1lunes2.setSeries(Optional.of(3));
-        ej1lunes2.setId_dia(idLunes2);
-        lista.add(ej1lunes2);
-
-        Ejercicio ej2lunes2 = new Ejercicio();
-        ej2lunes2.setId(UUID.randomUUID());
-        ej2lunes2.setNombre("Planchas sobre antebrazos");
-        ej2lunes2.setPosicion(1);
-        ej2lunes2.setSeries(Optional.of(3));
-        ej2lunes2.setTiempo_cantidad(Optional.of(45.0));
-        ej2lunes2.setTiempo_unidad(Optional.of(UnidadTiempo.Segundo));
-        ej2lunes2.setId_dia(idLunes2);
-        lista.add(ej2lunes2);
-
-        Ejercicio ej3lunes2 = new Ejercicio();
-        ej3lunes2.setId(UUID.randomUUID());
-        ej3lunes2.setNombre("Pecho banco plano");
-        ej3lunes2.setPosicion(2);
-        ej3lunes2.setRepeticiones(Optional.of(10));
-        ej3lunes2.setSeries(Optional.of(3));
-        ej3lunes2.setPeso(Optional.of(17.5));
-        ej3lunes2.setId_dia(idLunes2);
-        lista.add(ej3lunes2);
-
-        Ejercicio ej4lunes2 = new Ejercicio();
-        ej4lunes2.setId(UUID.randomUUID());
-        ej4lunes2.setNombre("Vuelos laterales");
-        ej4lunes2.setPosicion(3);
-        ej4lunes2.setRepeticiones(Optional.of(10));
-        ej4lunes2.setSeries(Optional.of(3));
-        ej4lunes2.setPeso(Optional.of(10.0));
-        ej4lunes2.setId_dia(idLunes2);
-        lista.add(ej4lunes2);
 
 
         return lista;
