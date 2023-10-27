@@ -11,4 +11,4 @@ pueda incluir un apartado social donde el usuario pueda agregar amigos, realizar
 compartir sus rutinas, entre otras cosas y un apartado de objetivos configurables desde cero.
 
 ## Informe completo
-[Informe final](Informe final.pdf)
+Ver [informe final](https://github.com/MateoJereb/GymAndGram/blob/develop/Informe%20final.pdf).
