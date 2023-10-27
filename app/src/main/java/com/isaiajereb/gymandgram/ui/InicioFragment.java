@@ -102,7 +102,7 @@ public class InicioFragment extends Fragment {
             @Override
             public void onChanged(List<Dia> dias) {
                 if(dias.size() > 0) {
-                    calcularProximoEntrenamiento(dias);
+                    actualizarProximoEntrenamiento(dias);
                 }
                 else{
                     binding.proxExtranamientoTextView.setText("Configure su rutina actual");
@@ -123,9 +123,25 @@ public class InicioFragment extends Fragment {
         binding.fraseImageView.setImageDrawable(getResources().getDrawable(imagenes[numRandom]));
     }
 
-    private void calcularProximoEntrenamiento(List<Dia> dias){
-        DiaSemana diaActual = DiaSemana.values()[LocalDateTime.now().getDayOfWeek().getValue()-1];
-        LocalTime horaActual = LocalTime.of(LocalTime.now().getHour(),LocalTime.now().getMinute());
+    private void actualizarProximoEntrenamiento(List<Dia> dias){
+        LocalDateTime fechaProxEntrenamiento = calcularProximoEntrenamiento(dias,LocalDateTime.now());
+
+        String nombreDia = DiaSemana.values()[fechaProxEntrenamiento.getDayOfWeek().getValue()-1].toString();
+
+        Integer numDia = fechaProxEntrenamiento.getDayOfMonth();
+
+        String[] meses = {"Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"};
+        String nombreMes = meses[fechaProxEntrenamiento.getMonthValue()-1];
+
+        String horaFormat = fechaProxEntrenamiento.format(DateTimeFormatter.ofPattern("HH:mm"));
+
+        String textoProxEntrenamiento = nombreDia+" "+numDia+" de "+nombreMes+", "+horaFormat+" hs";
+        binding.proxExtranamientoTextView.setText(textoProxEntrenamiento);
+    }
+
+    private LocalDateTime calcularProximoEntrenamiento(List<Dia> dias, LocalDateTime fechaActual){
+        DiaSemana diaActual = DiaSemana.values()[fechaActual.getDayOfWeek().getValue()-1];
+        LocalTime horaActual = LocalTime.of(fechaActual.getHour(),fechaActual.getMinute());
 
         //Buscar el prox entrenamiento (los dias pueden no estar ordenados)
         Dia diaProxEntrenamiento = null;
@@ -150,7 +166,7 @@ public class InicioFragment extends Fragment {
         if(diaProxEntrenamiento == null) diaProxEntrenamiento = dias.get(0);
 
 
-        LocalDate fechaProxEntrenamiento = LocalDate.now();
+        LocalDateTime fechaProxEntrenamiento = fechaActual;
 
         if(diaActual.ordinal() == diaProxEntrenamiento.getNombre().ordinal()){ //Mismo dia de la semana
             if(horaActual.isAfter(diaProxEntrenamiento.getHora())){ //Proxima semana
@@ -165,15 +181,9 @@ public class InicioFragment extends Fragment {
         Integer hour = diaProxEntrenamiento.getHora().getHour(),
                 minute = diaProxEntrenamiento.getHora().getMinute();
 
-        Integer numDia = fechaProxEntrenamiento.getDayOfMonth();
+        fechaProxEntrenamiento = fechaProxEntrenamiento.withHour(hour).withMinute(minute);
 
-        String[] meses = {"Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"};
-        String nombreMes = meses[fechaProxEntrenamiento.getMonthValue()-1];
-
-        String horaFormat = diaProxEntrenamiento.getHora().format(DateTimeFormatter.ofPattern("HH:mm"));
-
-        String textoProxEntrenamiento = diaProxEntrenamiento.getNombre().toString()+ " "+numDia+" de "+nombreMes+", "+horaFormat+" hs";
-        binding.proxExtranamientoTextView.setText(textoProxEntrenamiento);
+        return fechaProxEntrenamiento;
     }
 
     private void formatearContadoresObjetivos(){
