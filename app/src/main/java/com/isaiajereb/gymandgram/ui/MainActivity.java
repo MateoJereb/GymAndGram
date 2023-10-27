@@ -143,11 +143,13 @@ public class MainActivity extends AppCompatActivity {
                         Toast.makeText(MainActivity.this, "Proximamente...", Toast.LENGTH_SHORT).show();
                         return true;
                     case R.id.drawer_ayuda:
-                        Toast.makeText(MainActivity.this, "Proximamente...", Toast.LENGTH_SHORT).show();                        Toast.makeText(MainActivity.this, "Proximamente...", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MainActivity.this, "Proximamente...", Toast.LENGTH_SHORT).show();
                         return true;
                     case R.id.drawer_ajustes:
+                        Toast.makeText(MainActivity.this, "Proximamente...", Toast.LENGTH_SHORT).show();
                         return true;
                     case R.id.drawer_cerrar_sesion:
+                        Toast.makeText(MainActivity.this, "Proximamente...", Toast.LENGTH_SHORT).show();
                         return true;
                 }
                 return false;
