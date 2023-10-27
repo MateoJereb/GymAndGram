@@ -21,6 +21,7 @@ public class CalcularProximoEntrenamientoTest {
     Dia dia1 = new Dia(UUID.randomUUID(), DiaSemana.Lunes, LocalTime.of(16,0), idSemana);
     Dia dia2 = new Dia(UUID.randomUUID(), DiaSemana.Miercoles, LocalTime.of(16,0), idSemana);
     Dia dia3 = new Dia(UUID.randomUUID(), DiaSemana.Viernes, LocalTime.of(16,0), idSemana);
+    List<Dia> diasEntrenamiento = List.of(dia1,dia2,dia3);
     @Test
     public void horaMasTemprano(){
         /*
@@ -30,10 +31,7 @@ public class CalcularProximoEntrenamientoTest {
             Resultado:
                 Debe dar ese día a la hora configurada.
          */
-        List<Dia> diasEntrenamiento = new ArrayList<>();
-        diasEntrenamiento.add(dia1);
-        diasEntrenamiento.add(dia2);
-        diasEntrenamiento.add(dia3);
+
 
         LocalDateTime fechaActual = LocalDateTime.parse("2023-10-18T14:00", DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm"));
 
@@ -53,11 +51,6 @@ public class CalcularProximoEntrenamientoTest {
                 Debe dar el dia posterior mas proximo
          */
 
-        List<Dia> diasEntrenamiento = new ArrayList<>();
-        diasEntrenamiento.add(dia1);
-        diasEntrenamiento.add(dia2);
-        diasEntrenamiento.add(dia3);
-
         LocalDateTime fechaActual = LocalDateTime.parse("2023-10-18T17:00", DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm"));
 
         LocalDateTime fechaCalculada = inicioFragment.calcularProximoEntrenamiento(diasEntrenamiento,fechaActual);
@@ -75,11 +68,6 @@ public class CalcularProximoEntrenamientoTest {
             Resultado:
                 Debe dar el dia posterior mas proximo
          */
-        List<Dia> diasEntrenamiento = new ArrayList<>();
-        diasEntrenamiento.add(dia1);
-        diasEntrenamiento.add(dia2);
-        diasEntrenamiento.add(dia3);
-
         LocalDateTime fechaActual = LocalDateTime.parse("2023-10-19T17:00", DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm"));
 
         LocalDateTime fechaCalculada = inicioFragment.calcularProximoEntrenamiento(diasEntrenamiento,fechaActual);
@@ -98,11 +86,6 @@ public class CalcularProximoEntrenamientoTest {
             Resultado:
                 Debe dar el primer dia de la proxima semana
          */
-        List<Dia> diasEntrenamiento = new ArrayList<>();
-        diasEntrenamiento.add(dia1);
-        diasEntrenamiento.add(dia2);
-        diasEntrenamiento.add(dia3);
-
         LocalDateTime fechaActual = LocalDateTime.parse("2023-10-21T17:00", DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm"));
 
         LocalDateTime fechaCalculada = inicioFragment.calcularProximoEntrenamiento(diasEntrenamiento,fechaActual);
