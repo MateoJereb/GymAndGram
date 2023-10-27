@@ -139,7 +139,7 @@ public class InicioFragment extends Fragment {
         binding.proxExtranamientoTextView.setText(textoProxEntrenamiento);
     }
 
-    private LocalDateTime calcularProximoEntrenamiento(List<Dia> dias, LocalDateTime fechaActual){
+    public LocalDateTime calcularProximoEntrenamiento(List<Dia> dias, LocalDateTime fechaActual){
         DiaSemana diaActual = DiaSemana.values()[fechaActual.getDayOfWeek().getValue()-1];
         LocalTime horaActual = LocalTime.of(fechaActual.getHour(),fechaActual.getMinute());
 
